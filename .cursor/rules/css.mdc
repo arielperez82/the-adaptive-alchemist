@@ -1,0 +1,23 @@
+---
+description: 
+globs: *.astro,*.css
+alwaysApply: false
+---
+When writing CSS selectors for pseudo-elements:
+- Use double colons (::) for pseudo-elements (::before, ::after, ::first-line, etc.)
+- Use single colons (:) for pseudo-classes (:hover, :focus, :active, etc.)
+
+Examples:
+```css
+/* Correct */
+.element::before { }
+.element:hover::after { }
+.element::first-line { }
+
+/* Incorrect */
+.element:before { }
+.element:hover:after { }
+.element:first-line { }
+```
+
+This follows the CSS3 specification which uses double colons to distinguish pseudo-elements from pseudo-classes.

@@ -1,13 +1,11 @@
 ---
-title: "Leadership without control (Part 1)"
+title: 'Leadership without control (Part 1)'
 description: "Most leaders fear that giving teams true autonomy will lead to chaos. They're half right. Autonomy without clarity is chaos. But autonomy with clarity? That's where the magic happens. Your job isn't to prevent disorder, but to create clarity."
 pubDate: 2025-05-06
-heroImage: "/assets/murmuration.png"
-readingTime: "5 min read"
-tags: ["Leadership"]
+heroImage: '/assets/murmuration.png'
+readingTime: '5 min read'
+tags: ['Leadership']
 ---
-
-*How real autonomy (actually) works*
 
 If you've spent any time in tech, you've heard the pitch: "We empower our teams." But walk the halls (or scroll the Slack channels) and you'll see something else. Decisions still flow up, not out. Leaders still grip the wheel, even as they talk about letting go. Teams look autonomous on paper but feel like passengers in their own work.
 
@@ -40,10 +38,10 @@ Autonomy isn't the absence of structure. It's the presence of clarity. Most lead
 
 Here's what real autonomy needs:
 
-* **Clear boundaries**: Not detailed processes, but explicit constraints. Not permission requirements, but principles that guide decisions.
-* **Shared context**: Not just goals, but the why behind them. Not just data, but understanding. Not just strategy, but the thinking that shaped it.
-* **Visible impact**: Not activity metrics, but outcome measures. Not process compliance, but value delivered. Not status reports, but evidence of learning.
-* **Active engagement**: Not oversight, but insight. Not status checks, but problem-solving partnerships. Not micromanagement, but genuine curiosity.
+- **Clear boundaries**: Not detailed processes, but explicit constraints. Not permission requirements, but principles that guide decisions.
+- **Shared context**: Not just goals, but the why behind them. Not just data, but understanding. Not just strategy, but the thinking that shaped it.
+- **Visible impact**: Not activity metrics, but outcome measures. Not process compliance, but value delivered. Not status reports, but evidence of learning.
+- **Active engagement**: Not oversight, but insight. Not status checks, but problem-solving partnerships. Not micromanagement, but genuine curiosity.
 
 The secret is to stop trying to control the chaos and start creating the conditions that make autonomy work. Your job as a leader isn't to prevent disorder. It's to create the clarity that lets order emerge naturally.
 
@@ -63,11 +61,11 @@ The key is to stop fighting reality. Instead of forcing work to fit your org cha
 
 What this looks like:
 
-* Teams form around outcomes
-* People move where needed
-* Skills trump hierarchy
-* Leadership enables vs controls
-* Structure follows work
+- Teams form around outcomes
+- People move where needed
+- Skills trump hierarchy
+- Leadership enables vs controls
+- Structure follows work
 
 The future belongs to fluid organizations that can adapt and reform as quickly as markets change. The question isn't if you'll get there, but when.
 
@@ -91,8 +89,8 @@ The hardest part of leading in uncertainty isn't the uncertainty itself. It's re
 
 ## Key takeaways
 
-* Autonomy isn't about chaos, it's about clarity, context, and trust.
-* The best leaders set boundaries, share context, make impact visible, and stay engaged as coaches.
-* Transitioning to autonomy is a journey, not a switch. Start small, learn fast, and scale what works.
+- Autonomy isn't about chaos, it's about clarity, context, and trust.
+- The best leaders set boundaries, share context, make impact visible, and stay engaged as coaches.
+- Transitioning to autonomy is a journey, not a switch. Start small, learn fast, and scale what works.
 
 In the next article, I'll explore the practical implementation of these principles, including specific rituals, metrics, and strategies for overcoming common pitfalls.

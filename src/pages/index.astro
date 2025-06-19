@@ -1,8 +1,11 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import Layout from '@/layouts/Layout.astro';
+
 import FormattedDate from '@/components/FormattedDate.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
+import { SITE_DESCRIPTION,SITE_TITLE } from '@/consts';
+import Layout from '@/layouts/Layout.astro';
 
 // Get all blog posts
 const allPosts = await getCollection('blog');
@@ -15,12 +18,40 @@ const recentPosts = allPosts
 
 // Get all unique tags from posts
 const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].slice(0, 5);
+
+// Get all optimized images
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}');
+
+const resolveHeroImage = async (heroImage: string) => {
+  if (heroImage.startsWith('/assets/')) {
+    const imagePath = `/src${heroImage}`;
+    const image = await images[imagePath]();
+    return image.default;
+  }
+  return heroImage;
+}
+
+// Pre-resolve all hero images
+const resolvedHeroImages = await Promise.all(
+  recentPosts.map(async post => ({
+    ...post,
+    data: {
+      ...post.data,
+      heroImage: post.data.heroImage ? await resolveHeroImage(post.data.heroImage) : undefined
+    }
+  }))
+);
+
 ---
 
 <Layout title={SITE_TITLE}>
+  
+  
   <!-- Hero Section with improved mobile responsiveness -->
   <section class="py-10 sm:py-16 md:py-20 px-4 sm:px-6 theme-transition-all">
     <div class="max-w-2xl mx-auto relative">
+      
+      
       <!-- Adjusted blob positions and sizes for better mobile appearance -->
       <div class="absolute -top-10 sm:-top-20 -left-10 sm:-left-20 w-40 sm:w-64 h-40 sm:h-64 bg-zinc-100 dark:bg-zinc-800/50 rounded-full blur-3xl opacity-50 animate-blob theme-transition-bg"></div>
       <div class="absolute -bottom-10 sm:-bottom-20 -right-10 sm:-right-20 w-40 sm:w-64 h-40 sm:h-64 bg-zinc-200 dark:bg-zinc-800/30 rounded-full blur-3xl opacity-30 animate-blob animation-delay-2000 theme-transition-bg"></div>
@@ -42,6 +73,8 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
     </div>
   </section>
 
+  
+  
   <!-- Featured Post Section - Improved for mobile -->
   <section class="py-10 sm:py-12 md:py-16 px-4 sm:px-6 border-t border-zinc-100 dark:border-zinc-800 theme-transition-all">
     <div class="max-w-3xl mx-auto">
@@ -61,16 +94,18 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
         </a>
       </div>
       
+      
+      
       <!-- Improved grid for better mobile layout -->
       <div class="grid gap-6 sm:gap-8 md:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {recentPosts.map((post, index) => (
+        {resolvedHeroImages.map((post, index) => (
           <article class="group relative flex flex-col items-start hover-3d theme-transition-element max-w-sm mx-auto sm:mx-0 w-full">
             <div class="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 dark:bg-zinc-800/50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl theme-transition-bg"></div>
             
-            {post.data.image && (
+            {post.data.heroImage && (
               <div class="relative z-10 w-full aspect-video mb-4 overflow-hidden rounded-lg">
-                <img 
-                  src={post.data.image} 
+                <Image 
+                  src={post.data.heroImage} 
                   alt={post.data.title}
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading={index === 0 ? "eager" : "lazy"}
@@ -82,7 +117,7 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
             
             <div class="relative z-10 flex items-center flex-wrap gap-x-3 sm:gap-x-4 gap-y-2 text-xs text-zinc-500 dark:text-zinc-400 theme-transition-color justify-center sm:justify-start w-full">
               <time datetime={post.data.pubDate.toISOString()} class="font-medium">
-                <FormattedDate date={post.data.pubDate} format="long" />
+                <FormattedDate date={post.data.pubDate} />
               </time>
               <span class="relative z-10 rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 sm:px-3 py-1 sm:py-1.5 font-medium text-zinc-600 dark:text-zinc-300 theme-transition-all">
                 {post.data.readingTime || `${Math.ceil(post.body.length / 2000)} min read`}
@@ -136,11 +171,15 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
     </div>
   </section>
 
+  
+  
   <!-- Topics/Tags Section - Improved for mobile -->
   {allTags.length > 0 && (
     <section class="py-10 sm:py-12 md:py-16 px-4 sm:px-6 border-t border-zinc-100 dark:border-zinc-800 theme-transition-all">
       <div class="max-w-3xl mx-auto">
         <h2 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-6 sm:mb-8 theme-transition-color text-center sm:text-left">Explore Topics</h2>
+        
+        
         
         <!-- Improved grid layout for mobile -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 max-w-xs sm:max-w-none mx-auto">
@@ -219,7 +258,7 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
     window.addEventListener('resize', setVh);
     
     // Use a debounced scroll handler to prevent performance issues
-    let scrollTimeout;
+    let scrollTimeout: number | null = null;
     window.addEventListener('scroll', () => {
       if (scrollTimeout) {
         window.cancelAnimationFrame(scrollTimeout);
@@ -271,7 +310,7 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
           document.querySelectorAll('.theme-transition-all, .theme-transition-bg, .theme-transition-color')
             .forEach(el => {
               // Apply a subtle animation instead of a hard reset
-              el.style.transition = 'all 0.5s ease';
+              (el as HTMLElement).style.transition = 'all 0.5s ease';
             });
           
           // Fade out overlay after transition completes
@@ -372,7 +411,8 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
     // Handle all internal links for SPA transitions
     document.querySelectorAll('a[href^="/"]').forEach(link => {
       // Skip links that are anchor links, external links, or already processed
-      if (link.getAttribute('href').includes('#') || 
+      const href = link.getAttribute('href');
+      if (!href || href.includes('#') || 
           link.getAttribute('target') === '_blank' || 
           link.hasAttribute('data-spa-handled')) {
         return;
@@ -383,12 +423,14 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
       
       link.addEventListener('click', (e) => {
         // Don't handle if modifier keys are pressed (for opening in new tab, etc.)
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+        const event = e as MouseEvent;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
           return;
         }
         
         e.preventDefault();
         const targetHref = link.getAttribute('href');
+        if (!targetHref) return;
         
         // Trigger page transition animation
         const pageTransition = document.getElementById('page-transition');
@@ -443,8 +485,8 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sli
   
   /* Ensure transitions apply to all theme-related properties */
   :global(*) {
-    transition-property: background-color, border-color, color, fill, stroke, opacity;
     transition-duration: var(--theme-transition-duration);
+    transition-property: background-color, border-color, color, fill, stroke, opacity;
     transition-timing-function: var(--theme-transition-timing);
   }
   

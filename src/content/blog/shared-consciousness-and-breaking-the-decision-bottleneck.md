@@ -1,10 +1,10 @@
 ---
-title: "Shared consciousness and breaking the decision bottleneck"
+title: 'Shared consciousness and breaking the decision bottleneck'
 description: "Creating shared context throughout your organization enables faster, better decisions without traditional command structures. Here's how to break the bottleneck."
 pubDate: 2025-05-20
-heroImage: "/assets/shared-consciousness.jpeg"
-readingTime: "6 min read"
-tags: ["Leadership", "High-Performing Teams"]
+heroImage: '/assets/shared-consciousness.jpeg'
+readingTime: '6 min read'
+tags: ['Leadership', 'High-Performing Teams']
 ---
 
 ## The decision bottleneck problem
@@ -21,10 +21,10 @@ Shared consciousness is the antidote. It's not just alignment or top-down commun
 
 What does it look like in practice?
 
-* Everyone understands the market and customer context, not just the leadership team  
-* Priorities and constraints are transparent, not hidden in a slide deck or a quarterly memo  
-* Interdependencies are visible, so teams can anticipate and resolve conflicts before they escalate  
-* There's a common understanding of how to make trade-offs, so people don't have to escalate every decision
+- Everyone understands the market and customer context, not just the leadership team
+- Priorities and constraints are transparent, not hidden in a slide deck or a quarterly memo
+- Interdependencies are visible, so teams can anticipate and resolve conflicts before they escalate
+- There's a common understanding of how to make trade-offs, so people don't have to escalate every decision
 
 Shared consciousness isn't about everyone knowing everything. It's about everyone knowing enough of the right things to act without waiting for permission. It's the difference between a team that's always asking, "Can we do this?" and a team that's asking, "What's the best way to do this?"
 
@@ -68,10 +68,10 @@ Even the best-intentioned "empowerment" efforts fall flat if teams don't have th
 
 The business impact of faster decisions compounds over time. Companies with strong shared consciousness typically see:
 
-* Shorter time-to-market for new features  
-* Faster response to competitive threats and market opportunities  
-* Higher employee satisfaction and retention  
-* More consistent execution across teams
+- Shorter time-to-market for new features
+- Faster response to competitive threats and market opportunities
+- Higher employee satisfaction and retention
+- More consistent execution across teams
 
 Teams I’ve led across various organizations have seen dramatic improvements in deployment frequency, lead time, and team satisfaction after investing in shared consciousness mechanisms. The ROI showed up not just in speed metrics but in business outcomes: faster customer acquisition, better retention, and increased innovation.
 
@@ -81,19 +81,19 @@ Key metrics to track include decision velocity (time from need to decision), esc
 
 When I introduce shared consciousness, I typically encounter several forms of resistance:
 
-### *"We'll lose strategic alignment"*
+### _"We'll lose strategic alignment"_
 
 This usually comes from senior leaders who worry that distributing decision-making will create chaos. The counterargument is that shared consciousness strengthens alignment rather than weakening it. At Split, we actually saw more consistent execution after we started leveraging Product Maps because everyone understood not just the what, but the why.
 
 The key is to start with clear boundaries. Explicitly define which decisions can be made autonomously and which need consultation. Don't fight this concern. Acknowledge it and use it to define clearer boundaries.
 
-### *"This will slow us down"*
+### _"This will slow us down"_
 
 Middle managers often worry that spending time on context-sharing will reduce productivity. When I faced this at Chase UK, I tracked the time spent in traditional status meetings versus our new single cross-functional team approach. The results were clear: we cut meeting time by 35% while accelerating delivery.
 
 To address this concern, start small and measure results. Pick one team or one project and implement a single shared consciousness mechanism. Track decision latency before and after. The numbers will speak for themselves.
 
-### *"Our culture won't support this"*
+### _"Our culture won't support this"_
 
 This objection often comes from organizations with deeply ingrained command-and-control cultures. My response is twofold. First, I've implemented these approaches in environments from startups to Fortune 50 banks. Second, the desire for autonomy and purpose is universal.
 
@@ -105,8 +105,8 @@ Start by mapping where decisions get stuck in your organization. Where do things
 
 Creating shared consciousness requires both mechanisms and culture. On the cultural side, focus on:
 
-* **Psychological safety:** Teams need to feel safe sharing incomplete information and asking questions  
-* **Truth over comfort:** An environment where honest conversation trumps comfortable silence  
-* **Learning orientation:** Treating mistakes as learning opportunities rather than failures
+- **Psychological safety:** Teams need to feel safe sharing incomplete information and asking questions
+- **Truth over comfort:** An environment where honest conversation trumps comfortable silence
+- **Learning orientation:** Treating mistakes as learning opportunities rather than failures
 
 Try implementing one of the mechanisms I've described. Start small: maybe a Product Map for your team, or an initial attempt at a Single List for your most critical project. Observe what changes when context becomes visible and shared.

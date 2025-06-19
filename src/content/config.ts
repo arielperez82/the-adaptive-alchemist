@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z } from 'astro:content'
 
 const blogCollection = defineCollection({
   type: 'content',
@@ -9,12 +9,11 @@ const blogCollection = defineCollection({
     updatedDate: z.date().optional(),
     heroImage: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    // Thêm readingTime vào schema nhưng đặt là optional
     readingTime: z.string().optional(),
-  }),
-});
+    draft: z.boolean().optional().default(false)
+  })
+})
 
 export const collections = {
-  'blog': blogCollection,
-};
-
+  blog: blogCollection
+}

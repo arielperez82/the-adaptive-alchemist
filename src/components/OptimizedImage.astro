@@ -1,0 +1,50 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+import type { HTMLAttributes } from 'astro/types'
+
+// Get all optimized images
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/*.{jpeg,jpg,png,gif}'
+)
+
+type Props = HTMLAttributes<'img'> & {
+  src: ImageMetadata | string
+  alt: string
+  width?: number
+  height?: number
+}
+
+const { src, alt, width, height, ...rest } = Astro.props
+
+const resolveImage = async (
+  imagePath: string
+): Promise<ImageMetadata | null> => {
+  if (imagePath.startsWith('/assets/')) {
+    const resolvedPath = `/src${imagePath}`
+    const image = await images[resolvedPath]()
+    return image.default
+  }
+  return null
+}
+
+const optimizedImage = typeof src === 'string' ? await resolveImage(src) : src
+
+const commonProps = {
+  alt,
+  ...rest
+}
+---
+
+{
+  optimizedImage ? (
+    <Image src={optimizedImage} {...commonProps} />
+  ) : (
+    <Image
+      src={src}
+      width={width || 800}
+      height={height || 600}
+      {...commonProps}
+    />
+  )
+}

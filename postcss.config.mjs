@@ -5,10 +5,10 @@ const config = {
     autoprefixer: {},
     'postcss-preset-env': {
       features: {
-        'nesting-rules': false,
-      },
-    },
-  },
-};
+        'nesting-rules': false
+      }
+    }
+  }
+}
 
-export default config;
+export default config

@@ -5,10 +5,11 @@
 
 @layer base {
   :root {
-    font-family: "Inter", sans-serif;
+    --theme-transition: 0.3s ease;
+
+    font-family: Inter, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    --theme-transition: 0.3s ease;
   }
 
   html {
@@ -17,69 +18,105 @@
   }
 
   body {
-    @apply min-h-screen bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100;
+    background-color: rgb(255 255 255);
+    color: rgb(24 24 27);
     margin: 0;
-    padding: 0;
+    min-height: 100vh;
     overflow-x: hidden;
+    padding: 0;
   }
 
   /* Simple theme transition */
-  body, a, button {
-    transition: background-color var(--theme-transition), 
-                color var(--theme-transition), 
-                border-color var(--theme-transition);
+  body,
+  a,
+  button {
+    transition:
+      background-color var(--theme-transition),
+      color var(--theme-transition),
+      border-color var(--theme-transition);
+  }
+
+  .dark body {
+    background-color: rgb(24 24 27);
+    color: rgb(244 244 245);
   }
 }
 
 /* Minimal responsive styles */
-@media (max-width: 640px) {
+@media (width <= 640px) {
   html {
     scroll-padding-top: 4rem;
   }
-  
+
   /* Better touch targets on mobile */
-  button, a {
-    @apply min-h-[44px];
+  button,
+  a {
+    min-height: 44px;
   }
 }
 
-
 /* Add smooth animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes slideDown {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes scaleIn {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Apply animations to elements */
 .animate-fade-in {
-  animation: fadeIn 0.6s ease forwards;
+  animation: fade-in 0.6s ease forwards;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.6s ease forwards;
+  animation: slide-up 0.6s ease forwards;
 }
 
 .animate-slide-down {
-  animation: slideDown 0.6s ease forwards;
+  animation: slide-down 0.6s ease forwards;
 }
 
 .animate-scale-in {
-  animation: scaleIn 0.6s ease forwards;
+  animation: scale-in 0.6s ease forwards;
 }
 
 /* Staggered animation delays */
@@ -100,17 +137,21 @@
 }
 
 /* Smooth hover transitions */
-a, button {
+a,
+button {
   transition: all 0.2s ease;
 }
 
-a:hover, button:hover {
+a:hover,
+button:hover {
   transform: translateY(-1px);
 }
 
 /* Smooth page transitions */
 .page-transition {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .page-entering {

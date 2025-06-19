@@ -47,20 +47,20 @@ async function processHtmlFile(filePath: string): Promise<string> {
   const { title, description } = extractMeta(html)
 
   const markdown = turndownService
-                       .addRule('ariaLabeledLink', {
-                          filter: (node, _) => node.nodeName === 'A' && node.getAttribute('aria-label'),
-                          replacement: (_, node, __) => {
-                            const ariaLabel = node.getAttribute('aria-label')
-                            return `[${ariaLabel || ''}](${node.getAttribute('href') || ''})`
-                          }
-                             
-                       })
-                       .remove('script')
-                       .remove('style')
-                       .remove('header')
-                       .remove('footer')
-                       .remove('nav')
-                       .turndown(html)
+    .addRule('ariaLabeledLink', {
+      filter: (node) =>
+        node.nodeName === 'A' && !!node.getAttribute('aria-label'),
+      replacement: (_, node) => {
+        const ariaLabel = (node as HTMLElement).getAttribute('aria-label')
+        return `[${ariaLabel || ''}](${(node as HTMLElement).getAttribute('href') || ''})`
+      }
+    })
+    .remove('script')
+    .remove('style')
+    .remove('header')
+    .remove('footer')
+    .remove('nav')
+    .turndown(html)
 
   return `--- title: ${title} description: ${description} tags: [] ---\n\n# ${title}\n\n${markdown}\n\n---\n\n`
 }

@@ -1,307 +1,406 @@
 ---
-import { getCollection } from 'astro:content';
-import BlogPost from '@/layouts/BlogPost.astro';
-import readingTime from 'reading-time';
+import { getCollection } from 'astro:content'
+import readingTime from 'reading-time'
+import BlogPost from '@/layouts/BlogPost.astro'
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-  
+  const blogEntries = await getCollection('blog')
+
   // Sort entries by date for better next/prev navigation
   const sortedEntries = [...blogEntries].sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  );
-  
+  )
+
   return sortedEntries.map((entry, index) => {
-    const readingTimeResult = readingTime(entry.body);
-    
-    let readingTimeStr;
+    const readingTimeResult = readingTime(entry.body)
+
+    let readingTimeStr
     if (readingTimeResult.minutes < 1) {
-      readingTimeStr = 'Under 1 minute read';
+      readingTimeStr = 'Under 1 minute read'
     } else {
-      const minutes = Math.ceil(readingTimeResult.minutes);
-      readingTimeStr = `${minutes} minute read`;
+      const minutes = Math.ceil(readingTimeResult.minutes)
+      readingTimeStr = `${minutes} minute read`
     }
-    
+
     return {
       params: { slug: entry.slug },
-      props: { 
+      props: {
         entry,
         readingTimeValue: readingTimeStr,
         readingTimeStats: readingTimeResult,
         nextPost: index > 0 ? sortedEntries[index - 1] : null,
-        prevPost: index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null
-      },
-    };
-  });
+        prevPost:
+          index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null
+      }
+    }
+  })
 }
 
-const { entry, nextPost, prevPost, readingTimeValue, readingTimeStats } = Astro.props;
-const { Content } = await entry.render();
+const { entry, nextPost, prevPost, readingTimeValue } = Astro.props
+const { Content } = await entry.render()
 
-const finalReadingTime = entry.data.readingTime || readingTimeValue;
+const finalReadingTime = entry.data.readingTime || readingTimeValue
 ---
 
-
 <BlogPost {...entry.data} readingTime={finalReadingTime}>
-    <!-- Main Content - Enhanced with better typography and spacing -->
-    <div class="prose prose-zinc dark:prose-invert max-w-none prose-headings:scroll-mt-24 prose-headings:font-semibold prose-a:text-zinc-800 dark:prose-a:text-zinc-300 prose-a:font-medium prose-a:underline-offset-4 hover:prose-a:text-zinc-600 dark:hover:prose-a:text-zinc-100 prose-img:rounded-xl sm:prose-base prose-sm">
-      <Content />
-    </div>
+  Main Content - Enhanced with better typography and spacing -->
+  <div
+    class="prose prose-sm prose-zinc max-w-none dark:prose-invert sm:prose-base prose-headings:scroll-mt-24 prose-headings:font-semibold prose-a:font-medium prose-a:text-zinc-800 prose-a:underline-offset-4 hover:prose-a:text-zinc-600 prose-img:rounded-xl dark:prose-a:text-zinc-300 dark:hover:prose-a:text-zinc-100"
+  >
+    <Content />
+  </div>
 
-    <!-- Next/Previous Navigation - Improved responsive design -->
-    <div class="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 border-t border-zinc-200 dark:border-zinc-800 pt-8 sm:pt-12">
-      {prevPost && (
-        <a 
-          href={`/${prevPost.slug}`} 
-          class="group relative flex flex-col h-full p-4 sm:p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+  Next/Previous Navigation - Improved responsive design -->
+  <div
+    class="mt-12 grid grid-cols-1 gap-4 border-t border-zinc-200 pt-8 dark:border-zinc-800 sm:mt-16 sm:gap-6 sm:pt-12 md:grid-cols-2"
+  >
+    {
+      prevPost && (
+        <a
+          href={`/${prevPost.slug}`}
+          class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/50 sm:p-6"
         >
-          <div class="absolute inset-0 bg-gradient-to-r from-zinc-100 to-transparent dark:from-zinc-800 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <span class="relative z-10 text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:-translate-x-1">
-              <path d="m15 18-6-6 6-6"></path>
+          <div class="absolute inset-0 bg-gradient-to-r from-zinc-100 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-zinc-800 dark:to-transparent" />
+          <span class="relative z-10 mb-1 flex items-center gap-1 text-xs font-medium text-zinc-500 dark:text-zinc-400 sm:mb-2 sm:gap-2 sm:text-sm">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-3 w-3 transition-transform duration-300 group-hover:-translate-x-1 sm:h-4 sm:w-4"
+            >
+              <path d="m15 18-6-6 6-6" />
             </svg>
             Previous Article
           </span>
-          <h3 class="text-base sm:text-lg font-medium text-zinc-900 dark:text-white line-clamp-2 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors">
+          <h3 class="line-clamp-2 text-base font-medium text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-white dark:group-hover:text-zinc-300 sm:text-lg">
             {prevPost.data.title}
           </h3>
         </a>
-      )}
-      {nextPost && (
-        <a 
-          href={`/${nextPost.slug}`} 
-          class="group relative flex flex-col h-full p-4 sm:p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all duration-300 hover:-translate-y-1 md:text-right overflow-hidden"
+      )
+    }
+    {
+      nextPost && (
+        <a
+          href={`/${nextPost.slug}`}
+          class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/50 sm:p-6 md:text-right"
         >
-          <div class="absolute inset-0 bg-gradient-to-l from-zinc-100 to-transparent dark:from-zinc-800 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          <span class="relative z-10 text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2 md:justify-end">
+          <div class="absolute inset-0 bg-gradient-to-l from-zinc-100 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-zinc-800 dark:to-transparent" />
+          <span class="relative z-10 mb-1 flex items-center gap-1 text-xs font-medium text-zinc-500 dark:text-zinc-400 sm:mb-2 sm:gap-2 sm:text-sm md:justify-end">
             Next Article
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1">
-              <path d="m9 18 6-6-6-6"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1 sm:h-4 sm:w-4"
+            >
+              <path d="m9 18 6-6-6-6" />
             </svg>
           </span>
-          <h3 class="text-base sm:text-lg font-medium text-zinc-900 dark:text-white line-clamp-2 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors">
+          <h3 class="line-clamp-2 text-base font-medium text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-white dark:group-hover:text-zinc-300 sm:text-lg">
             {nextPost.data.title}
           </h3>
         </a>
-      )}
-    </div>
+      )
+    }
+  </div>
 </BlogPost>
 
 <script>
   // Removing TOC-related functions
-  
+
   // Add copy buttons to code blocks
   function initializeCodeCopyButtons() {
-    const codeBlocks = document.querySelectorAll('pre');
-    
-    codeBlocks.forEach(block => {
+    const codeBlocks = document.querySelectorAll('pre')
+
+    codeBlocks.forEach((block) => {
       // Skip if already processed by either method
-      if (block.classList.contains('code-block-processed') || block.classList.contains('enhanced')) {
-        return;
+      if (
+        block.classList.contains('code-block-processed') ||
+        block.classList.contains('enhanced')
+      ) {
+        return
       }
-      
-      block.classList.add('code-block-processed');
-      
+
+      block.classList.add('code-block-processed')
+
       // Create wrapper if not already wrapped
-      let wrapper;
-      if (block.parentNode.classList.contains('relative') && block.parentNode.classList.contains('group')) {
-        wrapper = block.parentNode;
+      let wrapper: HTMLDivElement
+      const parent = block.parentNode as HTMLElement
+      if (
+        parent?.classList?.contains('relative') &&
+        parent?.classList?.contains('group')
+      ) {
+        wrapper = parent as HTMLDivElement
       } else {
-        wrapper = document.createElement('div');
-        wrapper.className = 'relative group';
-        block.parentNode.insertBefore(wrapper, block);
-        wrapper.appendChild(block);
+        wrapper = document.createElement('div')
+        wrapper.className = 'relative group'
+        parent?.insertBefore(wrapper, block)
+        wrapper.appendChild(block)
       }
-      
+
       // Add copy button if not already present
-      if (!wrapper.querySelector('.copy-button') && !wrapper.querySelector('.copy-code-button')) {
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-button absolute top-2 right-2 p-1.5 rounded-md bg-zinc-700/50 hover:bg-zinc-700 text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity duration-200';
+      if (
+        wrapper &&
+        !wrapper.querySelector('.copy-button') &&
+        !wrapper.querySelector('.copy-code-button')
+      ) {
+        const copyButton = document.createElement('button')
+        copyButton.className =
+          'copy-button absolute top-2 right-2 p-1.5 rounded-md bg-zinc-700/50 hover:bg-zinc-700 text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity duration-200'
         copyButton.innerHTML = `
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
           </svg>
-        `;
-        
+        `
+
         copyButton.addEventListener('click', () => {
-          const code = block.querySelector('code').innerText;
-          navigator.clipboard.writeText(code);
-          
-          // Show copied feedback
-          copyButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-          `;
-          
-          setTimeout(() => {
+          const codeElement = block.querySelector('code')
+          if (codeElement) {
+            const code = codeElement.innerText
+            navigator.clipboard.writeText(code)
+
+            // Show copied feedback
             copyButton.innerHTML = `
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
-            `;
-          }, 2000);
-        });
-        
-        wrapper.appendChild(copyButton);
+            `
+
+            setTimeout(() => {
+              copyButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                </svg>
+              `
+            }, 2000)
+          }
+        })
+
+        wrapper.appendChild(copyButton)
       }
-    });
+    })
   }
-  
+
   // Handle SPA transitions for blog post navigation
   function setupSPATransitions() {
     // Handle prev/next navigation links
-    document.querySelectorAll('a[href^="/blog/"]').forEach(link => {
+    document.querySelectorAll('a[href^="/blog/"]').forEach((link) => {
       // Skip links that are anchor links or already processed
-      if (link.getAttribute('href').includes('#') || link.hasAttribute('data-spa-handled')) {
-        return;
+      const href = link.getAttribute('href')
+      if (
+        !href ||
+        href.includes('#') ||
+        link.hasAttribute('data-spa-handled')
+      ) {
+        return
       }
-      
+
       // Mark as handled to avoid duplicate listeners
-      link.setAttribute('data-spa-handled', 'true');
-      
-      link.addEventListener('click', (e) => {
+      link.setAttribute('data-spa-handled', 'true')
+
+      link.addEventListener('click', function (this: HTMLElement, e: Event) {
         // Don't handle if modifier keys are pressed (for opening in new tab, etc.)
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
-          return;
+        if (
+          (e as MouseEvent).metaKey ||
+          (e as MouseEvent).ctrlKey ||
+          (e as MouseEvent).shiftKey ||
+          (e as MouseEvent).altKey
+        ) {
+          return
         }
-        
-        e.preventDefault();
-        const targetHref = link.getAttribute('href');
-        
+
+        e.preventDefault()
+        const targetHref = link.getAttribute('href')
+        if (!targetHref) return
+
         // Trigger page transition animation
-        const pageTransition = document.getElementById('page-transition');
+        const pageTransition = document.getElementById('page-transition')
         if (pageTransition) {
-          pageTransition.classList.remove('opacity-0');
-          pageTransition.classList.add('opacity-100');
-          
+          pageTransition.classList.remove('opacity-0')
+          pageTransition.classList.add('opacity-100')
+
           // Navigate after transition effect
           setTimeout(() => {
-            window.location.href = targetHref;
-          }, 300);
+            window.location.href = targetHref
+          }, 300)
         } else {
           // Fallback if transition element doesn't exist
-          window.location.href = targetHref;
+          window.location.href = targetHref
         }
-      });
-    });
+      })
+    })
   }
-  
+
   // Main initialization function
   function initializeBlogPost() {
     // Initialize remaining components
-    initializeCodeCopyButtons();
-    setupSPATransitions();
-    
+    initializeCodeCopyButtons()
+    setupSPATransitions()
+
     // Scroll to hash if present in URL
     if (window.location.hash) {
       setTimeout(() => {
-        const element = document.querySelector(window.location.hash);
+        const element = document.querySelector(window.location.hash)
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
-      }, 100);
+      }, 100)
     }
   }
-  
+
   // Initialize on first load
-  document.addEventListener('DOMContentLoaded', initializeBlogPost);
-  
+  document.addEventListener('DOMContentLoaded', initializeBlogPost)
+
   // Re-initialize when content changes via Astro's view transitions
-  document.addEventListener('astro:page-load', initializeBlogPost);
-  
+  document.addEventListener('astro:page-load', initializeBlogPost)
+
   // For compatibility with custom transition system
-  document.addEventListener('page-transition-complete', initializeBlogPost);
+  document.addEventListener('page-transition-complete', initializeBlogPost)
 </script>
 
 <style>
   /* Removing TOC-related styles */
-  
+
   /* Language badge styling */
   .language-badge {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    text-transform: lowercase;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
     letter-spacing: 0.05em;
+    text-transform: lowercase;
   }
-  
-  /* Extra small screens */
-  @media (min-width: 480px) {
-    .xs\:inline {
-      display: inline;
-    }
-    
-    .xs\:hidden {
-      display: none;
-    }
-  }
-  
+
   /* Enhanced typography for blog content - Responsive adjustments */
   .prose {
-    @apply text-zinc-800 dark:text-zinc-200;
+    color: rgb(39 39 42);
   }
-  
-  .prose h1, .prose h2, .prose h3, .prose h4 {
-    @apply text-zinc-900 dark:text-zinc-100 font-semibold;
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: rgb(24 24 27);
+    font-weight: 600;
   }
-  
+
   .prose h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl;
+    font-size: 1.5rem;
   }
-  
+
   .prose h2 {
-    @apply text-xl sm:text-2xl mt-8 sm:mt-12 mb-3 sm:mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800;
+    border-bottom: 1px solid rgb(228 228 231);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
   }
-  
+
   .prose h3 {
-    @apply text-lg sm:text-xl mt-6 sm:mt-8 mb-2 sm:mb-3;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
   }
-  
+
   .prose p {
-    @apply leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base;
+    font-size: 0.875rem;
+    line-height: 1.625;
+    margin-bottom: 1rem;
   }
-  
+
   .prose a {
-    @apply text-zinc-800 dark:text-zinc-300 font-medium underline decoration-zinc-400 dark:decoration-zinc-600 underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-100 hover:decoration-zinc-600 dark:hover:decoration-zinc-400 transition-colors;
+    color: rgb(39 39 42);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgb(161 161 170);
+    text-underline-offset: 2px;
   }
-  
+
   .prose blockquote {
-    @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 italic text-zinc-700 dark:text-zinc-300 my-4 sm:my-6;
+    border-left: 4px solid rgb(212 212 216);
+    color: rgb(63 63 70);
+    font-style: italic;
+    margin: 1rem 0;
+    padding-left: 1rem;
   }
-    
+
   .prose code {
-    @apply bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-800 dark:text-zinc-200 text-sm font-medium;
+    background-color: rgb(244 244 245);
+    border-radius: 0.25rem;
+    color: rgb(39 39 42);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.125rem 0.375rem;
   }
-  
+
   .prose pre {
-    @apply bg-[#1e293b] dark:bg-[#1e293b] text-zinc-200 p-3 sm:p-4 rounded-lg overflow-x-auto text-xs sm:text-sm my-4 sm:my-6 shadow-md !important;
+    background-color: rgb(30 41 59);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
+    color: rgb(228 228 231);
+    font-size: 0.75rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    padding: 0.75rem;
   }
-  
+
   .prose pre code {
-    @apply bg-transparent p-0 text-zinc-200 dark:text-zinc-200 !important;
+    background-color: transparent;
+    color: rgb(228 228 231);
+    padding: 0;
   }
-  
-  
+
   .prose img {
-    @apply rounded-lg shadow-md my-6 sm:my-8 mx-auto max-w-full h-auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
+    height: auto;
+    margin: 1.5rem auto;
+    max-width: 100%;
   }
-  
-  .prose ul, .prose ol {
-    @apply my-4 sm:my-6 pl-5 sm:pl-6;
+
+  .prose ul,
+  .prose ol {
+    margin: 1rem 0;
+    padding-left: 1.25rem;
   }
-  
+
   .prose li {
-    @apply mb-1 sm:mb-2 text-sm sm:text-base;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
   }
-  
+
   .prose hr {
-    @apply my-8 sm:my-10 border-zinc-200 dark:border-zinc-800;
+    border-color: rgb(228 228 231);
+    margin: 2rem 0;
   }
-  
+
   /* Line clamp for truncating text */
   .line-clamp-2 {
+    -webkit-box-orient: vertical;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Extra small screens */
+  @media (width >= 480px) {
+    .xs-inline {
+      display: inline;
+    }
+
+    .xs-hidden {
+      display: none;
+    }
   }
 </style>

@@ -1,13 +1,13 @@
 ---
-import Layout from './Layout.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '@/consts';
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
+import Layout from './Layout.astro'
 
 export interface Props {
-  title: string;
-  description?: string;
+  title: string
+  description?: string
 }
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
 ---
 
 <Layout title={title} description={description}>

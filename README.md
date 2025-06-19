@@ -1,30 +1,4 @@
-
-# ✨ Astro Blog
-
-<p align="center">
-  <img src="public/favicon.svg" alt="Astro Blog Logo" width="120" height="120">
-</p>
-
-<p align="center">
-  <strong>A modern, minimalist, high-performance blog platform built with Astro.js</strong>
-</p>
-
-<p align="center">
-  <a href="#demo">Demo</a> •
-  <a href="#features">Features</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#project-structure">Project Structure</a> •
-  <a href="#customization">Customization</a> •
-  <a href="#deployment">Deployment</a> •
-</p>
-
-<p align="center">
-  <img src="public/image.png" alt="Astro Blog Screenshot" width="800">
-</p>
-
-## Demo
-
-[View Live Demo](https://astro-blog-pi-ashen.vercel.app/)
+# ✨ The Adaptive Alchemist
 
 ## Features
 
@@ -46,20 +20,17 @@
 
 ### Requirements
 
-- Node.js 16+ and npm/yarn
+- Node.js 22+ and pnpm
 - Spotify account (optional, for Now Playing feature)
 
 ### Installation
 
 ```bash
 # Clone repository
-git clone https://github.com/williamcachamwri/astro-blog
-
-# Navigate to project directory
-cd astro-blog
+git clone https://github.com/arielperez82/the-adaptive-alchemist
 
 # Install dependencies
-npm install
+pnpm install
 
 # Create .env file from template
 cp .env.example .env
@@ -71,104 +42,62 @@ cp .env.example .env
 
 ```bash
 # Start development server
-npm run dev
+pnpm dev
 
 # Open browser at http://localhost:4321
 ```
 
-### Build
+### Available Scripts
 
-```bash
-# Create production build
-npm run build
-
-# Preview production build
-npm run preview
-```
+- `pnpm dev` - Start development server
+- `pnpm start` - Alias for dev server
+- `pnpm build` - Create production build
+- `pnpm preview` - Preview production build
+- `pnpm astro` - Run Astro CLI commands
 
 ## Project Structure
 
-```
+```text
 /
-├── public/             # Static assets
+├── public/               # Static assets
 ├── src/
-│   ├── components/     # Reusable UI components
-│   ├── content/        # Blog content (Markdown/MDX)
-│   ├── layouts/        # Page layouts
-│   ├── pages/          # Pages and routes
-│   ├── styles/         # CSS and Tailwind
-│   └── utils/          # Utilities and helpers
-├── astro.config.mjs    # Astro configuration
-├── tailwind.config.js  # Tailwind configuration
-└── tsconfig.json       # TypeScript configuration
+│   ├── assets/           # Images to be optimized
+│   ├── components/       # Reusable UI components
+│   ├── content/          # Blog content
+│   │   └── blog/         # Blog posts in Markdown/MDX
+│   ├── layouts/          # Page layouts
+│   ├── pages/            # Pages and routes
+│   ├── styles/           # CSS and Tailwind
+│   └── utils/            # Utilities and helpers
+├── scripts/              # Build and utility scripts
+├── astro.config.mjs      # Astro configuration
+├── eslint.config.js      # ESLint configuration
+├── postcss.config.mjs    # PostCSS configuration
+├── stylelint.config.mjs  # Astro configuration
+├── tailwind.config.cjs   # Tailwind configuration
+└── tsconfig.json         # Typescript configuration
 ```
 
-## Customization
+## Writing Posts
 
-### Changing Theme
+To create a new blog post:
 
-Edit `tailwind.config.js` to change colors, fonts, and other design variables:
-
-```js
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {...},
-        secondary: {...}
-      },
-      fontFamily: {
-        sans: ['Inter', ...],
-        serif: [...]
-      }
-    }
-  }
-}
-```
-
-### Adding New Posts
-
-Create a new Markdown or MDX file in the `src/content/blog` directory:
+1. Create a new `.md` or `.mdx` file in `src/content/blog/`
+2. Add the following frontmatter at the top of your file:
 
 ```md
 ---
-title: "Optimizing Web Performance for Better UX"
-description: "Tips and techniques for improving your website's performance and providing a better user experience."
-pubDate: 2023-01-18
-heroImage: "/placeholder.svg?height=630&width=1200"
-readingTime: "8 min read"
-tags: ["performance", "web development", "user experience"]
+title: 'Your Post Title'
+description: 'A brief description of your post'
+pubDate: YYYY-MM-DD
+heroImage: '/path/to/hero-image.jpg'
+readingTime: 'X min read'
+tags: ['tag1', 'tag2', 'tag3']
 ---
 
 Your post content here...
 ```
 
-## Spotify Integration
+<!-- markdownlint-disable ol-prefix -->
 
-To enable the "Now Playing" feature from Spotify:
-
-1. Create an app at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)
-2. Get your Client ID and Client Secret
-3. Add them to your `.env` file:
-
-```env
-SPOTIFY_CLIENT_ID=your_client_id
-SPOTIFY_CLIENT_SECRET=your_client_secret
-SPOTIFY_REFRESH_TOKEN=your_refresh_token
-```
-
-## Deployment
-
-### Netlify
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/williamcachamwri/astro-blog)
-
-### Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/williamcachamwri/astro-blog)
----
-
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/williamcachamwri">William Cachamwri</a>
-</p>
+3. Write your content using Markdown syntax

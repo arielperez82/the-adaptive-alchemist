@@ -1,10 +1,10 @@
 ---
-title: "The Core Principles of Fluid Team Design"
+title: 'The Core Principles of Fluid Team Design'
 description: "Most organizations force a false choice: team stability OR execution speed. You can have both—here's the blueprint."
 pubDate: 2025-06-17
-heroImage: "/assets/dynamic-formation.jpeg"
-readingTime: "10 min read"
-tags: ["Organizational Design"]
+heroImage: '/assets/dynamic-formation.jpeg'
+readingTime: '10 min read'
+tags: ['Organizational Design']
 ---
 
 June 2022\. Split Software's Experimentation organization was stuck. Despite being responsible for features that drove the lion’s share of company revenue, our team of brilliant engineers and product managers was shipping at a crawl. Separate teams (product, product engineering, data engineering, data science) worked on related problems, cooperating but not collaborating, at least not effectively. Features that should have taken weeks were taking months.
@@ -147,33 +147,33 @@ Moving to fluid organization design requires systematic change management focuse
 
 ### Phase 1: Domain mapping and foundation building (3-6 months)
 
-* Map your current customer problem spaces and identify natural domain boundaries  
-* Form initial domain collectives around distinct customer value propositions  
-* Select 2-3 pilot mission teams for customer problems within established domains  
-* Train domain collective leaders in customer outcome measurement and team coaching  
-* Build basic technology infrastructure for mission team formation and progress tracking
+- Map your current customer problem spaces and identify natural domain boundaries
+- Form initial domain collectives around distinct customer value propositions
+- Select 2-3 pilot mission teams for customer problems within established domains
+- Train domain collective leaders in customer outcome measurement and team coaching
+- Build basic technology infrastructure for mission team formation and progress tracking
 
 ### Phase 2: Customer-focused pilot expansion (6-12 months)
 
-* Scale domain collective models to cover all major customer problem spaces  
-* Run 5-10 mission teams simultaneously, tracking customer outcome improvements  
-* Develop cross-domain collaboration skills through shared customer initiatives  
-* Iterate on measurement systems that track both customer and team health  
-* Establish functional skill communities (chapters/guilds) to support domain work
+- Scale domain collective models to cover all major customer problem spaces
+- Run 5-10 mission teams simultaneously, tracking customer outcome improvements
+- Develop cross-domain collaboration skills through shared customer initiatives
+- Iterate on measurement systems that track both customer and team health
+- Establish functional skill communities (chapters/guilds) to support domain work
 
 ### Phase 3: Organization-wide customer alignment (12-18 months)
 
-* Implement domain-mission dual systems across the entire organization  
-* Update hiring, performance management, and career development around customer impact  
-* Train all leaders in both domain strategy and mission team execution  
-* Create advanced analytics for optimizing team composition around customer outcomes
+- Implement domain-mission dual systems across the entire organization
+- Update hiring, performance management, and career development around customer impact
+- Train all leaders in both domain strategy and mission team execution
+- Create advanced analytics for optimizing team composition around customer outcomes
 
 ### Phase 4: Continuous customer-driven optimization (18+ months)
 
-* Use customer data to optimize domain boundaries and mission team formation  
-* Develop specialized approaches for different customer problem complexities  
-* Share customer outcome learnings across domains and with external organizations  
-* Continuously evolve based on changing customer needs and market conditions
+- Use customer data to optimize domain boundaries and mission team formation
+- Develop specialized approaches for different customer problem complexities
+- Share customer outcome learnings across domains and with external organizations
+- Continuously evolve based on changing customer needs and market conditions
 
 The timeline varies based on organization size, culture, and existing customer focus. Technology companies often move faster than regulated industries. The key is maintaining momentum while ensuring every change improves customer value delivery, not just internal efficiency.
 
@@ -197,13 +197,13 @@ The future belongs to organizations that can provide both roots and wings. The p
 
 ### Core frameworks and research
 
-* [**Team Topologies**](https://amzn.to/4kTBOMN) by Matthew Skelton and Manuel Pais: The definitive guide to matching team structure to cognitive load and work complexity  
-* [**Dynamic Reteaming**](https://amzn.to/43IWU9E) by Heidi Helfand: Practical patterns for changing team composition without losing momentum  
-* [**Reinventing Organizations**](https://amzn.to/440cbnC) by Frederic Laloux: Real-world examples of companies operating with radical new organizational models
+- [**Team Topologies**](https://amzn.to/4kTBOMN) by Matthew Skelton and Manuel Pais: The definitive guide to matching team structure to cognitive load and work complexity
+- [**Dynamic Reteaming**](https://amzn.to/43IWU9E) by Heidi Helfand: Practical patterns for changing team composition without losing momentum
+- [**Reinventing Organizations**](https://amzn.to/440cbnC) by Frederic Laloux: Real-world examples of companies operating with radical new organizational models
 
 ### Practical implementation guides
 
-* [Building Shared Consciousness: Practical Mechanisms That Scale](/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/): Specific tools and practices for transparency in fluid organizations  
-* [Leadership Without Control (Part 1\)](/leadership-without-control-part-1/): How to lead through context-setting in dual operating systems
+- [Building Shared Consciousness: Practical Mechanisms That Scale](/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/): Specific tools and practices for transparency in fluid organizations
+- [Leadership Without Control (Part 1\)](/leadership-without-control-part-1/): How to lead through context-setting in dual operating systems
 
-*Next in the series: **Leadership in Fluid Organizations: From Command to Context** \- How leadership roles evolve when teams form and dissolve around the work.*
+_Next in the series: **Leadership in Fluid Organizations: From Command to Context** \- How leadership roles evolve when teams form and dissolve around the work._

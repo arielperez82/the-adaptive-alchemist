@@ -1,11 +1,12 @@
 ---
-title: "Welcome to The Adaptive Alchemist"
-description: "Welcome to The Adaptive Alchemist"
+title: 'Welcome to The Adaptive Alchemist'
+description: 'Welcome to The Adaptive Alchemist'
 pubDate: 2025-05-01
-heroImage: "/assets/typing.png"
-readingTime: "2 min read"
+heroImage: '/assets/typing.png'
+readingTime: '2 min read'
 tags: []
 ---
+
 If you're looking for another blog full of leadership platitudes and five-step frameworks, you're in the wrong place. I've spent years building and breaking things across product and engineering, and I've got the scars (and a few wins) to show for it. This space is for people who know that organizations are messy, teams are unpredictable, and the best ideas rarely come from following the script.
 
 I've led product and engineering teams in just about every environment you can imagine—feature flagging platforms, mobile and web apps, data and analytics, experimentation, real-time systems, marketing tech, e-commerce and subscription commerce, financial services, and more. If it's got users, data, or a deadline, I've probably shipped it, scaled it, or fixed it at 2am.

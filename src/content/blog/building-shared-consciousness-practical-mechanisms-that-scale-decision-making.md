@@ -1,10 +1,10 @@
 ---
-title: "Building Shared Consciousness: Practical Mechanisms That Scale Decision-Making"
+title: 'Building Shared Consciousness: Practical Mechanisms That Scale Decision-Making'
 description: "Teams drown in data but starve for context. Here's how to build shared consciousness that actually scales decision-making."
 pubDate: 2025-06-03
-heroImage: "/assets/shared-consciousness-rituals.jpeg"
-readingTime: "5 min read"
-tags: ["High-Performing Teams"]
+heroImage: '/assets/shared-consciousness-rituals.jpeg'
+readingTime: '5 min read'
+tags: ['High-Performing Teams']
 ---
 
 ## Introduction
@@ -47,10 +47,10 @@ At Chase UK, we logged major decisions in public channels with reasoning, trade-
 
 **Effective decision log format:**
 
-- **Problem**: What forced this decision?  
-- **Options**: What did we consider?  
-- **Choice**: What did we decide and why?  
-- **Trade-offs**: What did we give up?  
+- **Problem**: What forced this decision?
+- **Options**: What did we consider?
+- **Choice**: What did we decide and why?
+- **Trade-offs**: What did we give up?
 - **Success criteria**: How will we know this worked?
 
 Keep it short. A decision log that explains why a feature was cut teaches more than pages of requirements. The goal is accessible context, not compliance documentation.
@@ -65,19 +65,19 @@ Define clear decision boundaries. Teams need to know what they can decide alone,
 
 ## Spotting when it's breaking down
 
-**Information overwhelm:** People stop paying attention to your radiators. 
+**Information overwhelm:** People stop paying attention to your radiators.
 
 Fix: Audit what you're showing and cut by half. Focus on context that actually changes behavior.
 
-**Context theater:** Rituals become status meetings. 
+**Context theater:** Rituals become status meetings.
 
 Fix: Ask what decisions came from the last three sessions. If the answer is "none," the ritual needs purpose or should be killed.
 
-**Autonomy confusion:** Teams either ask permission for everything or make decisions in isolation. 
+**Autonomy confusion:** Teams either ask permission for everything or make decisions in isolation.
 
 Fix: Clarify decision boundaries explicitly. What can teams decide alone? What requires input from others?
 
-**Rotation fatigue:** Team members resist cross-pollination opportunities. 
+**Rotation fatigue:** Team members resist cross-pollination opportunities.
 
 Fix: Reduce rotation frequency and increase purposefulness. People should understand why they're moving and what context they're expected to share.
 
