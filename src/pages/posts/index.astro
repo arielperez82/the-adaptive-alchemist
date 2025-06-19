@@ -1,42 +1,46 @@
 ---
-import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
 
-import OptimizedImage from '@/components/OptimizedImage.astro';
-import { SITE_DESCRIPTION } from '@/consts';
-import BaseLayout from '@/layouts/BaseLayout.astro';
+import OptimizedImage from '@/components/OptimizedImage.astro'
+import { SITE_DESCRIPTION } from '@/consts'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 
-const allPosts = await getCollection('blog') || [];
+const allPosts = (await getCollection('blog')) || []
 const sortedPosts = allPosts.sort(
-  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+  (a, b) =>
+    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+)
 
 // Get all optimized images
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}');
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/*.{jpeg,jpg,png,gif}'
+)
 
 type ResolvedPost = Omit<CollectionEntry<'blog'>, 'data'> & {
   data: Omit<CollectionEntry<'blog'>['data'], 'heroImage'> & {
-    heroImage?: string;
-    optimizedHeroImage?: ImageMetadata;
-  };
-};
-
-const resolveHeroImage = async (heroImage: string): Promise<ImageMetadata | null> => {
-  if (heroImage.startsWith('/assets/')) {
-    const imagePath = `/src${heroImage}`;
-    const image = await images[imagePath]();
-    return image.default;
+    heroImage?: string
+    optimizedHeroImage?: ImageMetadata
   }
-  return null;
+}
+
+const resolveHeroImage = async (
+  heroImage: string
+): Promise<ImageMetadata | null> => {
+  if (heroImage.startsWith('/assets/')) {
+    const imagePath = `/src${heroImage}`
+    const image = await images[imagePath]()
+    return image.default
+  }
+  return null
 }
 
 // Pre-resolve all hero images
 const resolvedPosts = await Promise.all(
-  sortedPosts.map(async post => {
+  sortedPosts.map(async (post) => {
     if (!post.data.heroImage) {
-      return post as ResolvedPost;
+      return post as ResolvedPost
     }
     return {
       ...post,
@@ -44,252 +48,307 @@ const resolvedPosts = await Promise.all(
         ...post.data,
         optimizedHeroImage: await resolveHeroImage(post.data.heroImage)
       }
-    } as ResolvedPost;
+    } as ResolvedPost
   })
-);
+)
 
 // Group posts by month and year for timeline effect
-const postsByYearAndMonth = resolvedPosts.reduce<Record<string, Record<string, ResolvedPost[]>>>((acc, post) => {
-  const date = new Date(post.data.pubDate);
-  const year = date.getFullYear();
-  const month = date.toLocaleString('en-US', { month: 'long' });
-  
-  if (!acc[year]) acc[year] = {};
-  if (!acc[year][month]) acc[year][month] = [];
-  acc[year][month].push(post);
-  return acc;
-}, {});
+const postsByYearAndMonth = resolvedPosts.reduce<
+  Record<string, Record<string, ResolvedPost[]>>
+>((acc, post) => {
+  const date = new Date(post.data.pubDate)
+  const year = date.getFullYear()
+  const month = date.toLocaleString('en-US', { month: 'long' })
 
-const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number(a));
+  if (!acc[year]) acc[year] = {}
+  if (!acc[year][month]) acc[year][month] = []
+  acc[year][month].push(post)
+  return acc
+}, {})
 
+const years = Object.keys(postsByYearAndMonth).sort(
+  (a, b) => Number(b) - Number(a)
+)
 ---
 
 <BaseLayout title="Explore Posts">
-  <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-    
-    
-    <!-- Enhanced header with search - improved responsive spacing -->
+  <div class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
     <div class="relative mb-12 sm:mb-20">
-      
-      
-      <!-- Decorative elements - adjusted for better mobile appearance -->
-      <div class="absolute -top-10 sm:-top-20 -left-10 sm:-left-20 w-48 sm:w-72 h-48 sm:h-72 bg-zinc-100 dark:bg-zinc-800/30 rounded-full blur-3xl opacity-30 animate-blob"></div>
-      <div class="absolute -bottom-10 sm:-bottom-20 -right-10 sm:-right-20 w-48 sm:w-72 h-48 sm:h-72 bg-zinc-200 dark:bg-zinc-800/30 rounded-full blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-      
+      <div
+        class="animate-blob absolute -left-10 -top-10 h-48 w-48 rounded-full bg-zinc-100 opacity-30 blur-3xl dark:bg-zinc-800/30 sm:-left-20 sm:-top-20 sm:h-72 sm:w-72"
+      >
+      </div>
+      <div
+        class="animate-blob animation-delay-2000 absolute -bottom-10 -right-10 h-48 w-48 rounded-full bg-zinc-200 opacity-30 blur-3xl dark:bg-zinc-800/30 sm:-bottom-20 sm:-right-20 sm:h-72 sm:w-72"
+      >
+      </div>
+
       <div class="relative text-center">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-4">
+        <h1
+          class="mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-4xl md:text-5xl"
+        >
           Recent Posts
         </h1>
-        
-        <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-6 sm:mb-10 max-w-2xl mx-auto">
+
+        <p
+          class="mx-auto mb-6 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400 sm:mb-10 sm:text-base"
+        >
           {SITE_DESCRIPTION}
         </p>
       </div>
     </div>
-    
-    
-    
-    <!-- Improved grid layout for better mobile experience -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8">
-      
-      
-      <!-- Featured post (if exists) - improved mobile layout -->
-      {resolvedPosts.length > 0 && (
-        <div class="md:col-span-12 mb-8 sm:mb-12">
-          <article class="group relative overflow-hidden rounded-none border-b border-zinc-200 dark:border-zinc-800 pb-6 sm:pb-8">            
-            <div class="flex flex-col md:flex-row h-full gap-6 sm:gap-8">
-              {
-                (() => {
-                  const post = resolvedPosts[0].data;
-                  if (!post.heroImage) return null;
-                  
+
+    <div class="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-12">
+      {
+        resolvedPosts.length > 0 && (
+          <div class="mb-8 sm:mb-12 md:col-span-12">
+            <article class="group relative overflow-hidden rounded-none border-b border-zinc-200 pb-6 dark:border-zinc-800 sm:pb-8">
+              <div class="flex h-full flex-col gap-6 sm:gap-8 md:flex-row">
+                {(() => {
+                  const post = resolvedPosts[0].data
+                  if (!post.heroImage) return null
+
                   return (
-                    <div class="w-full md:w-1/2 h-60 sm:h-80 md:h-96 overflow-hidden mx-auto md:mx-0 max-w-full sm:max-w-md">
+                    <div class="mx-auto h-60 w-full max-w-full overflow-hidden sm:h-80 sm:max-w-md md:mx-0 md:h-96 md:w-1/2">
                       <OptimizedImage
                         src={post.heroImage}
                         alt={post.title}
-                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                        class="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0 group-hover:scale-105"
                         loading="eager"
                       />
                     </div>
-                  );
-                })()
-              }
-              <div class="flex-1 flex flex-col justify-center">
-                <div class="flex items-center text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 gap-2 mb-3 justify-center md:justify-start">
-                  <span class="font-medium uppercase tracking-wider">Featured</span>
-                  <span class="h-px w-6 sm:w-8 bg-zinc-300 dark:bg-zinc-700"></span>
-                  {resolvedPosts[0].data.pubDate && (
-                    <time datetime={resolvedPosts[0].data.pubDate.toISOString()}>
-                      {resolvedPosts[0].data.pubDate.toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
-                    </time>
-                  )}
-                </div>
-                
-                <h2 class="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-3 sm:mb-4 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors text-center md:text-left">
-                  <a href={`/${resolvedPosts[0].slug}/`} class="before:absolute before:inset-0">
-                    {resolvedPosts[0].data.title}
-                  </a>
-                </h2>
-                
-                <p class="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-4 sm:mb-6 line-clamp-3 text-center md:text-left">
-                  {resolvedPosts[0].data.description}
-                </p>
-                
-                
-                
-                <!-- Improved mobile layout for featured post metadata -->
-                <div class="flex items-center gap-3 sm:gap-4 justify-center md:justify-start flex-wrap">
-                  <div class="flex items-center text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
-                    <span class="inline-flex items-center">
-                      {resolvedPosts[0].data.readingTime || "5 min read"}
+                  )
+                })()}
+                <div class="flex flex-1 flex-col justify-center">
+                  <div class="mb-3 flex items-center justify-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm md:justify-start">
+                    <span class="font-medium uppercase tracking-wider">
+                      Featured
                     </span>
-                  </div>
-                  
-                  {resolvedPosts[0].data.tags && (
-                    <div class="flex flex-wrap gap-2 justify-center md:justify-start">
-                      {resolvedPosts[0].data.tags.slice(0, 2).map((tag) => (
-                        <span class="px-2 sm:px-3 py-1 text-xs uppercase tracking-wider border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      )}
-      
-      
-      
-      <!-- Improved sidebar for mobile -->
-      <div class="md:col-span-3 relative">
-        <div class="md:sticky md:top-24 space-y-4 mb-8 md:mb-0">
-          <h3 class="text-lg font-medium text-zinc-900 dark:text-zinc-100 mb-4 uppercase tracking-wider text-center md:text-left">Archive</h3>
-          
-          
-          
-          <!-- Horizontal scrollable archive on mobile, vertical on desktop -->
-          <div class="flex md:flex-col overflow-x-auto md:overflow-visible pb-4 md:pb-0 hide-scrollbar">
-            {years.map((year, yearIndex) => (
-              <div class="flex flex-col md:w-full">
-                <a 
-                  href={`#year-${year}`}
-                  class={`flex items-center py-2 md:py-3 px-4 md:px-0 mr-3 md:mr-0 border-b border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors md:w-full whitespace-nowrap md:whitespace-normal rounded-full md:rounded-none ${yearIndex === 0 ? 'bg-zinc-50 dark:bg-zinc-800/50' : ''}`}
-                >
-                  <span class="text-base md:text-lg font-medium text-zinc-900 dark:text-zinc-100">{year}</span>
-                  <span class="ml-2 md:ml-auto text-xs md:text-sm text-zinc-500 dark:text-zinc-400">
-                    {Object.values(postsByYearAndMonth[year]).flat().length} post{Object.values(postsByYearAndMonth[year]).flat().length !== 1 ? 's' : ''}
-                  </span>
-                </a>
-                <div class="hidden md:block pl-4">
-                  {Object.keys(postsByYearAndMonth[year])
-                    .sort((a, b) => {
-                      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                      return months.indexOf(b) - months.indexOf(a);
-                    })
-                    .map(month => (
-                      <a 
-                        href={`#year-${year}-month-${month}`}
-                        class="block py-1 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
+                    <span class="h-px w-6 bg-zinc-300 dark:bg-zinc-700 sm:w-8" />
+                    {resolvedPosts[0].data.pubDate && (
+                      <time
+                        datetime={resolvedPosts[0].data.pubDate.toISOString()}
                       >
-                        {month} ({postsByYearAndMonth[year][month].length})
-                      </a>
-                    ))}
+                        {resolvedPosts[0].data.pubDate.toLocaleDateString(
+                          'en-US',
+                          {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          }
+                        )}
+                      </time>
+                    )}
+                  </div>
+
+                  <h2 class="mb-3 text-center text-2xl font-bold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-4 sm:text-3xl md:text-left">
+                    <a
+                      href={`/${resolvedPosts[0].slug}/`}
+                      class="before:absolute before:inset-0"
+                    >
+                      {resolvedPosts[0].data.title}
+                    </a>
+                  </h2>
+
+                  <p class="mb-4 line-clamp-3 text-center text-sm text-zinc-600 dark:text-zinc-400 sm:mb-6 sm:text-base md:text-left">
+                    {resolvedPosts[0].data.description}
+                  </p>
+
+                  <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:justify-start">
+                    <div class="flex items-center text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm">
+                      <span class="inline-flex items-center">
+                        {resolvedPosts[0].data.readingTime || '5 min read'}
+                      </span>
+                    </div>
+
+                    {resolvedPosts[0].data.tags && (
+                      <div class="flex flex-wrap justify-center gap-2 md:justify-start">
+                        {resolvedPosts[0].data.tags.slice(0, 2).map((tag) => (
+                          <span class="border border-zinc-200 px-2 py-1 text-xs uppercase tracking-wider text-zinc-600 dark:border-zinc-800 dark:text-zinc-400 sm:px-3">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            ))}
+            </article>
+          </div>
+        )
+      }
+
+      <div class="relative md:col-span-3">
+        <div class="mb-8 space-y-4 md:sticky md:top-24 md:mb-0">
+          <h3
+            class="mb-4 text-center text-lg font-medium uppercase tracking-wider text-zinc-900 dark:text-zinc-100 md:text-left"
+          >
+            Archive
+          </h3>
+
+          <div
+            class="hide-scrollbar flex overflow-x-auto pb-4 md:flex-col md:overflow-visible md:pb-0"
+          >
+            {
+              years.map((year, yearIndex) => (
+                <div class="flex flex-col md:w-full">
+                  <a
+                    href={`#year-${year}`}
+                    class={`mr-3 flex items-center whitespace-nowrap rounded-full border-b border-zinc-100 px-4 py-2 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900 md:mr-0 md:w-full md:whitespace-normal md:rounded-none md:px-0 md:py-3 ${yearIndex === 0 ? 'bg-zinc-50 dark:bg-zinc-800/50' : ''}`}
+                  >
+                    <span class="text-base font-medium text-zinc-900 dark:text-zinc-100 md:text-lg">
+                      {year}
+                    </span>
+                    <span class="ml-2 text-xs text-zinc-500 dark:text-zinc-400 md:ml-auto md:text-sm">
+                      {Object.values(postsByYearAndMonth[year]).flat().length}{' '}
+                      post
+                      {Object.values(postsByYearAndMonth[year]).flat()
+                        .length !== 1
+                        ? 's'
+                        : ''}
+                    </span>
+                  </a>
+                  <div class="hidden pl-4 md:block">
+                    {Object.keys(postsByYearAndMonth[year])
+                      .sort((a, b) => {
+                        const months = [
+                          'January',
+                          'February',
+                          'March',
+                          'April',
+                          'May',
+                          'June',
+                          'July',
+                          'August',
+                          'September',
+                          'October',
+                          'November',
+                          'December'
+                        ]
+                        return months.indexOf(b) - months.indexOf(a)
+                      })
+                      .map((month) => (
+                        <a
+                          href={`#year-${year}-month-${month}`}
+                          class="block py-1 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                        >
+                          {month} ({postsByYearAndMonth[year][month].length})
+                        </a>
+                      ))}
+                  </div>
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
-      
-      
-      
-      <!-- Improved post grid for mobile -->
+
       <div class="md:col-span-9">
-        {years.map((year) => (
-          <div id={`year-${year}`} class="mb-12 sm:mb-20 scroll-mt-16">
-            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-6 sm:mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-3 sm:pb-4 text-center md:text-left">
-              {year}
-            </h2>
-            
-            {Object.keys(postsByYearAndMonth[year])
-              .sort((a, b) => {
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                return months.indexOf(b) - months.indexOf(a);
-              })
-              .map(month => (
-                <div id={`year-${year}-month-${month}`} class="mb-8">
-                  <h3 class="text-lg font-semibold text-zinc-700 dark:text-zinc-300 mb-4">{month}</h3>
-                  <div class={`grid grid-cols-1 ${postsByYearAndMonth[year][month].length >= 2 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8 sm:gap-12`}>
-                    {postsByYearAndMonth[year][month].map((post) => (
-                      <article class="group relative flex flex-col h-full mx-auto md:mx-0 w-full max-w-sm sm:max-w-md">
-                        {post.data.heroImage && (
-                          <div class="h-48 sm:h-56 overflow-hidden mb-4 rounded-lg">
-                            <OptimizedImage
-                              src={post.data.heroImage}
-                              alt={post.data.title}
-                              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                              loading="eager"
-                            />
-                          </div>
-                        )}
-                        
-                        <div class="flex-1 flex flex-col">
-                          <div class="flex items-center text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 gap-3 sm:gap-4 mb-2 sm:mb-3 justify-center md:justify-start flex-wrap">
-                            {post.data.pubDate && (
-                              <time datetime={post.data.pubDate.toISOString()} class="flex items-center">
-                                {post.data.pubDate.toLocaleDateString('en-US', { 
-                                  month: 'short', 
-                                  day: 'numeric' 
-                                })}
-                              </time>
-                            )}
-                            {post.data.readingTime && (
-                              <span class="flex items-center">
-                                {post.data.readingTime}
-                              </span>
-                            )}
-                          </div>
-                          
-                          <h3 class="text-lg sm:text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-2 sm:mb-3 group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors text-center md:text-left">
-                            <a href={`/${post.slug}/`} class="before:absolute before:inset-0">
-                              {post.data.title}
-                            </a>
-                          </h3>
-                          
-                          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4 line-clamp-2 flex-grow text-center md:text-left">
-                            {post.data.description}
-                          </p>
-                          
-                          {post.data.tags && (
-                            <div class="flex flex-wrap gap-2 mt-auto justify-center md:justify-start">
-                              {post.data.tags.slice(0, 2).map((tag) => (
-                                <span class="px-2 sm:px-3 py-1 text-xs uppercase tracking-wider border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400">
-                                  {tag}
-                                </span>
-                              ))}
-                              {post.data.tags.length > 2 && (
-                                <span class="px-2 sm:px-3 py-1 text-xs uppercase tracking-wider border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400">
-                                  +{post.data.tags.length - 2}
+        {
+          years.map((year) => (
+            <div id={`year-${year}`} class="mb-12 scroll-mt-16 sm:mb-20">
+              <h2 class="mb-6 border-b border-zinc-200 pb-3 text-center text-xl font-bold text-zinc-900 dark:border-zinc-800 dark:text-zinc-100 sm:mb-8 sm:pb-4 sm:text-2xl md:text-left">
+                {year}
+              </h2>
+
+              {Object.keys(postsByYearAndMonth[year])
+                .sort((a, b) => {
+                  const months = [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December'
+                  ]
+                  return months.indexOf(b) - months.indexOf(a)
+                })
+                .map((month) => (
+                  <div id={`year-${year}-month-${month}`} class="mb-8">
+                    <h3 class="mb-4 text-lg font-semibold text-zinc-700 dark:text-zinc-300">
+                      {month}
+                    </h3>
+                    <div
+                      class={`grid grid-cols-1 ${postsByYearAndMonth[year][month].length >= 2 ? 'md:grid-cols-2' : 'md:grid-cols-1'} gap-8 sm:gap-12`}
+                    >
+                      {postsByYearAndMonth[year][month].map((post) => (
+                        <article class="group relative mx-auto flex h-full w-full max-w-sm flex-col sm:max-w-md md:mx-0">
+                          {post.data.heroImage && (
+                            <div class="mb-4 h-48 overflow-hidden rounded-lg sm:h-56">
+                              <OptimizedImage
+                                src={post.data.heroImage}
+                                alt={post.data.title}
+                                class="h-full w-full object-cover grayscale transition-all duration-700 hover:grayscale-0 group-hover:scale-105"
+                                loading="eager"
+                              />
+                            </div>
+                          )}
+
+                          <div class="flex flex-1 flex-col">
+                            <div class="mb-2 flex flex-wrap items-center justify-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 sm:mb-3 sm:gap-4 sm:text-sm md:justify-start">
+                              {post.data.pubDate && (
+                                <time
+                                  datetime={post.data.pubDate.toISOString()}
+                                  class="flex items-center"
+                                >
+                                  {post.data.pubDate.toLocaleDateString(
+                                    'en-US',
+                                    {
+                                      month: 'short',
+                                      day: 'numeric'
+                                    }
+                                  )}
+                                </time>
+                              )}
+                              {post.data.readingTime && (
+                                <span class="flex items-center">
+                                  {post.data.readingTime}
                                 </span>
                               )}
                             </div>
-                          )}
-                        </div>
-                      </article>
-                    ))}
+
+                            <h3 class="mb-2 text-center text-lg font-semibold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-3 sm:text-xl md:text-left">
+                              <a
+                                href={`/${post.slug}/`}
+                                class="before:absolute before:inset-0"
+                              >
+                                {post.data.title}
+                              </a>
+                            </h3>
+
+                            <p class="mb-4 line-clamp-2 flex-grow text-center text-sm text-zinc-600 dark:text-zinc-400 md:text-left">
+                              {post.data.description}
+                            </p>
+
+                            {post.data.tags && (
+                              <div class="mt-auto flex flex-wrap justify-center gap-2 md:justify-start">
+                                {post.data.tags.slice(0, 2).map((tag) => (
+                                  <span class="border border-zinc-200 px-2 py-1 text-xs uppercase tracking-wider text-zinc-600 dark:border-zinc-800 dark:text-zinc-400 sm:px-3">
+                                    {tag}
+                                  </span>
+                                ))}
+                                {post.data.tags.length > 2 && (
+                                  <span class="border border-zinc-200 px-2 py-1 text-xs uppercase tracking-wider text-zinc-600 dark:border-zinc-800 dark:text-zinc-400 sm:px-3">
+                                    +{post.data.tags.length - 2}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </article>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
-          </div>
-        ))}
+                ))}
+            </div>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -306,7 +365,7 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
   .animate-blob {
     animation: blob-bounce 8s infinite ease;
   }
-  
+
   .animation-delay-2000 {
     animation-delay: 2s;
   }
@@ -323,7 +382,7 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -334,7 +393,7 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
     -webkit-line-clamp: 2;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     -webkit-box-orient: vertical;
     display: -webkit-box;
@@ -344,7 +403,8 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
 
   /* Animations */
   @keyframes blob-bounce {
-    0%, 100% {
+    0%,
+    100% {
       transform: translate(0, 0) scale(1);
     }
 
@@ -360,12 +420,13 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
       transform: translate(-5%, 5%) scale(0.95);
     }
   }
-  
+
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0;
     }
-    
+
     50% {
       opacity: 1;
     }
@@ -373,7 +434,8 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
 
   /* Media queries */
   @media (width <= 640px) {
-    a, button {
+    a,
+    button {
       align-items: center;
       display: flex;
       min-height: 44px;
@@ -383,131 +445,137 @@ const years = Object.keys(postsByYearAndMonth).sort((a, b) => Number(b) - Number
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const backToTopButton = document.getElementById('back-to-top');
-    
+    const backToTopButton = document.getElementById('back-to-top')
+
     if (backToTopButton) {
       // Show button when scrolled down
       const toggleBackToTopButton = () => {
         if (window.scrollY > 300) {
-          backToTopButton.classList.remove('opacity-0', 'invisible');
-          backToTopButton.classList.add('opacity-100', 'visible');
+          backToTopButton.classList.remove('opacity-0', 'invisible')
+          backToTopButton.classList.add('opacity-100', 'visible')
         } else {
-          backToTopButton.classList.remove('opacity-100', 'visible');
-          backToTopButton.classList.add('opacity-0', 'invisible');
+          backToTopButton.classList.remove('opacity-100', 'visible')
+          backToTopButton.classList.add('opacity-0', 'invisible')
         }
-      };
-      
+      }
+
       // Scroll to top when clicked
       backToTopButton.addEventListener('click', () => {
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
-        });
-      });
-      
+        })
+      })
+
       // Check scroll position
-      window.addEventListener('scroll', toggleBackToTopButton);
-      toggleBackToTopButton(); // Initial check
+      window.addEventListener('scroll', toggleBackToTopButton)
+      toggleBackToTopButton() // Initial check
     }
-    
+
     // Add smooth scrolling to year links
-    document.querySelectorAll('a[href^="#year-"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#year-"]').forEach((anchor) => {
       anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = anchor.getAttribute('href');
-        if (!targetId) return;
-        const targetElement = document.querySelector(targetId) as HTMLElement;
-        
+        e.preventDefault()
+        const targetId = anchor.getAttribute('href')
+        if (!targetId) return
+        const targetElement = document.querySelector(targetId) as HTMLElement
+
         if (targetElement) {
           window.scrollTo({
             top: targetElement.offsetTop - 100,
             behavior: 'smooth'
-          });
-          
+          })
+
           // Update URL hash without jumping
-          history.pushState('', '', targetId);
+          history.pushState('', '', targetId)
         }
-      });
-    });
-    
+      })
+    })
+
     // Add touch support for hover effects
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
+    const isTouchDevice =
+      'ontouchstart' in window || navigator.maxTouchPoints > 0
+
     if (isTouchDevice) {
-      const articles = document.querySelectorAll('article');
-      
-      articles.forEach(article => {
+      const articles = document.querySelectorAll('article')
+
+      articles.forEach((article) => {
         article.addEventListener('touchstart', () => {
-          article.classList.add('is-touched');
-        });
-        
+          article.classList.add('is-touched')
+        })
+
         article.addEventListener('touchend', () => {
           setTimeout(() => {
-            article.classList.remove('is-touched');
-          }, 300);
-        });
-      });
+            article.classList.remove('is-touched')
+          }, 300)
+        })
+      })
     }
-  });
-  
+  })
+
   // SPA transition handling
   function setupSPATransitions() {
     // Handle all blog post links for SPA transitions
-    document.querySelectorAll('a[href]').forEach(link => {
-      const href = link.getAttribute('href');
+    document.querySelectorAll('a[href]').forEach((link) => {
+      const href = link.getAttribute('href')
       // Skip links that are anchor links, already processed, or excluded paths
-      if (!href || 
-          link.hasAttribute('data-spa-handled') ||
-          href.includes('#') || 
-          href.startsWith('/tags/') ||
-          href.startsWith('/about/') ||
-          href.startsWith('/rss.xml') ||
-          href === '/') {
-        return;
+      if (
+        !href ||
+        link.hasAttribute('data-spa-handled') ||
+        href.includes('#') ||
+        href.startsWith('/tags/') ||
+        href.startsWith('/about/') ||
+        href.startsWith('/rss.xml') ||
+        href === '/'
+      ) {
+        return
       }
-      
+
       // Mark as handled to avoid duplicate listeners
-      link.setAttribute('data-spa-handled', 'true');
-      
+      link.setAttribute('data-spa-handled', 'true')
+
       link.addEventListener('click', (e) => {
         // Don't handle if modifier keys are pressed (for opening in new tab, etc.)
-        if (e instanceof MouseEvent && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) {
-          return;
+        if (
+          e instanceof MouseEvent &&
+          (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+        ) {
+          return
         }
-        
-        e.preventDefault();
-        const targetHref = link.getAttribute('href');
-        if (!targetHref) return;
-        
+
+        e.preventDefault()
+        const targetHref = link.getAttribute('href')
+        if (!targetHref) return
+
         // Trigger page transition animation
-        const pageTransition = document.getElementById('page-transition');
+        const pageTransition = document.getElementById('page-transition')
         if (pageTransition) {
-          pageTransition.classList.remove('opacity-0');
-          pageTransition.classList.add('opacity-100');
-          
+          pageTransition.classList.remove('opacity-0')
+          pageTransition.classList.add('opacity-100')
+
           // Navigate after transition effect
           setTimeout(() => {
-            window.location.href = targetHref;
-          }, 300);
+            window.location.href = targetHref
+          }, 300)
         } else {
           // Fallback if transition element doesn't exist
-          window.location.href = targetHref;
+          window.location.href = targetHref
         }
-      });
-    });
-    
+      })
+    })
+
     // Handle year anchor links specially
-    document.querySelectorAll('a[href^="#year-"]').forEach(anchor => {
-      anchor.setAttribute('data-spa-internal', 'true');
-    });
+    document.querySelectorAll('a[href^="#year-"]').forEach((anchor) => {
+      anchor.setAttribute('data-spa-internal', 'true')
+    })
   }
-  
+
   // Initialize on first load
-  document.addEventListener('DOMContentLoaded', setupSPATransitions);
-  
+  document.addEventListener('DOMContentLoaded', setupSPATransitions)
+
   // Re-initialize when content changes via Astro's view transitions
-  document.addEventListener('astro:page-load', setupSPATransitions);
-  
+  document.addEventListener('astro:page-load', setupSPATransitions)
+
   // For compatibility with custom transition system
-  document.addEventListener('page-transition-complete', setupSPATransitions);
+  document.addEventListener('page-transition-complete', setupSPATransitions)
 </script>

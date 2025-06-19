@@ -63,9 +63,6 @@ importers:
       '@eslint/js':
         specifier: ^9.29.0
         version: 9.29.0
-      '@ianvs/prettier-plugin-sort-imports':
-        specifier: ^4.4.2
-        version: 4.4.2(prettier@3.5.3)
       '@tailwindcss/typography':
         specifier: ^0.5.9
         version: 0.5.16(tailwindcss@3.4.17)
@@ -111,9 +108,6 @@ importers:
       gh-pages:
         specifier: ^6.3.0
         version: 6.3.0
-      glob:
-        specifier: ^11.0.3
-        version: 11.0.3
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -147,6 +141,9 @@ importers:
       stylelint-config-astro:
         specifier: ^1.0.4
         version: 1.0.4(postcss-html@1.8.0)(stylelint@16.20.0(typescript@5.8.3))
+      stylelint-config-prettier:
+        specifier: ^9.0.5
+        version: 9.0.5(stylelint@16.20.0(typescript@5.8.3))
       stylelint-config-recommended:
         specifier: ^16.0.0
         version: 16.0.0(stylelint@16.20.0(typescript@5.8.3))
@@ -156,6 +153,9 @@ importers:
       stylelint-config-tailwindcss:
         specifier: ^1.0.0
         version: 1.0.0(stylelint@16.20.0(typescript@5.8.3))(tailwindcss@3.4.17)
+      stylelint-prettier:
+        specifier: ^5.0.3
+        version: 5.0.3(prettier@3.5.3)(stylelint@16.20.0(typescript@5.8.3))
       tsx:
         specifier: 4.20.3
         version: 4.20.3
@@ -3769,6 +3769,13 @@ packages:
       postcss-html: ^1.0.0
       stylelint: '>=14.0.0'
 
+  stylelint-config-prettier@9.0.5:
+    resolution: {integrity: sha512-U44lELgLZhbAD/xy/vncZ2Pq8sh2TnpiPvo38Ifg9+zeioR+LAkHu0i6YORIOxFafZoVg0xqQwex6e6F25S5XA==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    peerDependencies:
+      stylelint: '>= 11.x < 15'
+
   stylelint-config-recommended@16.0.0:
     resolution: {integrity: sha512-4RSmPjQegF34wNcK1e1O3Uz91HN8P1aFdFzio90wNK9mjgAI19u5vsU868cVZboKzCaa5XbpvtTzAAGQAxpcXA==}
     engines: {node: '>=18.12.0'}
@@ -3791,6 +3798,13 @@ packages:
     resolution: {integrity: sha512-0UuKo4+s1hgQ/uAxlYU4h0o0HS4NiQDud0NAUNI0aa8FJdmYHA5ZZTFHiV5FpmE3071e9pZx5j0QpVJW5zOCUA==}
     peerDependencies:
       stylelint: ^14.0.0 || ^15.0.0 || ^16.0.1
+
+  stylelint-prettier@5.0.3:
+    resolution: {integrity: sha512-B6V0oa35ekRrKZlf+6+jA+i50C4GXJ7X1PPmoCqSUoXN6BrNF6NhqqhanvkLjqw2qgvrS0wjdpeC+Tn06KN3jw==}
+    engines: {node: '>=18.12.0'}
+    peerDependencies:
+      prettier: '>=3.0.0'
+      stylelint: '>=16.0.0'
 
   stylelint@16.20.0:
     resolution: {integrity: sha512-B5Myu9WRxrgKuLs3YyUXLP2H0mrbejwNxPmyADlACWwFsrL8Bmor/nTSh4OMae5sHjOz6gkSeccQH34gM4/nAw==}
@@ -4860,6 +4874,7 @@ snapshots:
       semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -8809,6 +8824,10 @@ snapshots:
       stylelint: 16.20.0(typescript@5.8.3)
       typescript: 4.9.5
 
+  stylelint-config-prettier@9.0.5(stylelint@16.20.0(typescript@5.8.3)):
+    dependencies:
+      stylelint: 16.20.0(typescript@5.8.3)
+
   stylelint-config-recommended@16.0.0(stylelint@16.20.0(typescript@5.8.3)):
     dependencies:
       stylelint: 16.20.0(typescript@5.8.3)
@@ -8827,6 +8846,12 @@ snapshots:
     dependencies:
       postcss: 8.5.6
       postcss-sorting: 8.0.2(postcss@8.5.6)
+      stylelint: 16.20.0(typescript@5.8.3)
+
+  stylelint-prettier@5.0.3(prettier@3.5.3)(stylelint@16.20.0(typescript@5.8.3)):
+    dependencies:
+      prettier: 3.5.3
+      prettier-linter-helpers: 1.0.0
       stylelint: 16.20.0(typescript@5.8.3)
 
   stylelint@16.20.0(typescript@5.8.3):

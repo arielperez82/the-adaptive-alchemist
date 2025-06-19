@@ -1,7 +1,7 @@
 ---
 import type { ImageMetadata } from 'astro'
-import { Image } from 'astro:assets'
 import type { HTMLAttributes } from 'astro/types'
+import { Image } from 'astro:assets'
 
 // Get all optimized images
 const images = import.meta.glob<{ default: ImageMetadata }>(

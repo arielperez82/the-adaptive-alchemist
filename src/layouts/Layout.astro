@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css'
+
 import Background from '@/components/Background.astro'
 import Footer from '@/components/Footer.astro'
 import Navigation from '@/components/Navigation.astro'
@@ -32,7 +33,6 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
   <body
     class="flex min-h-screen flex-col bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"
   >
-    Page transition overlay - for smooth transitions between pages -->
     <div
       id="page-transition"
       class="pointer-events-none fixed inset-0 z-40 flex items-center justify-center bg-white opacity-0 transition-opacity duration-300 dark:bg-zinc-900"
@@ -40,7 +40,6 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
       <div class="transition-spinner"></div>
     </div>
 
-    Background component with dot pattern and ambient glow -->
     <Background />
 
     <div class="mx-auto w-full max-w-3xl flex-grow px-4 sm:px-6">

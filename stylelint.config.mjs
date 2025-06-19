@@ -5,7 +5,8 @@ export default {
     'stylelint-config-recommended',
     'stylelint-config-astro',
     'stylelint-config-tailwindcss',
-    'stylelint-config-alphabetical-order'
+    'stylelint-config-alphabetical-order',
+    'stylelint-prettier/recommended'
   ],
   rules: {
     'color-no-invalid-hex': true,

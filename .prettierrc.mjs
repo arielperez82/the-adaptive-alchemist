@@ -11,19 +11,7 @@ const config = {
         // Allow HTML comments in template sections
         htmlWhitespaceSensitivity: 'ignore',
         // Don't format comments aggressively
-        proseWrap: 'preserve',
-        importOrder: [
-          '<BUILTIN_MODULES>',
-          '<THIRD_PARTY_MODULES>',
-          '^@data/(.*)$',
-          '^@layouts/(.*)$',
-          '^@pages/(.*)$',
-          '^@components/(.*)$',
-          '^@scripts/(.*)$',
-          '^@styles/(.*)$',
-          '^@/(.*)$',
-          '^.[./].*'
-        ]
+        proseWrap: 'preserve'
       }
     },
     {
@@ -34,18 +22,12 @@ const config = {
         useTabs: false,
         semi: false,
         singleQuote: true,
-        trailingComma: 'all',
-        importOrder: []
+        trailingComma: 'all'
       }
     }
   ],
-  plugins: [
-    'prettier-plugin-astro',
-    '@ianvs/prettier-plugin-sort-imports',
-    'prettier-plugin-tailwindcss'
-  ],
-  astroAllowShorthand: false,
-  importOrder: []
+  plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
+  astroAllowShorthand: false
 }
 
 export default config

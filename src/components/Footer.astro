@@ -1,8 +1,9 @@
 ---
 import { Image } from 'astro:assets'
+
+import invertedLogo from '@/assets/the-adaptive-alchemist-logo-inverted-transparent.png'
+import logo from '@/assets/the-adaptive-alchemist-logo-transparent.png'
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
-import invertedLogo from '../assets/the-adaptive-alchemist-logo-inverted-transparent.png'
-import logo from '../assets/the-adaptive-alchemist-logo-transparent.png'
 
 const currentYear = new Date().getFullYear()
 
@@ -37,7 +38,6 @@ const socialLinks = [
 <footer
   class="theme-transition-all relative mt-20 overflow-hidden border-t border-zinc-100 dark:border-zinc-800"
 >
-  Enhanced decorative elements with animation -->
   <div class="pointer-events-none absolute inset-0 overflow-hidden">
     <div
       class="theme-transition-all animate-float-slow absolute -right-40 -top-40 h-80 w-80 rounded-full bg-zinc-100 opacity-50 blur-3xl dark:bg-zinc-800/30"
@@ -55,9 +55,7 @@ const socialLinks = [
 
   <div class="relative px-4 pb-12 pt-16 sm:px-6">
     <div class="mx-auto max-w-4xl">
-      Main footer content with improved grid layout -->
       <div class="grid grid-cols-1 gap-10 md:grid-cols-12">
-        Brand section - enhanced with better spacing -->
         <div class="col-span-1 md:col-span-3">
           <a href="/" class="group inline-block">
             <div class="flex items-center">
@@ -102,7 +100,6 @@ const socialLinks = [
             {SITE_DESCRIPTION}
           </p>
 
-          Enhanced social links with improved hover effects -->
           <div class="mt-6 flex items-center space-x-4">
             {
               socialLinks.map((social) => (
@@ -128,7 +125,6 @@ const socialLinks = [
           </div>
         </div>
 
-        Quick links with enhanced styling -->
         <div class="col-span-1 md:col-span-3">
           <h3
             class="theme-transition-color relative inline-block pb-2 text-sm font-semibold uppercase tracking-wider text-zinc-900 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-8 after:bg-zinc-300 after:content-[''] dark:text-zinc-100 dark:after:bg-zinc-700"
@@ -156,7 +152,6 @@ const socialLinks = [
         </div>
       </div>
 
-      Bottom section with enhanced styling -->
       <div
         class="theme-transition-all mt-12 border-t border-zinc-200 pt-8 dark:border-zinc-800"
       >
