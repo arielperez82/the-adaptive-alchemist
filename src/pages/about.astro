@@ -316,131 +316,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 </style>
 
 <script>
-  // Wait for the DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    const sliderTrack = document.querySelector('.slider-track') as HTMLElement
-
-    // Create seamless infinite scrolling effect
-    function setupInfiniteScroll() {
-      const cards = document.querySelectorAll('.skill-card')
-      if (!cards.length) return
-
-      // Clone the first set of cards and append to create seamless loop
-      const firstSetCount = cards.length / 3 // We have 3 sets in the markup
-
-      // Set proper animation based on screen size
-      function updateScrollAnimation() {
-        if (!sliderTrack) return
-        if (window.innerWidth >= 640) {
-          sliderTrack.style.animation = 'scroll 60s linear infinite'
-        } else {
-          sliderTrack.style.animation = 'scroll 40s linear infinite'
-        }
-      }
-
-      updateScrollAnimation()
-      window.addEventListener('resize', updateScrollAnimation)
-    }
-
-    setupInfiniteScroll()
-
-    // Pause animation on hover/touch
-    sliderTrack?.addEventListener('mouseenter', () => {
-      sliderTrack.style.animationPlayState = 'paused'
-    })
-
-    sliderTrack?.addEventListener('touchstart', () => {
-      sliderTrack.style.animationPlayState = 'paused'
-    })
-
-    sliderTrack?.addEventListener('mouseleave', () => {
-      sliderTrack.style.animationPlayState = 'running'
-    })
-
-    sliderTrack?.addEventListener('touchend', () => {
-      setTimeout(() => {
-        sliderTrack.style.animationPlayState = 'running'
-      }, 1000) // Delay resuming animation after touch
-    })
-
-    // Add hover effects to cards - only on non-touch devices
-    const isTouchDevice =
-      'ontouchstart' in window || navigator.maxTouchPoints > 0
-    const cards = document.querySelectorAll('.skill-card')
-
-    if (!isTouchDevice) {
-      cards.forEach((card) => {
-        const htmlCard = card as HTMLElement
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect()
-          const mouseEvent = e as MouseEvent
-          const x = mouseEvent.clientX - rect.left
-          const y = mouseEvent.clientY - rect.top
-
-          const centerX = rect.width / 2
-          const centerY = rect.height / 2
-
-          const angleX = (y - centerY) / 15
-          const angleY = (centerX - x) / 15
-
-          htmlCard.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale(1.08) translateZ(20px)`
-
-          // Dynamic shadow based on tilt
-          const shadowX = (x - centerX) / 25
-          const shadowY = (y - centerY) / 25
-          htmlCard.style.boxShadow = `
-            ${shadowX}px ${shadowY}px 20px rgb(0 0 0 / 10%),
-            0 10px 20px rgb(0 0 0 / 5%)
-          `
-        })
-
-        card.addEventListener('mouseleave', () => {
-          htmlCard.style.transform = ''
-          htmlCard.style.boxShadow = ''
-        })
-      })
-    } else {
-      // Simpler effects for touch devices
-      cards.forEach((card) => {
-        card.addEventListener('touchstart', () => {
-          card.classList.add('is-touched')
-        })
-
-        card.addEventListener('touchend', () => {
-          setTimeout(() => {
-            card.classList.remove('is-touched')
-          }, 300)
-        })
-      })
-    }
-
-    // Handle theme transition
-    document.addEventListener('themeChange', () => {
-      // Add special effects during theme transition
-      cards.forEach((card, index) => {
-        // Add staggered animation delay
-        setTimeout(() => {
-          card.classList.add('theme-changing')
-          setTimeout(() => {
-            card.classList.remove('theme-changing')
-          }, 600)
-        }, index * 50)
-      })
-    })
-  })
-</script>
-
-<script>
   // Handle SPA transitions for about page
   function setupSPATransitions() {
     // Handle all internal links for SPA transitions
     document.querySelectorAll('a[href^="/"]').forEach((link) => {
       const anchor = link as HTMLAnchorElement
       // Skip links that are anchor links, external links, or already processed
-      const href = anchor.getAttribute('href')
       if (
-        !href ||
-        href.includes('#') ||
+        anchor.getAttribute('href')?.includes('#') ||
         anchor.getAttribute('target') === '_blank' ||
         anchor.hasAttribute('data-spa-handled')
       ) {
