@@ -245,7 +245,6 @@ const currentPath = pathname.slice(1) // remove the first "/"
 
     // Add smooth animation to header on scroll
     const header = document.querySelector('header')
-    let lastScrollY = window.scrollY
 
     window.addEventListener('scroll', () => {
       if (!header) return
@@ -258,9 +257,6 @@ const currentPath = pathname.slice(1) // remove the first "/"
       } else {
         header.classList.remove('shadow-sm')
       }
-
-      // Update last scroll position
-      lastScrollY = currentScrollY
     })
   })
 </script>
