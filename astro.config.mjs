@@ -1,5 +1,5 @@
 import react from '@astrojs/react'
-import tailwind from '@astrojs/tailwind'
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from 'astro/config'
 
 // Determine site URL based on environment
@@ -11,5 +11,8 @@ const getSiteURL = () => {
 export default defineConfig({
   site: getSiteURL(),
   base: '/',
-  integrations: [tailwind(), react()]
+  integrations: [react()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 })

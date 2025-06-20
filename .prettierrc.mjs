@@ -27,7 +27,8 @@ const config = {
     }
   ],
   plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
-  astroAllowShorthand: false
+  astroAllowShorthand: false,
+  tailwindConfig: "./tailwind.config.mjs"
 }
 
 export default config

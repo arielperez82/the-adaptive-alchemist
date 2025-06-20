@@ -1,7 +1,8 @@
-/* Remove all the complex mobile menu styles and keep only what's necessary */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+
+@config "../../tailwind.config.mjs";
 
 @layer base {
   :root {
