@@ -65,7 +65,7 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
         }
 
         // Function to load content via fetch
-        async function loadContent(url) {
+        async function loadContent(url: string) {
           try {
             // Show transition overlay
             if (pageTransition) {
@@ -99,7 +99,7 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
             // Extract the title
             const newTitle = doc.querySelector('title')
             if (newTitle) {
-              document.title = newTitle.textContent
+              document.title = newTitle.textContent || ''
             }
 
             // Extract meta description
