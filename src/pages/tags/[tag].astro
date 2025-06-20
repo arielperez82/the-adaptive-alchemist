@@ -1,9 +1,8 @@
 ---
-import type { ImageMetadata } from 'astro'
-import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
 import FormattedDate from '@/components/FormattedDate.astro'
+import OptimizedImage from '@/components/OptimizedImage.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 // Add this near the top of the frontmatter section
@@ -36,8 +35,6 @@ export async function getStaticPaths() {
 const { tag } = Astro.params as { tag: string } // Explicitly type tag as string
 const { posts = [] } = Astro.props
 
-console.log(`Tag: ${tag}, Number of posts: ${posts.length}`)
-
 // Sort posts by date (only if posts array exists and has items)
 const sortedPosts =
   posts && posts.length > 0
@@ -46,46 +43,12 @@ const sortedPosts =
       )
     : []
 
-console.log(`Sorted posts length: ${sortedPosts.length}`)
-
-// Generate a consistent but random-looking hue for the tag
-const tagHue = Math.abs(
-  tag.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 360
-)
-
 // Generate related tags (tags that appear together with the current tag)
 const relatedTags = [
   ...new Set(
     sortedPosts.flatMap((post) => post.data.tags || []).filter((t) => t !== tag)
   )
 ].slice(0, 5)
-
-// Get all optimized images
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/*.{jpeg,jpg,png,gif}'
-)
-
-const resolveHeroImage = async (heroImage: string) => {
-  if (heroImage.startsWith('/assets/')) {
-    const imagePath = `/src${heroImage}`
-    const image = await images[imagePath]()
-    return image.default
-  }
-  return heroImage
-}
-
-// Pre-resolve all hero images
-const resolvedHeroImages = await Promise.all(
-  sortedPosts.map(async (post) => ({
-    ...post,
-    data: {
-      ...post.data,
-      heroImage: post.data.heroImage
-        ? await resolveHeroImage(post.data.heroImage)
-        : undefined
-    }
-  }))
-)
 ---
 
 <BaseLayout title={`Posts tagged with "${tag}"`}>
@@ -216,14 +179,14 @@ const resolvedHeroImages = await Promise.all(
 
       <div class="relative space-y-6 sm:space-y-8">
         {
-          resolvedHeroImages.map((post) => (
+          sortedPosts.map((post) => (
             <article class="hover-card group relative mx-auto flex max-w-2xl flex-col rounded-2xl border border-zinc-200 p-5 transition-all duration-300 hover:bg-zinc-50/80 hover:shadow-md dark:border-zinc-800 dark:hover:bg-zinc-900/50 sm:mx-0 sm:p-8">
               <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-zinc-50/0 to-zinc-100/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:from-zinc-900/0 dark:to-zinc-800/0" />
 
               <div class="flex flex-col gap-5 sm:flex-row sm:gap-6">
                 {post.data.heroImage && (
                   <div class="mx-auto h-40 w-full flex-shrink-0 overflow-hidden rounded-xl shadow-sm transition-all duration-300 group-hover:shadow-md sm:mx-0 sm:w-56">
-                    <Image
+                    <OptimizedImage
                       src={post.data.heroImage}
                       alt={post.data.title}
                       class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
