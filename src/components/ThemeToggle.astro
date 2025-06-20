@@ -5,7 +5,7 @@
 <button
   id="theme-toggle"
   data-theme-toggle
-  class="group relative touch-manipulation overflow-hidden rounded-full p-1.5 transition-all duration-300 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:hover:bg-zinc-800 dark:focus:ring-zinc-700 sm:p-2"
+  class="group relative touch-manipulation overflow-hidden rounded-full p-1.5 transition-all duration-300 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:hover:bg-zinc-800 dark:focus:ring-zinc-700 sm:p-2 cursor-pointer"
   aria-label="Toggle dark mode"
 >
   <div class="relative z-10 flex h-5 w-5 items-center justify-center">
@@ -107,21 +107,20 @@
           (e) => {
             e.preventDefault()
             e.stopPropagation()
-
             // Get click/touch position for radial animation
             let x, y
             if (
               e.type === 'touchend' &&
-              e.changedTouches &&
-              e.changedTouches[0]
+              (e as TouchEvent).changedTouches &&
+              (e as TouchEvent).changedTouches[0]
             ) {
               const rect = toggle.getBoundingClientRect()
-              x = e.changedTouches[0].clientX - rect.left
-              y = e.changedTouches[0].clientY - rect.top
+              x = (e as TouchEvent).changedTouches[0].clientX - rect.left
+              y = (e as TouchEvent).changedTouches[0].clientY - rect.top
             } else {
               const rect = toggle.getBoundingClientRect()
-              x = e.clientX - rect.left
-              y = e.clientY - rect.top
+              x = (e as MouseEvent).clientX - rect.left
+              y = (e as MouseEvent).clientY - rect.top
             }
 
             // Set the position variables for the radial gradient
@@ -129,7 +128,9 @@
             document.documentElement.style.setProperty('--y', `${y}px`)
 
             // Get the overlay element
-            const overlay = document.querySelector('.theme-switch-overlay')
+            const overlay = document.querySelector(
+              '.theme-switch-overlay'
+            ) as HTMLElement
 
             // Determine the new theme
             const isDark = document.documentElement.classList.contains('dark')
