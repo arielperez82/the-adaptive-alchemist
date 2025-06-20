@@ -21,6 +21,7 @@ const encodedUrl = encodeURIComponent(url)
       rel="noopener noreferrer"
       class="rounded-full p-2 text-zinc-500 transition-all duration-300 hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
       aria-label="Share on Twitter"
+      data-platform="twitter"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -44,6 +45,7 @@ const encodedUrl = encodeURIComponent(url)
       rel="noopener noreferrer"
       class="rounded-full p-2 text-zinc-500 transition-all duration-300 hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
       aria-label="Share on Facebook"
+      data-platform="facebook"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -67,6 +69,7 @@ const encodedUrl = encodeURIComponent(url)
       rel="noopener noreferrer"
       class="rounded-full p-2 text-zinc-500 transition-all duration-300 hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
       aria-label="Share on LinkedIn"
+      data-platform="linkedin"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -94,6 +97,7 @@ const encodedUrl = encodeURIComponent(url)
       class="relative rounded-full p-2 text-zinc-500 transition-all duration-300 hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
       aria-label="Copy link"
       title="Copy link to clipboard"
+      data-platform="copy"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -153,14 +157,19 @@ const encodedUrl = encodeURIComponent(url)
     })
   }
 
-  // Set up the copy link button when the DOM is loaded
-  document.addEventListener('DOMContentLoaded', setupCopyLinkButton)
+  // Function to handle share actions
+  function setupShareActions() {
+    // Get all share buttons (including copy button)
+    const shareButtons = document.querySelectorAll('[data-platform]')
 
-  // Also set up when the page content is updated via SPA navigation
-  document.addEventListener('astro:page-load', setupCopyLinkButton)
+    shareButtons.forEach((button) => {
+      const platform = button.getAttribute('data-platform') || 'unknown'
 
-  // For compatibility with the custom page transition system
-  document.addEventListener('page-transition-complete', setupCopyLinkButton)
+      button.addEventListener('click', () => {
+        trackShareAction(platform)
+      })
+    })
+  }
 
   // Handle SPA transitions for share links
   function setupSpaTransitions() {
@@ -175,22 +184,33 @@ const encodedUrl = encodeURIComponent(url)
     })
   }
 
-  // Initialize SPA transitions
-  document.addEventListener('DOMContentLoaded', setupSpaTransitions)
-  document.addEventListener('astro:page-load', setupSpaTransitions)
-  document.addEventListener('page-transition-complete', setupSpaTransitions)
-
   // Dispatch custom event when share action is completed
   function notifyShareComplete() {
     document.dispatchEvent(new CustomEvent('share-action-complete'))
   }
 
   // Add analytics tracking for share actions if needed
-  function trackShareAction(platform) {
+  function trackShareAction(platform: string) {
     // You can implement analytics tracking here
     console.log(`Shared on ${platform}`)
 
     // Notify other components that share action is complete
     notifyShareComplete()
   }
+
+  // Wrapper function to set up all share-related event listeners
+  function setupShareButtons() {
+    setupCopyLinkButton()
+    setupShareActions()
+    setupSpaTransitions()
+  }
+
+  // Set up the share buttons when the DOM is loaded
+  document.addEventListener('DOMContentLoaded', setupShareButtons)
+
+  // Also set up when the page content is updated via SPA navigation
+  document.addEventListener('astro:page-load', setupShareButtons)
+
+  // For compatibility with the custom page transition system
+  document.addEventListener('page-transition-complete', setupShareButtons)
 </script>
