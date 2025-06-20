@@ -118,7 +118,7 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count)
               Popular Topics
             </h2>
 
-            <div class="xxxs:grid-cols-1 xxs:grid-cols-1 xs:grid-cols-2 xxxs:gap-2 xxs:gap-2 xs:gap-2 grid w-full grid-cols-1 gap-1.5 sm:grid-cols-2 sm:gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-3">
+            <div class="xs:gap-2 grid w-full grid-cols-2 gap-1.5 sm:gap-3 md:gap-4 lg:gap-6">
               {sortedTags.map((tag) => (
                 <a
                   href={`/tags/${tag.name}`}
@@ -128,18 +128,16 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count)
                 >
                   <div class="theme-transition-bg absolute inset-0 bg-gradient-to-br from-zinc-50/90 to-zinc-100/90 opacity-100 transition-opacity group-hover:opacity-95 dark:from-zinc-800/90 dark:to-zinc-900/90" />
 
-                  <div class="xxxs:px-2 xxs:px-2 xs:px-2 xxxs:py-2 xxs:py-2 xs:py-2 xxs:gap-2 relative flex w-full items-center gap-1.5 px-1.5 py-1.5 sm:px-3 sm:py-3 md:px-4 md:py-4">
-                    <div class="xxxs:w-6 xxxs:h-6 xxs:w-6 xxs:h-6 xs:w-7 xs:h-7 group-hover:bg-accent/20 dark:group-hover:bg-accent/20 group-hover:text-accent-dark dark:group-hover:text-accent-light theme-transition-all flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-700 shadow-sm transition-all duration-300 dark:bg-zinc-800 dark:text-zinc-300 sm:h-8 sm:w-8 md:h-10 md:w-10">
-                      <span class="xxxs:text-xs xxs:text-xs xs:text-sm text-xs font-semibold sm:text-base md:text-lg">
-                        #
-                      </span>
+                  <div class="xs:px-2 xs:py-2 relative flex w-full items-center gap-1.5 px-1.5 py-1.5 sm:px-3 sm:py-3 md:px-4 md:py-4">
+                    <div class="xxs:h-6 xs:w-7 xs:h-7 group-hover:bg-accent/20 dark:group-hover:bg-accent/20 group-hover:text-accent-dark dark:group-hover:text-accent-light theme-transition-all flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-700 shadow-sm transition-all duration-300 dark:bg-zinc-800 dark:text-zinc-300 sm:h-8 sm:w-8 md:h-10 md:w-10">
+                      <span class="text-base font-semibold md:text-lg">#</span>
                     </div>
 
                     <div class="min-w-0 flex-1 overflow-hidden">
-                      <h3 class="xxxs:text-xs xxs:text-xs xs:text-xs theme-transition-color truncate hyphens-auto break-words text-[10px] font-bold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:text-sm md:text-base">
+                      <h3 class="theme-transition-color truncate hyphens-auto break-words text-base font-bold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300">
                         {tag.name}
                       </h3>
-                      <p class="xxxs:text-[9px] xxs:text-[9px] xs:text-[10px] theme-transition-color truncate text-[8px] text-zinc-500 dark:text-zinc-400 sm:text-xs md:text-xs">
+                      <p class="theme-transition-color truncate text-[8px] text-zinc-500 dark:text-zinc-400 md:text-sm">
                         {tag.count} article{tag.count !== 1 ? 's' : ''}
                       </p>
                     </div>
@@ -232,7 +230,6 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count)
 
         // Ensure text doesn't overflow on small screens
         const tagName = item.querySelector('h3')
-        const tagCount = item.querySelector('p')
 
         if (tagName && tagName.textContent) {
           tagName.title = tagName.textContent.trim()
@@ -339,8 +336,8 @@ const sortedTags = [...tagObjects].sort((a, b) => b.count - a.count)
         // Cancel active state if touch moves away
         item.addEventListener(
           'touchmove',
-          (e: TouchEvent) => {
-            const touch = e.touches[0]
+          (e) => {
+            const touch = (e as TouchEvent).touches[0]
             const rect = item.getBoundingClientRect()
 
             if (
