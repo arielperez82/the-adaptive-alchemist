@@ -1,18 +1,19 @@
 {
-  "name": "minimalist-astro-blog",
+  "name": "the-adaptive-alchemist",
   "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "pnpm check --watch && astro dev",
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro build",
     "postbuild": "pnpm run generate:llms-txt",
     "preview": "astro preview",
-    "astro": "astro",
     "check": "astro check",
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d dist",
+    "prepare": "husky",
+    "pre-commit": "lint-staged",
     "lint:md": "markdownlint .",
     "lint:md:fix": "markdownlint --fix .",
     "lint:format": "prettier --check .",
@@ -89,9 +90,10 @@
     "*.{js,jsx,ts,tsx,astro}": [
       "pnpm run lint:format:fix",
       "pnpm run lint:code:fix",
-      "pnpm run astro check"
+      "pnpm run check"
     ],
     "*.{css,astro}": [
+      "pnpm run lint:format:fix",
       "pnpm run lint:styles:fix"
     ]
   }
