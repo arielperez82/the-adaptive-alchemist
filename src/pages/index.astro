@@ -1,52 +1,26 @@
 ---
-import type { ImageMetadata } from 'astro'
-import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
 import FormattedDate from '@/components/FormattedDate.astro'
+import OptimizedImage from '@/components/OptimizedImage.astro'
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 
 // Get all blog posts
 const allPosts = await getCollection('blog')
 
-// Get the 3 most recent posts
+// Get the 5 most recent posts
 const recentPosts = allPosts
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 3)
+  .slice(0, 5)
 
 // Get all unique tags from posts
 const allTags = [
   ...new Set(allPosts.flatMap((post) => post.data.tags || []))
 ].slice(0, 5)
 
-// Get all optimized images
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/*.{jpeg,jpg,png,gif}'
-)
-
-const resolveHeroImage = async (heroImage: string) => {
-  if (heroImage.startsWith('/assets/')) {
-    const imagePath = `/src${heroImage}`
-    const image = await images[imagePath]()
-    return image.default
-  }
-  return heroImage
-}
-
-// Pre-resolve all hero images
-const resolvedHeroImages = await Promise.all(
-  recentPosts.map(async (post) => ({
-    ...post,
-    data: {
-      ...post.data,
-      heroImage: post.data.heroImage
-        ? await resolveHeroImage(post.data.heroImage)
-        : undefined
-    }
-  }))
-)
+const featuredPost = recentPosts.shift()
 ---
 
 <Layout title={SITE_TITLE}>
@@ -84,6 +58,90 @@ const resolvedHeroImages = await Promise.all(
       </div>
     </div>
   </section>
+
+  {
+    featuredPost && (
+      <section class="theme-transition-all border-t border-zinc-100 px-4 py-10 dark:border-zinc-800 sm:px-6 sm:py-12 md:py-16">
+        <div class="mx-auto max-w-6xl">
+          <div class="mx-auto max-w-3xl">
+            <div
+              class="mb-6 flex flex-col justify-between gap-4 sm:mb-8 sm:flex-row sm:items-center md:mb-12"
+            >
+              <h2
+                class="theme-transition-color text-center text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-left sm:text-2xl md:text-3xl"
+              >
+                Featured Post
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="mx-auto max-w-3xl">
+          <article class="group relative overflow-hidden rounded-none border-b border-zinc-200 pb-6 dark:border-zinc-800 sm:pb-8">
+            <div class="flex h-full flex-col gap-6 sm:gap-8 md:flex-row">
+              {featuredPost.data.heroImage && (
+                <div class="mx-auto h-60 w-full max-w-full overflow-hidden sm:h-80 sm:max-w-md md:mx-0 md:h-96 md:w-1/2">
+                  <OptimizedImage
+                    src={featuredPost.data.heroImage}
+                    alt={featuredPost.data.title}
+                    class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105"
+                    loading="eager"
+                  />
+                </div>
+              )}
+              <div class="flex flex-1 flex-col justify-center">
+                <div class="mb-3 flex items-center justify-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm md:justify-start">
+                  <span class="font-medium uppercase tracking-wider">
+                    Featured
+                  </span>
+                  <span class="h-px w-6 bg-zinc-300 dark:bg-zinc-700 sm:w-8" />
+                  {featuredPost.data.pubDate && (
+                    <time datetime={featuredPost.data.pubDate.toISOString()}>
+                      {featuredPost.data.pubDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </time>
+                  )}
+                </div>
+
+                <h2 class="mb-3 text-center text-2xl font-bold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-4 sm:text-3xl md:text-left">
+                  <a
+                    href={`/${featuredPost.slug}/`}
+                    class="before:absolute before:inset-0"
+                  >
+                    {featuredPost.data.title}
+                  </a>
+                </h2>
+
+                <p class="mb-4 line-clamp-3 text-center text-sm text-zinc-600 dark:text-zinc-400 sm:mb-6 sm:text-base md:text-left">
+                  {featuredPost.data.description}
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:justify-start">
+                  <div class="flex items-center text-xs text-zinc-500 dark:text-zinc-400 sm:text-sm">
+                    <span class="inline-flex items-center">
+                      {featuredPost.data.readingTime || '5 min read'}
+                    </span>
+                  </div>
+
+                  {featuredPost.data.tags && (
+                    <div class="flex flex-wrap justify-center gap-2 md:justify-start">
+                      {featuredPost.data.tags.slice(0, 2).map((tag) => (
+                        <span class="border border-zinc-200 px-2 py-1 text-xs uppercase tracking-wider text-zinc-600 dark:border-zinc-800 dark:text-zinc-400 sm:px-3">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    )
+  }
 
   <section
     class="theme-transition-all border-t border-zinc-100 px-4 py-10 dark:border-zinc-800 sm:px-6 sm:py-12 md:py-16"
@@ -127,22 +185,22 @@ const resolvedHeroImages = await Promise.all(
       </div>
 
       <div
-        class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:gap-12 lg:grid-cols-3"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 md:gap-12"
       >
         {
-          resolvedHeroImages.map((post, index) => (
+          recentPosts.map((post, index) => (
             <article class="hover-3d theme-transition-element group relative mx-auto flex w-full max-w-sm flex-col items-start sm:mx-0">
               <div class="theme-transition-bg absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl" />
 
               {post.data.heroImage && (
                 <div class="relative z-10 mb-4 aspect-video w-full overflow-hidden rounded-lg">
-                  <Image
+                  <OptimizedImage
                     src={post.data.heroImage}
                     alt={post.data.title}
                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading={index === 0 ? 'eager' : 'lazy'}
-                    width="400"
-                    height="225"
+                    width={400}
+                    height={225}
                   />
                 </div>
               )}
@@ -229,9 +287,34 @@ const resolvedHeroImages = await Promise.all(
     allTags.length > 0 && (
       <section class="theme-transition-all border-t border-zinc-100 px-4 py-10 dark:border-zinc-800 sm:px-6 sm:py-12 md:py-16">
         <div class="mx-auto max-w-3xl">
-          <h2 class="theme-transition-color mb-6 text-center text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:mb-8 sm:text-left sm:text-2xl md:text-3xl">
-            Explore Topics
-          </h2>
+          <div class="mb-6 flex flex-col justify-between gap-4 sm:mb-8 sm:flex-row sm:items-center md:mb-12">
+            <h2 class="theme-transition-color text-center text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-left sm:text-2xl md:text-3xl">
+              Explore Topics
+            </h2>
+            <a
+              href="/tags"
+              class="theme-transition-color group relative flex min-h-[44px] items-center justify-center self-center text-sm font-medium text-zinc-900 hover:text-zinc-700 dark:text-zinc-100 dark:hover:text-zinc-300 sm:self-auto"
+            >
+              <span class="flex items-center gap-1">
+                View all topics
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  />
+                </svg>
+              </span>
+              <span class="theme-transition-bg absolute -bottom-1 left-0 h-0.5 w-0 bg-zinc-800 transition-all duration-300 group-hover:w-full dark:bg-zinc-200"></span>
+            </a>
+          </div>
 
           <div class="mx-auto grid max-w-xs grid-cols-1 gap-3 sm:max-w-none sm:grid-cols-2 sm:gap-4 md:grid-cols-3">
             {allTags.map((tag) => {
@@ -257,29 +340,6 @@ const resolvedHeroImages = await Promise.all(
                 </a>
               )
             })}
-          </div>
-
-          <div class="mt-6 text-center sm:mt-8">
-            <a
-              href="/tags"
-              class="theme-transition-color inline-flex min-h-[44px] items-center text-sm font-medium text-zinc-900 hover:text-zinc-700 dark:text-zinc-100 dark:hover:text-zinc-300"
-            >
-              <span>View all topics</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </a>
           </div>
         </div>
       </section>
