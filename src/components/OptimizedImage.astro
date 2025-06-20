@@ -4,7 +4,7 @@ import type { HTMLAttributes } from 'astro/types'
 import { Image } from 'astro:assets'
 
 // Get all optimized images
-const images = import.meta.glob<{ default: ImageMetadata }>(
+const ALL_IMAGES = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/*.{jpeg,jpg,png,gif}'
 )
 
@@ -19,16 +19,28 @@ const { src, alt, width, height, ...rest } = Astro.props
 
 const resolveImage = async (
   imagePath: string
-): Promise<ImageMetadata | null> => {
-  if (imagePath.startsWith('/assets/')) {
-    const resolvedPath = `/src${imagePath}`
-    const image = await images[resolvedPath]()
-    return image.default
+): Promise<ImageMetadata | string> => {
+  try {
+    if (imagePath.startsWith('/assets/')) {
+      // Import the image directly for local assets
+      const resolvedImagePath = `/src${imagePath}`
+      if (!ALL_IMAGES[resolvedImagePath]) {
+        throw new Error(
+          `"${resolvedImagePath}" does not exist in glob: "src/assets/*.{jpeg,jpg,png,gif}"`
+        )
+      }
+      const image = await ALL_IMAGES[resolvedImagePath]()
+      return image.default
+    } else if (imagePath.startsWith('/') && Astro.site) {
+      return new URL(imagePath, Astro.site).toString()
+    }
+  } catch (error) {
+    console.error(`Error processing imagePath: ${imagePath}`, error)
   }
-  return null
+  return imagePath
 }
 
-const optimizedImage = typeof src === 'string' ? await resolveImage(src) : src
+const resolvedImage = typeof src === 'string' ? await resolveImage(src) : src
 
 const commonProps = {
   alt,
@@ -37,14 +49,14 @@ const commonProps = {
 ---
 
 {
-  optimizedImage ? (
-    <Image src={optimizedImage} {...commonProps} />
-  ) : (
+  typeof resolvedImage === 'string' ? (
     <Image
       src={src}
       width={width || 800}
       height={height || 600}
       {...commonProps}
     />
+  ) : (
+    <Image src={resolvedImage} {...commonProps} />
   )
 }
