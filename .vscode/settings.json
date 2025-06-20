@@ -16,5 +16,8 @@
     "source.fixAll.stylelint": true,
     "source.fixAll.markdownlint": true,
     "source.fixAll.prettier": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
   }
 }
