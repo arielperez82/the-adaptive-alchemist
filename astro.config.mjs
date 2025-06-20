@@ -10,7 +10,7 @@ const getSiteURL = () => {
 // https://astro.build/config
 export default defineConfig({
   site: getSiteURL(),
-  base: '/',
+  base: '/the-adaptive-alchemist/',
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],
