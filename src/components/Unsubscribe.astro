@@ -1,0 +1,178 @@
+---
+// UnsubscribeComponent.astro - Handles newsletter unsubscription with emailId
+---
+
+<div
+  class="theme-transition-all mx-auto max-w-2xl rounded-xl border border-zinc-200 bg-zinc-50 p-8 dark:border-zinc-800 dark:bg-zinc-800/50"
+  id="unsubscribe-component"
+>
+  <div class="text-center">
+    <div class="theme-transition-all mb-6 flex justify-center">
+      <div
+        class="theme-transition-all flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-zinc-100 shadow-lg dark:border-zinc-900 dark:bg-zinc-800 sm:h-20 sm:w-20 sm:border-4"
+      >
+        <span class="text-2xl sm:text-3xl">📧</span>
+      </div>
+    </div>
+
+    <h2
+      class="theme-transition-color mb-4 text-2xl font-bold text-zinc-900 dark:text-zinc-100 sm:text-3xl"
+    >
+      Unsubscribing You
+    </h2>
+
+    <p
+      class="theme-transition-color mb-6 text-base text-zinc-600 dark:text-zinc-400 sm:text-lg"
+    >
+      Please wait while we unsubscribe you from our newsletter...
+    </p>
+
+    <div id="loading-spinner" class="theme-transition-all mb-6">
+      <div
+        class="theme-transition-all mx-auto h-8 w-8 animate-spin rounded-full border-4 border-zinc-300 border-t-zinc-800 dark:border-zinc-600 dark:border-t-zinc-200"
+      >
+      </div>
+    </div>
+
+    <div id="message" class="mt-6 hidden rounded-lg p-4 text-sm"></div>
+
+    <div id="success-content" class="mt-6 hidden">
+      <div class="theme-transition-all mb-6 flex justify-center">
+        <div
+          class="theme-transition-all flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-green-100 shadow-lg dark:border-zinc-900 dark:bg-green-800/20 sm:h-20 sm:w-20 sm:border-4"
+        >
+          <span class="text-2xl sm:text-3xl">✅</span>
+        </div>
+      </div>
+
+      <h3
+        class="theme-transition-color mb-4 text-xl font-bold text-zinc-900 dark:text-zinc-100"
+      >
+        Successfully Unsubscribed
+      </h3>
+
+      <p
+        class="theme-transition-color mb-6 text-base text-zinc-600 dark:text-zinc-400"
+      >
+        You have been successfully unsubscribed from The Adaptive Alchemist
+        newsletter. You will no longer receive our emails.
+      </p>
+
+      <a
+        href="/"
+        class="theme-transition-all inline-flex items-center justify-center rounded-lg bg-zinc-900 px-6 py-3 text-base font-medium text-zinc-100 transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300 sm:px-8 sm:py-4 sm:text-lg"
+      >
+        Return Home
+      </a>
+    </div>
+
+    <div id="error-content" class="mt-6 hidden">
+      <div class="theme-transition-all mb-6 flex justify-center">
+        <div
+          class="theme-transition-all flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-red-100 shadow-lg dark:border-zinc-900 dark:bg-red-800/20 sm:h-20 sm:w-20 sm:border-4"
+        >
+          <span class="text-2xl sm:text-3xl">❌</span>
+        </div>
+      </div>
+
+      <h3
+        class="theme-transition-color mb-4 text-xl font-bold text-zinc-900 dark:text-zinc-100"
+      >
+        Unsubscribe Failed
+      </h3>
+
+      <p
+        class="theme-transition-color mb-6 text-base text-zinc-600 dark:text-zinc-400"
+      >
+        We couldn't unsubscribe you. The link may have expired or is invalid.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Unsubscribe component - handles newsletter unsubscription
+  document.addEventListener('DOMContentLoaded', async () => {
+    const loadingSpinner = document.getElementById(
+      'loading-spinner'
+    ) as HTMLDivElement
+    const messageDiv = document.getElementById('message') as HTMLDivElement
+    const successContent = document.getElementById(
+      'success-content'
+    ) as HTMLDivElement
+    const errorContent = document.getElementById(
+      'error-content'
+    ) as HTMLDivElement
+
+    if (!loadingSpinner || !messageDiv || !successContent || !errorContent) {
+      return
+    }
+
+    const showMessage = (message: string, type: 'success' | 'error') => {
+      messageDiv.textContent = message
+      messageDiv.className = `theme-transition-all mt-6 rounded-lg p-4 text-sm ${
+        type === 'success'
+          ? 'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200'
+          : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'
+      }`
+      messageDiv.classList.remove('hidden')
+    }
+
+    const hideMessage = () => {
+      messageDiv.classList.add('hidden')
+    }
+
+    const showSuccess = () => {
+      loadingSpinner.classList.add('hidden')
+      successContent.classList.remove('hidden')
+      errorContent.classList.add('hidden')
+    }
+
+    const showError = () => {
+      loadingSpinner.classList.add('hidden')
+      errorContent.classList.remove('hidden')
+      successContent.classList.add('hidden')
+    }
+
+    // Get emailId from URL parameters
+    const urlParams = new URLSearchParams(window.location.search)
+    const emailId = urlParams.get('emailId')
+
+    if (!emailId) {
+      showError()
+      showMessage('No email ID provided.', 'error')
+      return
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/unsubscribe`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY!}`
+          },
+          body: JSON.stringify({ emailId })
+        }
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        showSuccess()
+        showMessage(data.message, 'success')
+      } else {
+        showError()
+        showMessage(
+          data.error || 'Unsubscribe failed. Please try again.',
+          'error'
+        )
+      }
+    } catch (error) {
+      console.error('Unsubscribe error:', error)
+      showError()
+      showMessage('Network error. Please try again.', 'error')
+    }
+  })
+</script>
