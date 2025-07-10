@@ -1,5 +1,5 @@
 import react from '@astrojs/react'
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
 // Determine site URL based on environment
@@ -13,6 +13,6 @@ export default defineConfig({
   base: '/',
   integrations: [react()],
   vite: {
-    plugins: [tailwindcss()],
-  },
+    plugins: [tailwindcss()]
+  }
 })
