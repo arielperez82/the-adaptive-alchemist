@@ -1,0 +1,97 @@
+name: Send Newsletter
+
+on:
+  push:
+    paths:
+      - 'src/content/blog/**'
+    branches:
+      - main
+
+jobs:
+  send-newsletter:
+    runs-on: ubuntu-latest
+    # Only run if newsletter sending is enabled
+    if: ${{ vars.SEND_NEWSLETTER == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Need at least 2 commits to compare
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: '10.8.0'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Get latest article info
+        id: article
+        run: |
+          # Find the most recent blog post by pubDate in frontmatter
+          source scripts/extract-frontmatter.sh
+          LATEST_POST=""
+          LATEST_DATE=""
+
+          for post in src/content/blog/*.md; do
+              if [[ -f "$post" ]]; then
+                  PUB_DATE=$(extract_frontmatter "$post" "pubDate")
+                  DRAFT=$(extract_frontmatter "$post" "draft")
+                  if [[ -n "$PUB_DATE" && "$DRAFT" != "true" ]]; then
+                      if [[ "$PUB_DATE" > "$LATEST_DATE" ]]; then
+                          LATEST_DATE="$PUB_DATE"
+                          LATEST_POST="$post"
+                      fi
+                  fi
+              fi
+          done
+
+          if [[ -z "$LATEST_POST" ]]; then
+              echo "Error: No valid blog posts found"
+              exit 1
+          fi
+
+          # Check if this is a new file (not just modified)
+          POST_FILENAME=$(basename "$LATEST_POST")
+          if git diff --name-only HEAD~1 | grep -q "$POST_FILENAME"; then
+              # Check if the file was added in this commit
+              if git diff --name-status HEAD~1 | grep -q "^A.*$POST_FILENAME"; then
+                  echo "is_new_article=true" >> $GITHUB_OUTPUT
+              else
+                  # Check if this is a draft-to-published transition
+                  OLD_DRAFT=$(git show HEAD~1:"$LATEST_POST" | extract_frontmatter - "draft" 2>/dev/null || echo "false")
+                  NEW_DRAFT=$(extract_frontmatter "$LATEST_POST" "draft")
+                  
+                  if [[ "$OLD_DRAFT" == "true" && "$NEW_DRAFT" != "true" ]]; then
+                      echo "is_new_article=true" >> $GITHUB_OUTPUT
+                  else
+                      echo "is_new_article=false" >> $GITHUB_OUTPUT
+                  fi
+              fi
+          else
+              echo "is_new_article=false" >> $GITHUB_OUTPUT
+          fi
+
+          echo "article_path=$LATEST_POST" >> $GITHUB_OUTPUT
+
+      - name: Send newsletter
+        if: steps.article.outputs.is_new_article == 'true'
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: pnpm run send-newsletter ${{ steps.article.outputs.article_path }}
+
+      - name: Skip newsletter (article already published)
+        if: steps.article.outputs.is_new_article == 'false'
+        run: |
+          echo "Skipping newsletter send - article has already been published"
+          echo "Use 'pnpm run send-newsletter <article-path> --force' to manually resend"
