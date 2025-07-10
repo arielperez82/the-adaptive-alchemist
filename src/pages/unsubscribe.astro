@@ -1,0 +1,176 @@
+---
+import UnsubscribeComponent from '@/components/Unsubscribe.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Unsubscribe"
+  description="Unsubscribe from The Adaptive Alchemist newsletter"
+>
+  <div
+    class="theme-transition-all mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 md:py-16"
+  >
+    <div class="relative mb-12 sm:mb-16 md:mb-20">
+      <div
+        class="animate-blob theme-transition-bg absolute -left-10 -top-10 h-36 w-36 rounded-full bg-zinc-100 opacity-30 blur-3xl dark:bg-zinc-800/30 sm:-left-20 sm:-top-20 sm:h-48 sm:w-48 md:h-72 md:w-72"
+      >
+      </div>
+      <div
+        class="animate-blob animation-delay-2000 theme-transition-bg absolute -bottom-10 -right-10 h-36 w-36 rounded-full bg-zinc-200 opacity-30 blur-3xl dark:bg-zinc-800/30 sm:-bottom-20 sm:-right-20 sm:h-48 sm:w-48 md:h-72 md:w-72"
+      >
+      </div>
+
+      <div class="relative flex justify-center">
+        <div class="text-center">
+          <h1
+            class="theme-transition-color mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:mb-6 sm:text-4xl md:text-5xl"
+          >
+            <span
+              class="theme-transition-all bg-gradient-to-r from-zinc-500 to-zinc-900 bg-clip-text text-transparent dark:from-zinc-300 dark:to-zinc-100"
+            >
+              Newsletter Unsubscribe
+            </span>
+          </h1>
+
+          <p
+            class="theme-transition-color mb-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 sm:mb-8 sm:text-xl"
+          >
+            Unsubscribe from The Adaptive Alchemist newsletter
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="theme-transition-all mx-auto max-w-3xl">
+      <UnsubscribeComponent />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Blob animation */
+  .animate-blob {
+    animation: blob-bounce 8s infinite ease;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  /* Theme transition effect */
+  :global(.theme-switching) .theme-transition-element {
+    animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes blob-bounce {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+      transform: translate(5%, 5%) scale(1.05);
+    }
+
+    50% {
+      transform: translate(0, 10%) scale(1);
+    }
+
+    75% {
+      transform: translate(-5%, 5%) scale(0.95);
+    }
+  }
+
+  /* Improved touch targets for mobile */
+  @media (width <= 640px) {
+    a,
+    button {
+      align-items: center;
+      display: flex;
+      min-height: 44px;
+    }
+  }
+</style>
+
+<script>
+  // Handle SPA transitions for unsubscribe page
+  function setupSPATransitions() {
+    // Handle all internal links for SPA transitions
+    document.querySelectorAll('a[href^="/"]').forEach((link) => {
+      const anchor = link as HTMLAnchorElement
+      // Skip links that are anchor links, external links, or already processed
+      if (
+        anchor.getAttribute('href')?.includes('#') ||
+        anchor.getAttribute('target') === '_blank' ||
+        anchor.hasAttribute('data-spa-handled')
+      ) {
+        return
+      }
+
+      // Mark as handled to avoid duplicate listeners
+      anchor.setAttribute('data-spa-handled', 'true')
+
+      anchor.addEventListener('click', (e) => {
+        // Don't handle if modifier keys are pressed (for opening in new tab, etc.)
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+          return
+        }
+
+        e.preventDefault()
+        const targetHref = anchor.getAttribute('href')
+        if (!targetHref) return
+
+        // Trigger page transition animation
+        const pageTransition = document.getElementById('page-transition')
+        if (pageTransition) {
+          pageTransition.classList.remove('opacity-0')
+          pageTransition.classList.add('opacity-100')
+
+          // Navigate after transition effect
+          setTimeout(() => {
+            window.location.href = targetHref
+          }, 300)
+        } else {
+          // Fallback if transition element doesn't exist
+          window.location.href = targetHref
+        }
+      })
+    })
+
+    // Initialize animations for unsubscribe page
+    function animateUnsubscribeContent() {
+      // Animate hero section elements
+      const heroElements = document.querySelectorAll('h1, p')
+      heroElements.forEach((el, index) => {
+        setTimeout(
+          () => {
+            el.classList.add('animate-reveal')
+          },
+          100 + index * 150
+        )
+      })
+
+      // Animate unsubscribe component
+      const unsubscribeComponent = document.getElementById(
+        'unsubscribe-component'
+      )
+      if (unsubscribeComponent) {
+        setTimeout(() => {
+          unsubscribeComponent.classList.add('animate-reveal')
+        }, 300)
+      }
+    }
+
+    // Run animations
+    animateUnsubscribeContent()
+  }
+
+  // Initialize on first load
+  document.addEventListener('DOMContentLoaded', setupSPATransitions)
+
+  // Re-initialize when content changes via Astro's view transitions
+  document.addEventListener('astro:page-load', setupSPATransitions)
+
+  // For compatibility with custom transition system
+  document.addEventListener('page-transition-complete', setupSPATransitions)
+</script>
