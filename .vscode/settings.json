@@ -1,8 +1,31 @@
 {
-  "stylelint.validate": [
-    // other file extensions...
-    "astro"
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "css.validate": false,
+  "deno.enablePaths": ["supabase/functions"],
+  "deno.lint": true,
+  "deno.unstable": [
+    "bare-node-builtins",
+    "byonm",
+    "sloppy-imports",
+    "unsafe-proto",
+    "webgpu",
+    "broadcast-channel",
+    "worker-options",
+    "cron",
+    "kv",
+    "ffi",
+    "fs",
+    "http",
+    "net"
   ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.markdownlint": "explicit",
+    "source.fixAll.prettier": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -10,14 +33,21 @@
     "typescript",
     "typescriptreact"
   ],
-  "css.validate": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit",
-    "source.fixAll.markdownlint": "explicit",
-    "source.fixAll.prettier": "explicit"
-  },
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "stylelint.validate": ["astro"],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 54322,
+      "driver": "PostgreSQL",
+      "name": "Adaptive Alchemist (Local)",
+      "group": "Adaptive Alchemist",
+      "database": "postgres",
+      "username": "postgres",
+      "password": "postgres"
+    }
+  ]
 }

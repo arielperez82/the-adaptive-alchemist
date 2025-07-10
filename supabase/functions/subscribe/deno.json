@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "@onisaint/validate-email": "jsr:@onisaint/validate-email@^1.0.1",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.50.2",
+    "is-disposable-email": "https://esm.sh/is-disposable-email@0.0.1",
+    "resend": "https://esm.sh/resend@4.6.0",
+    "std/http/server": "https://deno.land/std@0.168.0/http/server.ts"
+  }
+}
