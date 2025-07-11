@@ -1,14 +1,14 @@
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
-import { process } from 'process'
+
 
 const getSiteURL = () => {
-  return process.env.SITE_URL ?? 'https://blog.adaptivealchemist.com'
+  return 'https://blog.adaptivealchemist.com'
 }
 
 const getBasePath = () => {
-  return process.env.BASE_PATH ?? '/'
+  return '/'
 }
 
 // https://astro.build/config
