@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content'
 
 import FormattedDate from '@/components/FormattedDate.astro'
+import NewsletterSignup from '@/components/NewsletterSignup.astro'
 import OptimizedImage from '@/components/OptimizedImage.astro'
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
@@ -55,6 +56,19 @@ const featuredPost = recentPosts.shift()
         >
           {SITE_DESCRIPTION}
         </p>
+
+        <div class="mt-8 flex justify-center sm:justify-start">
+          <a
+            href="#newsletter-signup"
+            class="theme-transition-color group relative flex min-h-[44px] items-center justify-center text-sm font-medium text-zinc-900 hover:text-zinc-700 dark:text-zinc-100 dark:hover:text-zinc-300"
+          >
+            <span class="flex items-center gap-1">Stay updated</span>
+            <span
+              class="theme-transition-bg absolute -bottom-1 left-0 h-0.5 w-0 bg-zinc-800 transition-all duration-300 group-hover:w-full dark:bg-zinc-200"
+            >
+            </span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -339,6 +353,8 @@ const featuredPost = recentPosts.shift()
       </section>
     )
   }
+
+  <NewsletterSignup />
 </Layout>
 
 <script>
@@ -603,6 +619,25 @@ const featuredPost = recentPosts.shift()
 
   // For compatibility with custom transition system
   document.addEventListener('page-transition-complete', setupSPATransitions)
+
+  // Smooth scroll to newsletter signup
+  document.addEventListener('DOMContentLoaded', () => {
+    const newsletterLink = document.querySelector(
+      'a[href="#newsletter-signup"]'
+    )
+    if (newsletterLink) {
+      newsletterLink.addEventListener('click', (e) => {
+        e.preventDefault()
+        const targetElement = document.getElementById('newsletter-signup')
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          })
+        }
+      })
+    }
+  })
 </script>
 
 <style>
