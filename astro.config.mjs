@@ -1,16 +1,20 @@
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
+import { process } from 'process'
 
-// Determine site URL based on environment
 const getSiteURL = () => {
-  return 'https://arielperez82.github.io'
+  return process.env.SITE_URL ?? 'https://blog.adaptivealchemist.com'
+}
+
+const getBasePath = () => {
+  return process.env.BASE_PATH ?? '/'
 }
 
 // https://astro.build/config
 export default defineConfig({
   site: getSiteURL(),
-  base: '/',
+  base: getBasePath(),
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()]
