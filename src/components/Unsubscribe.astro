@@ -141,6 +141,7 @@
     if (!emailId) {
       showError()
       showMessage('No email ID provided.', 'error')
+      setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
       return
     }
 
@@ -162,17 +163,20 @@
       if (response.ok) {
         showSuccess()
         showMessage(data.message, 'success')
+        setTimeout(hideMessage, 5000) // Hide success message after 5 seconds
       } else {
         showError()
         showMessage(
           data.error || 'Unsubscribe failed. Please try again.',
           'error'
         )
+        setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
       }
     } catch (error) {
       console.error('Unsubscribe error:', error)
       showError()
       showMessage('Network error. Please try again.', 'error')
+      setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
     }
   })
 </script>

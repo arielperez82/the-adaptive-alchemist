@@ -203,7 +203,7 @@ The future belongs to organizations that can provide both roots and wings. The p
 
 ### Practical implementation guides
 
-- [Building Shared Consciousness: Practical Mechanisms That Scale](/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/): Specific tools and practices for transparency in fluid organizations
-- [Leadership Without Control (Part 1\)](/leadership-without-control-part-1/): How to lead through context-setting in dual operating systems
+- [**Building Shared Consciousness: Practical Mechanisms That Scale**](/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/): Specific tools and practices for transparency in fluid organizations
+- [**Leadership Without Control (Part 1\)**](/leadership-without-control-part-1/): How to lead through context-setting in dual operating systems
 
 _Next in the series: **Leadership in Fluid Organizations: From Command to Context** \- How leadership roles evolve when teams form and dissolve around the work._

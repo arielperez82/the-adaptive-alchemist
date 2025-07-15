@@ -31,43 +31,42 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
     />
   </head>
   <body
-    class="flex min-h-screen flex-col bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"
+    class="flex min-h-screen flex-col bg-white text-zinc-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100"
   >
     <div
       id="page-transition"
       class="pointer-events-none fixed inset-0 z-40 flex items-center justify-center bg-white opacity-0 transition-opacity duration-300 dark:bg-zinc-900"
     >
-      <div class="transition-spinner"></div>
+      <div
+        class="h-8 w-8 animate-spin rounded-full border-4 border-zinc-300 border-t-blue-600 dark:border-zinc-600 dark:border-t-blue-400"
+      >
+      </div>
     </div>
 
     <Background />
 
     <div class="mx-auto w-full max-w-3xl flex-grow px-4 sm:px-6">
       <Navigation />
-      <main class="py-12">
+      <main class="py-12 transition-all duration-500">
         <slot />
       </main>
     </div>
     <Footer />
 
     <script>
-      // Enhanced SPA transition system with history API
+      // Enhanced SPA transition system
       document.addEventListener('DOMContentLoaded', () => {
         const pageTransition = document.getElementById('page-transition')
         const mainContent = document.querySelector('main')
 
         // Initialize content with entrance animation
         if (mainContent) {
-          mainContent.classList.add('content-entering')
-          setTimeout(() => {
-            mainContent.classList.remove('content-entering')
-          }, 800)
+          mainContent.classList.add('animate-fade-in')
         }
 
         // Function to load content via fetch
         async function loadContent(url: string) {
           try {
-            // Show transition overlay
             if (pageTransition) {
               pageTransition.classList.remove(
                 'opacity-0',
@@ -76,33 +75,25 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
               pageTransition.classList.add('opacity-100')
             }
 
-            // Fade out current content
             if (mainContent) {
-              mainContent.style.opacity = '0'
-              mainContent.style.transform = 'translateY(10px)'
+              mainContent.classList.add('opacity-0', 'translate-y-4')
             }
 
-            // Fetch the new page content
             const response = await fetch(url)
             if (!response.ok) throw new Error(`Failed to fetch ${url}`)
             const html = await response.text()
 
-            // Create a temporary element to parse the HTML
             const parser = new DOMParser()
             const doc = parser.parseFromString(html, 'text/html')
 
-            // Extract the main content
             const newContent = doc.querySelector('main')
-            if (!newContent)
-              throw new Error('Could not find main content in the fetched page')
+            if (!newContent) throw new Error('Could not find main content')
 
-            // Extract the title
             const newTitle = doc.querySelector('title')
             if (newTitle) {
               document.title = newTitle.textContent || ''
             }
 
-            // Extract meta description
             const newDescription = doc.querySelector('meta[name="description"]')
             if (newDescription) {
               const currentDescription = document.querySelector(
@@ -116,14 +107,12 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
               }
             }
 
-            // Wait a bit for transition effect
             await new Promise((resolve) => setTimeout(resolve, 300))
 
-            // Replace the content
             if (mainContent && newContent) {
               mainContent.innerHTML = newContent.innerHTML
 
-              // Run scripts in the new content
+              // Run scripts in new content
               Array.from(newContent.querySelectorAll('script')).forEach(
                 (oldScript) => {
                   const newScript = document.createElement('script')
@@ -131,33 +120,16 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
                     newScript.setAttribute(attr.name, attr.value)
                   })
                   newScript.textContent = oldScript.textContent
-                  if (oldScript.parentNode) {
-                    mainContent.appendChild(newScript)
-                  }
+                  mainContent.appendChild(newScript)
                 }
               )
             }
 
-            // Fade in new content with animation
             if (mainContent) {
-              mainContent.style.opacity = '0'
-              mainContent.style.transform = 'translateY(10px)'
-
-              setTimeout(() => {
-                mainContent.style.transition =
-                  'opacity 0.5s ease, transform 0.5s ease'
-                mainContent.style.opacity = '1'
-                mainContent.style.transform = 'translateY(0)'
-
-                // Add entrance animation class
-                mainContent.classList.add('content-entering')
-                setTimeout(() => {
-                  mainContent.classList.remove('content-entering')
-                }, 800)
-              }, 50)
+              mainContent.classList.remove('opacity-0', 'translate-y-4')
+              mainContent.classList.add('animate-fade-in')
             }
 
-            // Hide transition overlay
             if (pageTransition) {
               setTimeout(() => {
                 pageTransition.classList.add('opacity-0', 'pointer-events-none')
@@ -165,47 +137,34 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
               }, 200)
             }
 
-            // Dispatch custom event for content loaded
             document.dispatchEvent(
-              new CustomEvent('spa-content-loaded', {
-                detail: { url }
-              })
+              new CustomEvent('spa-content-loaded', { detail: { url } })
             )
-
-            // Scroll to top or to saved position
             window.scrollTo(0, 0)
-
-            // Re-attach event listeners to new content
             attachLinkListeners()
           } catch (error) {
             console.error('Error loading content:', error)
-
-            // Fallback to traditional navigation on error
             window.location.href = url
           }
         }
 
-        // Function to attach event listeners to all links
+        // Attach event listeners to links
         function attachLinkListeners() {
           document.querySelectorAll('a').forEach((link) => {
-            // Skip links that are already handled, anchor links, external links, or have special attributes
             if (
               link.hasAttribute('data-spa-handled') ||
               !link.href.startsWith(window.location.origin) ||
               link.href.includes('#') ||
               link.hasAttribute('target') ||
               link.hasAttribute('download') ||
-              link.getAttribute('rel') === 'external' ||
-              link.getAttribute('rel') === 'nofollow'
+              link.getAttribute('rel') === 'external'
             ) {
               return
             }
 
-            // Mark as handled to avoid duplicate listeners
             link.setAttribute('data-spa-handled', 'true')
 
             link.addEventListener('click', (e) => {
-              // Don't handle if modifier keys are pressed (for opening in new tab, etc.)
               if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
                 return
               }
@@ -213,24 +172,18 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
               e.preventDefault()
               const targetHref = link.href
 
-              // Don't transition if clicking the current page
               if (targetHref === window.location.href) {
                 return
               }
 
-              // Update browser history
               window.history.pushState({ path: targetHref }, '', targetHref)
-
-              // Load the new content
               loadContent(targetHref)
             })
           })
         }
 
-        // Initial attachment of link listeners
         attachLinkListeners()
 
-        // Handle browser back/forward navigation
         window.addEventListener('popstate', (e) => {
           if (e.state && e.state.path) {
             loadContent(e.state.path)
@@ -238,28 +191,10 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
             loadContent(window.location.href)
           }
         })
-
-        // Check RSS feed availability
-        const checkAndGenerateRSS = async () => {
-          try {
-            const response = await fetch('/rss.xml')
-            if (!response.ok) {
-              console.warn(
-                'RSS feed not found. Please generate it using an RSS plugin for Astro.'
-              )
-            }
-          } catch (error) {
-            console.warn('Could not check RSS feed status.')
-          }
-        }
-
-        // Check RSS feed availability
-        checkAndGenerateRSS()
       })
 
-      // Theme handling with transition effects
+      // Theme handling
       function setupThemeHandling() {
-        // Apply theme from localStorage or system preference
         const theme = localStorage.getItem('theme')
         if (
           theme === 'dark' ||
@@ -269,80 +204,9 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
         } else {
           document.documentElement.classList.remove('dark')
         }
-
-        // Listen for theme changes
-        document.addEventListener('themeChanged', () => {
-          // Add transition class to body
-          document.body.classList.add('theme-transitioning')
-
-          // Remove class after transition completes
-          setTimeout(() => {
-            document.body.classList.remove('theme-transitioning')
-          }, 500)
-        })
       }
 
-      // Initialize theme handling
       document.addEventListener('DOMContentLoaded', setupThemeHandling)
     </script>
   </body>
 </html>
-
-<style>
-  /* Enhanced page transition effects */
-  #page-transition {
-    backdrop-filter: blur(4px);
-    transition: opacity 0.3s ease;
-  }
-
-  /* Transition spinner animation */
-  .transition-spinner {
-    animation: spin 0.7s linear infinite;
-    border: 2px solid rgb(0 0 0 / 10%);
-    border-radius: 50%;
-    border-top-color: #3b82f6;
-    height: 30px;
-    width: 30px;
-  }
-
-  :global(.dark) .transition-spinner {
-    border-color: rgb(255 255 255 / 10%);
-    border-top-color: #60a5fa;
-  }
-
-  /* Content entrance animation */
-  main {
-    opacity: 1;
-    transform: translateY(0);
-    transition:
-      opacity 0.5s ease,
-      transform 0.5s ease;
-  }
-
-  main.content-entering {
-    animation: content-fade-in 0.6s ease forwards;
-  }
-
-  /* Theme transition effect */
-  body.theme-transitioning * {
-    transition-duration: 0.3s !important;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes content-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

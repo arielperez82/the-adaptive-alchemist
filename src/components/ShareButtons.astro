@@ -2,7 +2,7 @@
 export interface Props {
   title: string
   url: string
-  class?: string // Add optional class prop
+  class?: string
 }
 
 const { title, url, class: className = '' } = Astro.props
@@ -11,7 +11,9 @@ const encodedUrl = encodeURIComponent(url)
 ---
 
 <div class={`flex items-center gap-4 mt-8 ${className}`}>
-  <span class="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+  <span
+    class="text-sm font-medium text-zinc-500 transition-colors duration-300 dark:text-zinc-400"
+  >
     Share:
   </span>
   <div class="flex gap-2">
@@ -126,25 +128,21 @@ const encodedUrl = encodeURIComponent(url)
 </div>
 
 <script>
-  // Function to handle copy link button
+  // Handle copy link button functionality
   function setupCopyLinkButton() {
     const copyButtons = document.querySelectorAll('#copy-link-button')
 
     copyButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        // Get the current URL
         const url = window.location.href
 
-        // Copy to clipboard
         navigator.clipboard
           .writeText(url)
           .then(() => {
-            // Show tooltip
             const tooltip = button.querySelector('#copy-tooltip')
             if (tooltip) {
               tooltip.classList.add('opacity-100')
 
-              // Hide tooltip after 2 seconds
               setTimeout(() => {
                 tooltip.classList.remove('opacity-100')
               }, 2000)
@@ -157,60 +155,7 @@ const encodedUrl = encodeURIComponent(url)
     })
   }
 
-  // Function to handle share actions
-  function setupShareActions() {
-    // Get all share buttons (including copy button)
-    const shareButtons = document.querySelectorAll('[data-platform]')
-
-    shareButtons.forEach((button) => {
-      const platform = button.getAttribute('data-platform') || 'unknown'
-
-      button.addEventListener('click', () => {
-        trackShareAction(platform)
-      })
-    })
-  }
-
-  // Handle SPA transitions for share links
-  function setupSpaTransitions() {
-    // Get all share links (Twitter, Facebook, LinkedIn)
-    const shareLinks = document.querySelectorAll(
-      'a[target="_blank"][rel="noopener noreferrer"]'
-    )
-
-    // Make sure external share links don't trigger page transitions
-    shareLinks.forEach((link) => {
-      link.setAttribute('data-spa-external', 'true')
-    })
-  }
-
-  // Dispatch custom event when share action is completed
-  function notifyShareComplete() {
-    document.dispatchEvent(new CustomEvent('share-action-complete'))
-  }
-
-  // Add analytics tracking for share actions if needed
-  function trackShareAction(platform: string) {
-    // You can implement analytics tracking here
-    console.log(`Shared on ${platform}`)
-
-    // Notify other components that share action is complete
-    notifyShareComplete()
-  }
-
-  // Wrapper function to set up all share-related event listeners
-  function setupShareButtons() {
-    setupCopyLinkButton()
-    setupShareActions()
-    setupSpaTransitions()
-  }
-
-  // Set up the share buttons when the DOM is loaded
-  document.addEventListener('DOMContentLoaded', setupShareButtons)
-
-  // Also set up when the page content is updated via SPA navigation
-  document.addEventListener('astro:page-load', setupShareButtons)
-
-  // For compatibility with the custom page transition system
-  document.addEventListener('page-transition-complete', setupShareButtons)
+  // Set up share buttons when DOM is ready
+  document.addEventListener('DOMContentLoaded', setupCopyLinkButton)
+  document.addEventListener('astro:page-load', setupCopyLinkButton)
 </script>

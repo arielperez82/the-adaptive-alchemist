@@ -149,6 +149,7 @@
     if (!token) {
       showError()
       showMessage('No confirmation token provided.', 'error')
+      setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
       return
     }
 
@@ -170,17 +171,20 @@
       if (response.ok) {
         showSuccess()
         showMessage(data.message, 'success')
+        setTimeout(hideMessage, 5000) // Hide success message after 5 seconds
       } else {
         showError()
         showMessage(
           data.error || 'Confirmation failed. Please try again.',
           'error'
         )
+        setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
       }
     } catch (error) {
       console.error('Confirmation error:', error)
       showError()
       showMessage('Network error. Please try again.', 'error')
+      setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
     }
   })
 </script>

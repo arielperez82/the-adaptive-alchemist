@@ -5,13 +5,13 @@
 <button
   id="theme-toggle"
   data-theme-toggle
-  class="group relative cursor-pointer touch-manipulation overflow-hidden rounded-full p-1.5 transition-all duration-300 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:hover:bg-zinc-800 dark:focus:ring-zinc-700 sm:p-2"
+  class="group relative cursor-pointer overflow-hidden rounded-full p-1.5 transition-all duration-300 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-zinc-300 active:scale-95 dark:hover:bg-zinc-800 dark:focus:ring-zinc-700 sm:p-2"
   aria-label="Toggle dark mode"
 >
   <div class="relative z-10 flex h-5 w-5 items-center justify-center">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="icon-light absolute h-5 w-5 rotate-0 scale-100 text-zinc-800 transition-all duration-500 dark:-rotate-90 dark:scale-0 dark:text-zinc-200"
+      class="absolute h-5 w-5 rotate-0 scale-100 text-zinc-800 transition-all duration-500 dark:-rotate-90 dark:scale-0 dark:text-zinc-200"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -28,7 +28,7 @@
 
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="icon-dark absolute h-5 w-5 rotate-90 scale-0 text-zinc-800 transition-all duration-500 dark:rotate-0 dark:scale-100 dark:text-zinc-200"
+      class="absolute h-5 w-5 rotate-90 scale-0 text-zinc-800 transition-all duration-500 dark:rotate-0 dark:scale-100 dark:text-zinc-200"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -47,192 +47,74 @@
 </button>
 
 <script>
-  // Use a function to handle theme toggle to ensure it can be called from anywhere
+  // Theme toggle functionality
   function setupThemeToggle() {
     const themeToggles = document.querySelectorAll('[data-theme-toggle]')
-
-    // Check for dark mode preference at the system level
     const prefersDarkMode = window.matchMedia(
       '(prefers-color-scheme: dark)'
     ).matches
-
-    // Check for saved theme preference or use the system preference
     const currentTheme =
       localStorage.getItem('theme') || (prefersDarkMode ? 'dark' : 'light')
 
-    // Get all logo images
-    const logoImages = document.querySelectorAll(
-      'img[alt="The Adaptive Alchemist logo"]'
-    ) as NodeListOf<HTMLImageElement>
-
-    // Apply the theme on initial load
+    // Apply theme on load
     if (currentTheme === 'dark') {
       document.documentElement.classList.add('dark')
-      // Show dark theme logos, hide light theme logos
-      logoImages.forEach((img) => {
-        if (img.dataset.theme === 'dark') {
-          img.classList.remove('hidden')
-        } else {
-          img.classList.add('hidden')
-        }
-      })
     } else {
       document.documentElement.classList.remove('dark')
-      // Show light theme logos, hide dark theme logos
+    }
+
+    // Update logo visibility based on theme
+    const updateLogos = (isDark: boolean) => {
+      const logoImages = document.querySelectorAll(
+        'img[alt="The Adaptive Alchemist logo"]'
+      ) as NodeListOf<HTMLImageElement>
       logoImages.forEach((img) => {
-        if (img.dataset.theme === 'light') {
-          img.classList.remove('hidden')
+        if (img.dataset.theme === 'dark') {
+          img.classList.toggle('hidden', !isDark)
         } else {
-          img.classList.add('hidden')
+          img.classList.toggle('hidden', isDark)
         }
       })
     }
 
-    // Create theme switch overlay element if it doesn't exist
-    if (!document.querySelector('.theme-switch-overlay')) {
-      const overlay = document.createElement('div')
-      overlay.className =
-        'theme-switch-overlay fixed inset-0 pointer-events-none z-50'
-      overlay.style.opacity = '0'
-      overlay.style.transition = 'opacity 0.3s ease-out'
-      document.body.appendChild(overlay)
-    }
+    updateLogos(currentTheme === 'dark')
 
-    // Toggle theme when any theme toggle button is clicked
+    // Toggle theme on click
     themeToggles.forEach((toggle) => {
-      // Add event listeners for both click and touch events
-      ;['click', 'touchend'].forEach((eventType) => {
-        toggle.addEventListener(
-          eventType,
-          (e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            // Get click/touch position for radial animation
-            let x, y
-            if (
-              e.type === 'touchend' &&
-              (e as TouchEvent).changedTouches &&
-              (e as TouchEvent).changedTouches[0]
-            ) {
-              const rect = toggle.getBoundingClientRect()
-              x = (e as TouchEvent).changedTouches[0].clientX - rect.left
-              y = (e as TouchEvent).changedTouches[0].clientY - rect.top
-            } else {
-              const rect = toggle.getBoundingClientRect()
-              x = (e as MouseEvent).clientX - rect.left
-              y = (e as MouseEvent).clientY - rect.top
-            }
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault()
 
-            // Set the position variables for the radial gradient
-            document.documentElement.style.setProperty('--x', `${x}px`)
-            document.documentElement.style.setProperty('--y', `${y}px`)
+        const isDark = document.documentElement.classList.contains('dark')
+        const newTheme = isDark ? 'light' : 'dark'
 
-            // Get the overlay element
-            const overlay = document.querySelector(
-              '.theme-switch-overlay'
-            ) as HTMLElement
+        // Toggle theme
+        document.documentElement.classList.toggle('dark')
+        localStorage.setItem('theme', newTheme)
+        updateLogos(newTheme === 'dark')
 
-            // Determine the new theme
-            const isDark = document.documentElement.classList.contains('dark')
-            const newTheme = isDark ? 'light' : 'dark'
-
-            // Show overlay during transition
-            if (overlay) {
-              overlay.style.backgroundColor =
-                newTheme === 'dark'
-                  ? 'rgba(24, 24, 27, 0.3)'
-                  : 'rgba(255, 255, 255, 0.3)'
-              overlay.style.opacity = '1'
-            }
-
-            // Add transition class
-            document.documentElement.classList.add('theme-switching')
-
-            // Add ripple effect
-            const ripple = document.createElement('span')
-            ripple.className = 'theme-toggle-ripple'
-            toggle.appendChild(ripple)
-
-            // Force a reflow to ensure all elements update
-            document.body.offsetHeight
-
-            // Toggle dark mode with a slight delay to allow overlay to appear
-            setTimeout(() => {
-              if (isDark) {
-                document.documentElement.classList.remove('dark')
-              } else {
-                document.documentElement.classList.add('dark')
-              }
-
-              // Store the preference
-              localStorage.setItem('theme', newTheme)
-
-              // Update logos based on theme
-              logoImages.forEach((img) => {
-                if (img.dataset.theme === newTheme) {
-                  img.classList.remove('hidden')
-                } else {
-                  img.classList.add('hidden')
-                }
-              })
-
-              // Dispatch a custom event for other components to react to
-              document.dispatchEvent(
-                new CustomEvent('themeChanged', {
-                  detail: { isDark: newTheme === 'dark' }
-                })
-              )
-
-              // Force another reflow to ensure all elements update
-              document.body.offsetHeight
-
-              // Hide overlay after theme has changed
-              setTimeout(() => {
-                if (overlay) {
-                  overlay.style.opacity = '0'
-                }
-
-                // Remove transition class after animation completes
-                document.documentElement.classList.remove('theme-switching')
-                ripple.remove()
-              }, 300)
-            }, 50)
-          },
-          { passive: false }
+        // Dispatch custom event
+        document.dispatchEvent(
+          new CustomEvent('themeChanged', {
+            detail: { isDark: newTheme === 'dark' }
+          })
         )
       })
-
-      // Add touch feedback
-      toggle.addEventListener(
-        'touchstart',
-        () => {
-          toggle.classList.add('active-touch')
-        },
-        { passive: true }
-      )
-
-      toggle.addEventListener(
-        'touchend',
-        () => {
-          setTimeout(() => {
-            toggle.classList.remove('active-touch')
-          }, 150)
-        },
-        { passive: true }
-      )
     })
   }
 
-  // Run setup on load
+  // Initialize
   document.addEventListener('DOMContentLoaded', setupThemeToggle)
 
-  // Also run on page visibility change to ensure theme is consistent
+  // Check theme on visibility change
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      const currentTheme = localStorage.getItem('theme')
-      if (currentTheme === 'dark') {
+      const storedTheme = localStorage.getItem('theme')
+      const currentThemeIsDark =
+        document.documentElement.classList.contains('dark')
+
+      if (storedTheme === 'dark' && !currentThemeIsDark) {
         document.documentElement.classList.add('dark')
-      } else if (currentTheme === 'light') {
+      } else if (storedTheme === 'light' && currentThemeIsDark) {
         document.documentElement.classList.remove('dark')
       }
     }
@@ -251,111 +133,3 @@
       }
     })
 </script>
-
-<style>
-  /* Smooth transition for the entire page when theme changes */
-  :global(body) {
-    transition:
-      background-color 0.5s ease,
-      color 0.5s ease;
-  }
-
-  /* Theme transition overlay */
-  :global(.theme-switch-overlay) {
-    inset: 0;
-    pointer-events: none;
-    position: fixed;
-    transition: opacity 0.3s ease-out;
-    z-index: 9999;
-  }
-
-  /* Ensure theme transitions apply to all elements */
-  :global(.theme-switching *) {
-    transition-duration: 0.5s !important;
-    transition-property:
-      background-color, border-color, color, fill, stroke !important;
-  }
-
-  /* Ripple animation */
-  .theme-toggle-ripple {
-    animation: ripple 0.8s ease-out;
-    background-color: rgb(161 161 170 / 30%);
-    border-radius: 50%;
-    height: 100%;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 100%;
-  }
-
-  /* Subtle hover animation */
-  #theme-toggle {
-    box-shadow: 0 0 0 rgb(0 0 0 / 0%);
-    min-height: 32px; /* Ensure minimum touch target size */
-    min-width: 32px; /* Ensure minimum touch target size */
-    -webkit-tap-highlight-color: transparent; /* Remove default mobile tap highlight */
-    transform: translateY(0);
-  }
-
-  /* Touch feedback */
-  #theme-toggle.active-touch {
-    transform: scale(0.95);
-    transition: transform 0.15s ease-in-out;
-  }
-
-  @keyframes ripple {
-    0% {
-      opacity: 0.5;
-      transform: translate(-50%, -50%) scale(0);
-    }
-
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(2.5);
-    }
-  }
-
-  /* Only apply hover effects on non-touch devices */
-  @media (hover: hover) {
-    #theme-toggle:hover {
-      box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
-      transform: translateY(-2px);
-    }
-
-    #theme-toggle:hover .icon-light:not(.dark .icon-light) {
-      filter: drop-shadow(0 0 2px rgb(251 191 36 / 60%));
-      transform: scale(1.1) rotate(15deg);
-    }
-
-    #theme-toggle:hover .icon-dark:not(:not(.dark) .icon-dark) {
-      filter: drop-shadow(0 0 2px rgb(129 140 248 / 60%));
-      transform: scale(1.1) rotate(-15deg);
-    }
-  }
-
-  /* Optimize animations for mobile */
-  @media (prefers-reduced-motion: reduce) {
-    .icon-light,
-    .icon-dark {
-      transition: all 0.2s ease-out !important;
-    }
-
-    #theme-toggle,
-    #theme-toggle:hover {
-      transform: none;
-      transition: none;
-    }
-
-    .theme-toggle-ripple {
-      animation-duration: 0.4s;
-    }
-  }
-
-  /* Adjust size for very small screens */
-  @media (width <= 320px) {
-    #theme-toggle {
-      padding: 0.25rem !important;
-    }
-  }
-</style>

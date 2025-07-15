@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "pnpm check --watch & pnpm dev",
-    "dev": "astro dev --mode local",
+    "dev": "astro dev",
     "build": "astro build",
     "postbuild": "pnpm run generate:llms-txt",
     "preview": "astro preview",
