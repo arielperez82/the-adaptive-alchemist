@@ -1,5 +1,14 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://your-domain.com/sitemap-index.xml
+# Disallow specific pages that shouldn't be crawled
+Disallow: /confirm
+Disallow: /unsubscribe
+Disallow: /404
+
+# Allow all other pages
+Allow: /
+
+# Sitemap location
+Sitemap: https://blog.adaptivealchemist.com/sitemap-index.xml
 

@@ -4,27 +4,59 @@ import '@/styles/global.css'
 import Background from '@/components/Background.astro'
 import Footer from '@/components/Footer.astro'
 import Navigation from '@/components/Navigation.astro'
+import SEO from '@/components/SEO.astro'
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 
 export interface Props {
   title: string
   description?: string
+  canonicalURL?: string | URL
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: string
+    imageAlt?: string
+    type?: 'website' | 'article'
+    publishedTime?: string
+    modifiedTime?: string
+    author?: string
+    tags?: string[]
+  }
+  twitter?: {
+    card?: 'summary' | 'summary_large_image'
+    site?: string
+    creator?: string
+  }
+  noindex?: boolean
+  nofollow?: boolean
+  structuredData?: object
 }
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  canonicalURL,
+  openGraph,
+  twitter,
+  noindex = false,
+  nofollow = false,
+  structuredData
+} = Astro.props
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <SEO
+      title={title}
+      description={description}
+      canonicalURL={canonicalURL}
+      openGraph={openGraph}
+      twitter={twitter}
+      noindex={noindex}
+      nofollow={nofollow}
+      structuredData={structuredData}
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"

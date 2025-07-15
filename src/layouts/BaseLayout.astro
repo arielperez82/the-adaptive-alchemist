@@ -4,15 +4,50 @@ import Layout from './Layout.astro'
 export interface Props {
   title: string
   description?: string
+  canonicalURL?: string | URL
+  openGraph?: {
+    title?: string
+    description?: string
+    image?: string
+    imageAlt?: string
+    type?: 'website' | 'article'
+    publishedTime?: string
+    modifiedTime?: string
+    author?: string
+    tags?: string[]
+  }
+  twitter?: {
+    card?: 'summary' | 'summary_large_image'
+    site?: string
+    creator?: string
+  }
+  noindex?: boolean
+  nofollow?: boolean
+  structuredData?: object
 }
 
 const {
   title,
-  description = "Real-world insights on adaptive leadership, fluid organizations, and technological enablement from someone who's built, scaled, and fixed things in the trenches."
+  description = "Real-world insights on adaptive leadership, fluid organizations, and technological enablement from someone who's built, scaled, and fixed things in the trenches.",
+  canonicalURL,
+  openGraph,
+  twitter,
+  noindex = false,
+  nofollow = false,
+  structuredData
 } = Astro.props
 ---
 
-<Layout title={title} description={description}>
+<Layout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  openGraph={openGraph}
+  twitter={twitter}
+  noindex={noindex}
+  nofollow={nofollow}
+  structuredData={structuredData}
+>
   <slot />
 </Layout>
 

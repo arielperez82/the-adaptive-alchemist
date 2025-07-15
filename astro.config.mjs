@@ -1,10 +1,10 @@
 import react from '@astrojs/react'
+import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 
-const getSiteURL = () => {
-  return 'https://blog.adaptivealchemist.com'
-}
+import { isExcludedFromSitemap, siteConfig } from './src/config/site'
+import { createSEOPlugin } from './src/plugins/seo-plugin'
 
 const getBasePath = () => {
   return '/'
@@ -12,9 +12,18 @@ const getBasePath = () => {
 
 // https://astro.build/config
 export default defineConfig({
-  site: getSiteURL(),
+  site: siteConfig.url,
   base: getBasePath(),
-  integrations: [react()],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => {
+        // Exclude pages that shouldn't be in sitemap
+        return !isExcludedFromSitemap(page)
+      }
+    }),
+    createSEOPlugin()
+  ],
   vite: {
     plugins: [tailwindcss()]
   }
