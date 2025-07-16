@@ -152,12 +152,13 @@ const years = Object.keys(postsByYearAndMonth).sort(
                 <div class="flex flex-col md:w-full">
                   <a
                     href={`#year-${year}`}
+                    data-spa-internal="true"
                     class={`mr-3 flex items-center whitespace-nowrap rounded-full border-b border-zinc-100 px-4 py-2 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900 md:mr-0 md:w-full md:whitespace-normal md:rounded-none md:px-0 md:py-3 ${yearIndex === 0 ? 'bg-zinc-50 dark:bg-zinc-800/50' : ''}`}
                   >
-                    <span class="text-base font-medium text-zinc-900 dark:text-zinc-100 md:text-lg">
+                    <span class="ml-2 text-base font-medium text-zinc-900 dark:text-zinc-100 md:text-lg">
                       {year}
                     </span>
-                    <span class="ml-2 text-xs text-zinc-500 dark:text-zinc-400 md:ml-auto md:text-sm">
+                    <span class="ml-4 text-xs text-zinc-500 dark:text-zinc-400 md:text-sm">
                       {Object.values(postsByYearAndMonth[year]).flat().length}{' '}
                       post
                       {Object.values(postsByYearAndMonth[year]).flat()
@@ -188,6 +189,7 @@ const years = Object.keys(postsByYearAndMonth).sort(
                       .map((month) => (
                         <a
                           href={`#year-${year}-month-${month}`}
+                          data-spa-internal="true"
                           class="block py-1 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                         >
                           {month} ({postsByYearAndMonth[year][month].length})
@@ -480,7 +482,8 @@ const years = Object.keys(postsByYearAndMonth).sort(
       if (
         !href ||
         link.hasAttribute('data-spa-handled') ||
-        href.includes('#') ||
+        link.hasAttribute('data-spa-internal') ||
+        href.startsWith('#') ||
         href.startsWith('/tags/') ||
         href.startsWith('/about/') ||
         href.startsWith('/rss.xml') ||
@@ -520,11 +523,6 @@ const years = Object.keys(postsByYearAndMonth).sort(
           window.location.href = targetHref
         }
       })
-    })
-
-    // Handle year anchor links specially
-    document.querySelectorAll('a[href^="#year-"]').forEach((anchor) => {
-      anchor.setAttribute('data-spa-internal', 'true')
     })
   }
 
