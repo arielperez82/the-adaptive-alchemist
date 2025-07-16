@@ -2,7 +2,7 @@ import rss from '@astrojs/rss'
 import type { APIContext } from 'astro'
 import { getCollection } from 'astro:content'
 
-import { siteConfig } from '@/config/site'
+import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 
 // Change back to uppercase GET to match what Astro is expecting in newer versions
 export async function GET(context: APIContext) {
@@ -15,9 +15,9 @@ export async function GET(context: APIContext) {
   )
 
   return rss({
-    title: siteConfig.title,
-    description: siteConfig.description,
-    site: context.site?.toString() || siteConfig.url,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    site: context.site?.toString() || import.meta.env.SITE,
     items: sortedPosts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.pubDate,

@@ -26,50 +26,16 @@ const {
   tags = []
 } = Astro.props
 
-import { siteConfig } from '@/config/site'
-import { generateBlogPostStructuredData } from '@/utils/seo'
-
 let canonicalURL
 try {
-  canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url)
+  canonicalURL = new URL(Astro.url.pathname, Astro.site)
 } catch (error) {
   console.error('Error creating canonical URL:', error)
-  canonicalURL = new URL(siteConfig.url)
-}
-
-// Generate structured data for blog post
-const structuredData = generateBlogPostStructuredData({
-  title,
-  description,
-  pubDate,
-  updatedDate,
-  heroImage,
-  readingTime,
-  tags,
-  canonicalURL: canonicalURL.href
-})
-
-// Open Graph data for social sharing
-const openGraph = {
-  type: 'article' as const,
-  title: title,
-  description: description,
-  image: heroImage,
-  imageAlt: title,
-  publishedTime: pubDate.toISOString(),
-  modifiedTime: updatedDate ? updatedDate.toISOString() : pubDate.toISOString(),
-  author: siteConfig.author,
-  tags: tags
+  canonicalURL = new URL(import.meta.env.SITE)
 }
 ---
 
-<Layout
-  title={title}
-  description={description}
-  canonicalURL={canonicalURL}
-  openGraph={openGraph}
-  structuredData={structuredData}
->
+<Layout title={title} description={description}>
   <article class="mx-auto max-w-4xl animate-fade-in">
     <div class="mb-12">
       <h1

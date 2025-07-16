@@ -1,5 +1,5 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  "extends": ["astro/tsconfigs/strict", "astro/tsconfigs/base"],
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,6 +19,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "scripts/**/*"],
-  "exclude": ["node_modules", "supabase/functions"]
+  "include": [".astro/types.d.ts","src/**/*", "scripts/**/*"],
+  "exclude": ["node_modules", "dist", "supabase/functions"]
 }
