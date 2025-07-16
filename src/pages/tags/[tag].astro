@@ -51,7 +51,10 @@ const relatedTags = [
 ].slice(0, 5)
 ---
 
-<BaseLayout title={`Posts tagged with "${tag}"`}>
+<BaseLayout
+  title={`Posts tagged with "${tag}"`}
+  description={`Explore ${sortedPosts.length} articles tagged with "${tag}". Discover insights on adaptive leadership, fluid organizations, and technological enablement.`}
+>
   <div class="mx-auto max-w-5xl px-4 py-10 sm:py-16">
     <!-- Header section với màu zinc thay vì gray -->
     <div class="relative mb-10 sm:mb-16">

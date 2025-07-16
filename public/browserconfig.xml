@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="/the-adaptive-alchemist-logo-transparent.png"/>
+            <TileColor>#18181b</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig> 

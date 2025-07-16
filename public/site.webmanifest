@@ -1,0 +1,21 @@
+{
+  "name": "The Adaptive Alchemist",
+  "short_name": "Adaptive Alchemist",
+  "description": "Real-world insights on adaptive leadership, fluid organizations, and technological enablement",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#18181b",
+  "icons": [
+    {
+      "src": "/the-adaptive-alchemist-logo-transparent.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+} 

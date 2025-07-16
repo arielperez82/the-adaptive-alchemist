@@ -1,6 +1,8 @@
 ---
 import '@/styles/global.css'
 
+import { SEO } from 'astro-seo'
+
 import Background from '@/components/Background.astro'
 import Footer from '@/components/Footer.astro'
 import Navigation from '@/components/Navigation.astro'
@@ -9,9 +11,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 export interface Props {
   title: string
   description?: string
+  image?: string
+  article?: boolean
 }
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image,
+  article = false
+} = Astro.props
 ---
 
 <!doctype html>
@@ -19,15 +28,93 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
+      rel="icon"
+      type="image/svg+xml"
+      href="/the-adaptive-alchemist-logo-transparent.svg"
+    />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title,
+          type: article ? 'article' : 'website',
+          image: image || '/the-adaptive-alchemist-logo-transparent.png'
+        },
+        optional: {
+          description,
+          siteName: SITE_TITLE
+        }
+      }}
+      twitter={{
+        creator: '@adaptivealchemist',
+        card: 'summary_large_image'
+      }}
+      extend={{
+        link: [
+          { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+          {
+            rel: 'preconnect',
+            href: 'https://fonts.gstatic.com',
+            crossorigin: ''
+          },
+          {
+            rel: 'stylesheet',
+            href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
+          },
+          // Apple Touch Icon
+          { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+          // Standard favicons
+          {
+            rel: 'icon',
+            type: 'image/png',
+            sizes: '16x16',
+            href: '/favicon-16x16.png'
+          },
+          {
+            rel: 'icon',
+            type: 'image/png',
+            sizes: '32x32',
+            href: '/favicon-32x32.png'
+          },
+          {
+            rel: 'icon',
+            type: 'image/svg+xml',
+            href: '/the-adaptive-alchemist-logo-transparent.svg'
+          },
+          // Microsoft Tile
+          {
+            rel: 'msapplication-TileImage',
+            href: '/the-adaptive-alchemist-logo-transparent.png'
+          },
+          // Web App Manifest
+          { rel: 'manifest', href: '/site.webmanifest' }
+        ],
+        meta: [
+          // Apple specific
+          { name: 'apple-mobile-web-app-capable', content: 'yes' },
+          { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+          { name: 'apple-mobile-web-app-title', content: SITE_TITLE },
+          // Microsoft specific
+          { name: 'msapplication-TileColor', content: '#18181b' },
+          { name: 'msapplication-config', content: '/browserconfig.xml' },
+          // Theme color for mobile browsers
+          { name: 'theme-color', content: '#18181b' },
+          {
+            name: 'theme-color',
+            content: '#ffffff',
+            media: '(prefers-color-scheme: light)'
+          },
+          {
+            name: 'theme-color',
+            content: '#18181b',
+            media: '(prefers-color-scheme: dark)'
+          }
+        ]
+      }}
     />
   </head>
   <body
