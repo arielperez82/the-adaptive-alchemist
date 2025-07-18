@@ -20,11 +20,7 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         // Exclude 404, unsubscribe, and confirm pages from sitemap
-        return (
-          !page.includes('/404') &&
-          !page.includes('/unsubscribe') &&
-          !page.includes('/confirm')
-        )
+        return !page.includes('/404') && !page.includes('/confirm')
       }
     })
   ],

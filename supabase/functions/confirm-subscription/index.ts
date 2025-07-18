@@ -258,26 +258,6 @@ serve(async (req) => {
           background: #7c3aed;
         }
         
-        .footer-text {
-          font-size: 14px;
-          color: #52525b;
-          text-align: center;
-          margin: 20px 0;
-        }
-        
-        .unsubscribe-footer {
-          text-align: center;
-          margin-top: 32px;
-          padding-top: 16px;
-          border-top: 1px solid #e4e4e7;
-        }
-        
-        .unsubscribe-link {
-          font-size: 12px;
-          color: #71717a;
-          text-decoration: none;
-        }
-        
         /* Dark mode styles for supported clients */
         @media (prefers-color-scheme: dark) {
           .newsletter-container {
@@ -319,7 +299,7 @@ serve(async (req) => {
           <div class="welcome-content">
             <p>Hi ${user.first_name},</p>
             
-            <p>You've successfully joined <strong>1,200+ leaders and innovators</strong> who are transforming how organizations work in the age of AI and complexity.</p>
+            <p>You've successfully joined <strong>thousands of leaders and innovators</strong> who are transforming how organizations work in the age of AI and complexity.</p>
             
             <p>You'll receive weekly insights on:</p>
             
@@ -339,10 +319,6 @@ serve(async (req) => {
             <p>Your first newsletter will arrive in the next few days. If you change your mind, you can unsubscribe anytime using the link in our emails.</p>
             
             <p>Let's turn chaos into gold. Not with magic, but with a little alchemy, and a lot of candor.</p>
-          </div>
-          
-          <div class="unsubscribe-footer">
-            <a href="${siteUrl}/unsubscribe?emailId=${subscription.id}" class="unsubscribe-link">Unsubscribe</a>
           </div>
         </div>
       </div>

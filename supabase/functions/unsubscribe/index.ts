@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
-import { Resend } from 'resend'
 import { serve } from 'std/http/server'
+import { Webhook } from 'svix'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,18 +13,38 @@ const headers = {
   'Content-Type': 'application/json'
 }
 
-// Type definitions for the flattened nested query result
-interface User {
-  id: string
-  email: string
-  first_name: string
-  last_name: string
+// Type definitions for Resend webhook events
+interface ContactUpdatedEvent {
+  type: 'contact.updated'
+  data: {
+    id: string
+    email: string
+    firstName?: string
+    lastName?: string
+    unsubscribed: boolean
+    audienceId: string
+    createdAt: string
+    updatedAt: string
+  }
 }
 
-interface Subscription {
-  id: string
-  status: string
-  users: User
+// Verify webhook signature
+function verifyWebhookSignature(
+  payload: string,
+  headers: Headers,
+  secret: string
+): ContactUpdatedEvent | undefined {
+  try {
+    const wh = new Webhook(secret)
+    // Throws on error, returns the verified content on success
+    return wh.verify(
+      payload,
+      Object.fromEntries(headers.entries())
+    ) as ContactUpdatedEvent
+  } catch (error) {
+    console.error('Error verifying webhook signature:', error)
+    return
+  }
 }
 
 serve(async (req) => {
@@ -33,101 +53,81 @@ serve(async (req) => {
   }
 
   try {
-    const { emailId } = await req.json()
+    const webhookSecret = Deno.env.get('RESEND_CONTACT_UPDATE_WEBHOOK_SECRET')
 
-    if (!emailId) {
-      return new Response(JSON.stringify({ error: 'Email Id required' }), {
-        status: 400,
+    if (!webhookSecret) {
+      return new Response(JSON.stringify({ error: 'Missing webhook secret' }), {
+        status: 401,
         headers
       })
     }
 
-    const supabase = createClient(
-      Deno.env.get!('SUPABASE_URL') ?? '',
-      Deno.env.get!('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
+    // Get the raw body for signature verification
+    const body = await req.text()
+    // Verify the webhook signature
+    const event = verifyWebhookSignature(body, req.headers, webhookSecret)
 
-    // First, get the subscription to check if it exists and get user email
-    const { data: subscription, error: fetchError } = await supabase
-      .from('subscriptions')
-      .select(
-        `
-        id,
-        status,
-        users (
-          id,
-          email,
-          first_name,
-          last_name
-        )
-      `
+    if (!event) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid webhook signature' }),
+        {
+          status: 401,
+          headers
+        }
       )
-      .eq('id', emailId)
-      .single()
-
-    if (fetchError || !subscription) {
-      return new Response(JSON.stringify({ error: 'Subscription not found' }), {
-        status: 404,
-        headers
-      })
     }
 
-    // First, mark as unsubscribe_requested
-    const { error: updateError } = await supabase
-      .from('subscriptions')
-      .update({ status: 'unsubscribe_requested' })
-      .eq('id', emailId)
+    if (event.type === 'contact.updated') {
+      const { email, unsubscribed } = event.data
 
-    if (updateError) {
-      throw updateError
-    }
-
-    const typedSubscription = subscription as unknown as Subscription
-    const user = typedSubscription.users
-
-    // Update contact in Resend Audience to unsubscribed (priority)
-    if (user) {
-      try {
-        const resend = new Resend(Deno.env.get('RESEND_API_KEY') ?? '')
-        const audienceId = Deno.env.get('RESEND_AUDIENCE_ID') ?? ''
-
-        // Try to update the contact directly - if it doesn't exist, this will fail gracefully
-        await resend.contacts.update({
-          email: user.email,
-          audienceId,
-          unsubscribed: true
-        })
-
-        // If Resend unsubscribe was successful, mark as unsubscribed in our database
-        await supabase
-          .from('subscriptions')
-          .update({ status: 'unsubscribed' })
-          .eq('id', emailId)
-      } catch (resendError) {
-        // Log error but don't fail the unsubscribe process
-        console.error(
-          'Failed to update contact in Resend audience:',
-          resendError
+      if (unsubscribed) {
+        // Find and update the subscription in Supabase
+        const supabase = createClient(
+          Deno.env.get!('SUPABASE_URL') ?? '',
+          Deno.env.get!('SUPABASE_SERVICE_ROLE_KEY') ?? ''
         )
-        // Keep status as 'unsubscribe_requested' since Resend failed
+
+        // Find the user by email
+        const { data: user, error: userError } = await supabase
+          .from('users')
+          .select('id')
+          .eq('email', email)
+          .single()
+
+        if (userError || !user) {
+          console.error(`User not found for email: ${email}`)
+        } else {
+          // Update all active subscriptions for this user
+          const { error: updateError } = await supabase
+            .from('subscriptions')
+            .update({
+              status: 'unsubscribed',
+              unsubscribed_at: new Date().toISOString()
+            })
+            .eq('user_id', user.id)
+            .in('status', ['active', 'pending'])
+
+          if (updateError) {
+            console.error(
+              `Error updating subscription for user ${user.id}:`,
+              updateError
+            )
+          } else {
+            console.log(`Successfully unsubscribed user ${user.id}`)
+          }
+        }
       }
-    } else {
-      // If no user found, mark as unsubscribed anyway
-      await supabase
-        .from('subscriptions')
-        .update({ status: 'unsubscribed' })
-        .eq('id', emailId)
     }
 
     return new Response(
-      JSON.stringify({ message: 'Unsubscribed successfully' }),
+      JSON.stringify({ message: 'Webhook processed successfully' }),
       {
         status: 200,
         headers
       }
     )
   } catch (error) {
-    console.error('Unsubscribe error:', error)
+    console.error('Webhook processing error:', error)
     return new Response(JSON.stringify({ error: 'Internal server error' }), {
       status: 500,
       headers

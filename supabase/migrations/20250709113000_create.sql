@@ -36,8 +36,9 @@ create table "public"."subscriptions" (
     "id" uuid not null default gen_random_uuid(),
     "user_id" uuid,
     "status" character varying(50) not null default 'pending'::character varying,
-    "subscribed_at" timestamp without time zone default now(),
-    "confirmed_at" timestamp without time zone
+    "subscribed_at" timestamp with time zone default now(),
+    "confirmed_at" timestamp with time zone,
+    "unsubscribed_at" timestamp with time zone
 );
 
 
@@ -48,8 +49,8 @@ create table "public"."users" (
     "email" character varying(255) not null,
     "first_name" character varying(100) not null,
     "last_name" character varying(100),
-    "created_at" timestamp without time zone default now(),
-    "updated_at" timestamp without time zone default now()
+    "created_at" timestamp with time zone default now(),
+    "updated_at" timestamp with time zone default now()
 );
 
 
@@ -70,6 +71,8 @@ CREATE INDEX idx_subscription_attempts_email_created ON public.subscription_atte
 CREATE INDEX idx_subscriptions_status ON public.subscriptions USING btree (status);
 
 CREATE INDEX idx_subscriptions_user_id ON public.subscriptions USING btree (user_id);
+
+CREATE INDEX idx_subscriptions_unsubscribed_at ON public.subscriptions USING btree (unsubscribed_at); 
 
 CREATE INDEX idx_users_email ON public.users USING btree (email);
 

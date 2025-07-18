@@ -23,7 +23,6 @@ serve(async (req) => {
       articleMarkdown,
       articleAuthor,
       articlePublishDate,
-      subscriptionId,
       forceSend = false
     } = await req.json()
 
@@ -75,9 +74,6 @@ serve(async (req) => {
       typographer: true
     })
 
-    const siteUrl =
-      Deno.env.get('SITE_URL') ?? 'https://www.adaptivealchemist.com'
-
     // Convert markdown to email-safe HTML
     const articleHtml = md.render(articleMarkdown)
 
@@ -91,8 +87,6 @@ serve(async (req) => {
         articleDescription,
         articleUrl,
         articleHtml,
-        subscriptionId,
-        siteUrl,
         articleAuthor,
         articlePublishDate
       ),
@@ -101,8 +95,6 @@ serve(async (req) => {
         articleDescription,
         articleUrl,
         articleMarkdown,
-        subscriptionId,
-        siteUrl,
         articleAuthor,
         articlePublishDate
       ),
@@ -147,8 +139,6 @@ function generateNewsletterHTML(
   description: string,
   url: string,
   articleHtml: string,
-  subscriptionId: string,
-  siteUrl: string,
   author?: string,
   publishDate?: string
 ) {
@@ -158,6 +148,8 @@ function generateNewsletterHTML(
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark"> 
       <title>${title}</title>
       <style>
         /* Email-safe CSS reset and base styles */
@@ -173,7 +165,7 @@ function generateNewsletterHTML(
         .prose h1 {
           color: #18181b; /* zinc-900 equivalent */
           font-size: 40px;
-          font-weight: 800;
+          font-weight: 700;
           line-height: 1.2;
           margin: 40px 0 24px 0;
           padding-bottom: 8px;
@@ -183,7 +175,7 @@ function generateNewsletterHTML(
         .prose h2 {
           color: #18181b;
           font-size: 32px;
-          font-weight: 700;
+          font-weight: 600;
           line-height: 1.2;
           margin: 40px 0 16px 0;
           padding-bottom: 8px;
@@ -358,13 +350,14 @@ function generateNewsletterHTML(
         
         .article-meta span {
           font-weight: 500;
+          font-size: 12px;
         }
         
         .article-description {
-          color: #52525b;
+          color: #52525c;
           line-height: 1.7;
           margin: 16px 0 24px 0; /* adjusted margins */
-          font-size: 18px; /* slightly larger to match blog description */
+          font-size: 16px; /* slightly larger to match blog description */
           text-align: center;
         }
         
@@ -385,7 +378,7 @@ function generateNewsletterHTML(
         }
         
         .footer-text {
-          font-size: 14px;
+          font-size: 10px;
           color: #52525b;
           text-align: center;
           margin: 20px 0;
@@ -394,6 +387,7 @@ function generateNewsletterHTML(
         .footer-links {
           color: #9333ea;
           text-decoration: none;
+          cursor: pointer;
         }
         
         .unsubscribe-footer {
@@ -404,8 +398,8 @@ function generateNewsletterHTML(
         }
         
         .unsubscribe-link {
-          font-size: 12px;
-          color: #71717a; /* zinc-500 equivalent */
+          font-size: 10px;
+          color:#9333ea;  /* purple-600 equivalent */
           text-decoration: none;
         }
         
@@ -457,7 +451,7 @@ function generateNewsletterHTML(
           }
           
           .article-meta, .article-description {
-            color: #71717a; /* zinc-500 equivalent */
+            color: #9f9fa9; /* zinc-400 equivalent */
           }
           
           .footer-text, .unsubscribe-link {
@@ -465,7 +459,7 @@ function generateNewsletterHTML(
           }
           
           .footer-links {
-            color: #c084fc;
+            color: #9333ea;
           }
         }
       </style>
@@ -475,7 +469,9 @@ function generateNewsletterHTML(
         <div class="newsletter-header">
           <h1 class="newsletter-title">The Adaptive Alchemist</h1>
           
-          <h2 class="article-title">${title}</h2>
+          <h2 class="article-title">${title}</h2>         
+          
+          <p class="article-description">${description}</p>
           
           ${
             author || publishDate
@@ -488,9 +484,7 @@ function generateNewsletterHTML(
           `
               : ''
           }
-          
-          <p class="article-description">${description}</p>
-          
+
           <hr>
           
           <div class="prose">
@@ -499,19 +493,23 @@ function generateNewsletterHTML(
           
           <hr>
           
-          <div style="text-align: center; margin: 24px 0;">
-            <a href="${url}" class="cta-button">Read Full Article</a>
+          <div style="text-align: center; margin: 2rem 0; padding: 1.5rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <h3 style="color: #111827; font-family: Inter, sans-serif; font-size: 1.25rem; font-weight: 600; margin: 0 0 1rem 0;">Want to dive deeper?</h3>
+            <p style="color: #4b5563; font-family: Inter, sans-serif; line-height: 1.6; margin: 0 0 1.5rem 0; font-size: 1rem;">
+              This is just the beginning! The full article contains deeper insights, practical examples, and actionable strategies that could transform how you think about leadership and organizational design.
+            </p>
+            <a href="${url}" class="cta-button">Continue Reading on the Blog</a>
           </div>
           
           <p class="footer-text">
-            You're receiving this because you subscribed to The Adaptive Alchemist newsletter.
-            <br>
-            <a href="{{unsubscribe_url}}" class="footer-links">Unsubscribe</a>
+            Sent to <a href="mailto:{{{EMAIL}}}">{{{EMAIL}}}</a>.
           </p>
-          
-          <div class="unsubscribe-footer">
-            <a href="${siteUrl}/unsubscribe?emailId=${subscriptionId}" class="unsubscribe-link">Unsubscribe</a>
-          </div>
+
+          <p class="footer-text">
+            You're receiving this because you subscribed to The Adaptive Alchemist newsletter.
+            <br><br>
+            <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" class="footer-links">Unsubscribe</a>
+          </p>
         </div>
       </div>
     </body>
@@ -524,8 +522,6 @@ function generateNewsletterText(
   description: string,
   url: string,
   articleMarkdown: string,
-  subscriptionId: string,
-  siteUrl: string,
   author?: string,
   publishDate?: string
 ) {
@@ -553,7 +549,7 @@ function generateNewsletterText(
   text += `Continue Reading: ${url}\n\n`
   text +=
     "You're receiving this because you subscribed to The Adaptive Alchemist newsletter.\n"
-  text += `To unsubscribe, please visit: ${siteUrl}/unsubscribe?emailId=${subscriptionId}`
+  text += 'To unsubscribe, please use the unsubscribe link in this email.'
 
   return text
 }
