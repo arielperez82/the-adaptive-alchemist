@@ -172,30 +172,183 @@ serve(async (req) => {
         to: user.email,
         subject: 'Welcome to The Adaptive Alchemist Newsletter!',
         html: `
-          <div style="font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #374151; max-width: 600px; margin: 0 auto; padding: 1.5rem;">
-            <div style="background: #f3f4f6; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
-              <h2 style="color: #111827; font-family: Inter, sans-serif; font-size: 2rem; font-weight: 700; margin: 0 0 1rem 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem;">Welcome to The Adaptive Alchemist Newsletter!</h2>
-              <p style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">Hi ${user.first_name},</p>
-              <p style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">You've successfully joined <strong>1,200+ leaders and innovators</strong> who are transforming how organizations work in the age of AI and complexity.</p>
-              <p style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">You'll receive weekly insights on:</p>
-              <ul style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0; padding-left: 1.5rem;">
-                <li style="margin: 0.5rem 0;">Adaptive leadership that creates conditions for teams to thrive</li>
-                <li style="margin: 0.5rem 0;">Fluid organizations where people flow to problems that matter</li>
-                <li style="margin: 0.5rem 0;">The alchemy of structure and knowing which boundaries matter and which to break</li>
-                <li style="margin: 0.5rem 0;">Technological enablement and the levers that let you move fast without blowing things up</li>
-              </ul>
-              <p style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;"><strong>Ready to get started?</strong></p>
-              <a href="${siteUrl}/posts" style="display: inline-block; background: #9d6ddb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-family: Inter, sans-serif; margin: 1.25rem 0;">Explore our Latest Articles</a>
-              <p style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">Your first newsletter will arrive in the next few days. If you change your mind, you can unsubscribe anytime using the link in our emails.</p>
-              <p style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">Let's turn chaos into gold. Not with magic, but with a little alchemy, and a lot of candor.</p>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Welcome to The Adaptive Alchemist Newsletter!</title>
+      <style>
+        /* Email-safe CSS reset and base styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Newsletter specific styles */
+        .newsletter-container {
+          font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 24px;
+          background-color: #ffffff;
+        }
+        
+        .newsletter-header {
+          background: #ffffff;
+          padding: 24px;
+          margin-bottom: 24px;
+        }
+        
+        .newsletter-title {
+          color: #18181b;
+          font-size: 18px;
+          font-weight: 700;
+          margin: 0 0 32px 0;
+          text-align: center;
+          border-bottom: 1px solid #e4e4e7;
+          padding-bottom: 8px;
+        }
+        
+        .welcome-title {
+          color: #18181b;
+          font-size: 32px;
+          font-weight: 800;
+          margin: 0 0 16px 0;
+          text-align: center;
+          line-height: 1.1;
+        }
+        
+        .welcome-content {
+          color: #3f3f46;
+          line-height: 1.7;
+          margin: 16px 0 24px 0;
+          font-size: 16px;
+        }
+        
+        .welcome-content p {
+          margin: 20px 0;
+          line-height: 1.7;
+        }
+        
+        .welcome-content strong {
+          color: #18181b;
+          font-weight: 600;
+        }
+        
+        .welcome-content ul {
+          margin: 16px 0;
+          padding-left: 24px;
+        }
+        
+        .welcome-content li {
+          margin: 8px 0;
+        }
+        
+        .cta-button {
+          display: inline-block;
+          background: #9333ea;
+          color: white !important;
+          padding: 12px 24px;
+          text-decoration: none;
+          border-radius: 6px;
+          font-weight: 500;
+          margin: 24px 0;
+          border: none;
+        }
+        
+        .cta-button:hover {
+          background: #7c3aed;
+        }
+        
+        .footer-text {
+          font-size: 14px;
+          color: #52525b;
+          text-align: center;
+          margin: 20px 0;
+        }
+        
+        .unsubscribe-footer {
+          text-align: center;
+          margin-top: 32px;
+          padding-top: 16px;
+          border-top: 1px solid #e4e4e7;
+        }
+        
+        .unsubscribe-link {
+          font-size: 12px;
+          color: #71717a;
+          text-decoration: none;
+        }
+        
+        /* Dark mode styles for supported clients */
+        @media (prefers-color-scheme: dark) {
+          .newsletter-container {
+            background-color: #09090b;
+            color: #a1a1aa;
+          }
+          
+          .newsletter-header {
+            background: #18181b;
+            border-color: #27272a;
+          }
+          
+          .newsletter-title, .welcome-title {
+            color: #fafafa;
+            border-color: #27272a;
+          }
+          
+          .welcome-content {
+            color: #a1a1aa;
+          }
+          
+          .welcome-content strong {
+            color: #fafafa;
+          }
+          
+          .footer-text, .unsubscribe-link {
+            color: #71717a;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="newsletter-container">
+        <div class="newsletter-header">
+          <h1 class="newsletter-title">The Adaptive Alchemist</h1>
+          
+          <h2 class="welcome-title">Welcome to The Adaptive Alchemist Newsletter!</h2>
+          
+          <div class="welcome-content">
+            <p>Hi ${user.first_name},</p>
+            
+            <p>You've successfully joined <strong>1,200+ leaders and innovators</strong> who are transforming how organizations work in the age of AI and complexity.</p>
+            
+            <p>You'll receive weekly insights on:</p>
+            
+            <ul>
+              <li>Adaptive leadership that creates conditions for teams to thrive</li>
+              <li>Fluid organizations where people flow to problems that matter</li>
+              <li>The alchemy of structure and knowing which boundaries matter and which to break</li>
+              <li>Technological enablement and the levers that let you move fast without blowing things up</li>
+            </ul>
+            
+            <p><strong>Ready to get started?</strong></p>
+            
+            <div style="text-align: center; margin: 24px 0;">
+              <a href="${siteUrl}/posts" class="cta-button">Explore our Latest Articles</a>
             </div>
-            <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-              <p style="font-size: 12px; color: #9ca3af; font-family: Inter, sans-serif; margin: 0;">
-                <a href="${siteUrl}/unsubscribe?emailId=${subscription.id}" style="color: #9ca3af; text-decoration: none;">Unsubscribe</a>
-              </p>
-            </div>
+            
+            <p>Your first newsletter will arrive in the next few days. If you change your mind, you can unsubscribe anytime using the link in our emails.</p>
+            
+            <p>Let's turn chaos into gold. Not with magic, but with a little alchemy, and a lot of candor.</p>
           </div>
-        `
+          
+          <div class="unsubscribe-footer">
+            <a href="${siteUrl}/unsubscribe?emailId=${subscription.id}" class="unsubscribe-link">Unsubscribe</a>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `
       })
 
       // Update subscription status to active and set confirmed_at
