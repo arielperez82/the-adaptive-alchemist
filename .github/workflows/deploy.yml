@@ -28,6 +28,7 @@ concurrency:
 
 env:
   BUILD_PATH: '.' # default value when not using subfolders
+  SITE_URL: ${{ vars.SITE_URL }}
 
 jobs:
   build:

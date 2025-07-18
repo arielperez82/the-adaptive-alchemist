@@ -24,7 +24,7 @@
     "lint:styles:fix": "stylelint 'src/**/*.{css,astro}' --fix",
     "lint": "pnpm run lint:format && pnpm run lint:code && pnpm run lint:styles && pnpm run lint:md",
     "lint:fix": "pnpm run lint:format:fix && pnpm run lint:code:fix && pnpm run lint:styles:fix && pnpm run lint:md:fix",
-    "generate:llms-txt": "tsx scripts/generate-llms-txt.ts",
+    "generate:llms-txt": "dotenv -- tsx scripts/generate-llms-txt.ts",
     "send-newsletter": "tsx scripts/send-newsletter.ts"
   },
   "dependencies": {
@@ -37,6 +37,7 @@
     "@tailwindcss/vite": "^4.1.10",
     "astro": "5.5.6",
     "astro-seo": "^0.8.4",
+    "dotenv-cli": "^8.0.0",
     "framer-motion": "12.6.3",
     "gray-matter": "^4.0.3",
     "react": "19.1.0",
