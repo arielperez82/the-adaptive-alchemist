@@ -43,7 +43,7 @@ Ready to start? Here's a concrete roadmap for your first fluid team experiment:
 
 **Establish working agreements:** How will you communicate? When will you meet? How will you make decisions? What support do you need from the rest of the organization? Get these agreements explicit before you start working.
 
-### **Week 3-6: Execute and learn**
+### **Weeks 3-9: Execute and learn**
 
 **Meet daily:** Use brief check-ins to coordinate work and surface blockers. Focus on what you're learning, not just what you're doing. The learning is often more valuable than the immediate output.
 
@@ -51,7 +51,7 @@ Ready to start? Here's a concrete roadmap for your first fluid team experiment:
 
 **Adapt as you learn:** Don't stick to your original plan if you discover better approaches. The point is solving the problem, not following a process. Fluid teams should be comfortable with changing direction based on new information.
 
-### **Week 7: Reflect and decide**
+### **Week 10: Reflect and decide**
 
 **Run a thorough retrospective:** What worked well? What was frustrating? What would you do differently next time? What support did you need that you didn't get? Capture both the tactical lessons and the organizational insights.
 
