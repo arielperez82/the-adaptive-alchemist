@@ -17,22 +17,20 @@
     Get notified when new articles are published
   </p>
 
-  <form id="newsletter-form" class="space-y-3">
+  <form id="newsletter-form" class="newsletter-form space-y-3">
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <input
         type="text"
-        id="firstName"
         name="firstName"
         placeholder="First name"
-        class="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-zinc-800 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-400 dark:focus:ring-zinc-200"
+        class="newsletter-firstName w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-zinc-800 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-400 dark:focus:ring-zinc-200"
         disabled
       />
       <input
         type="text"
-        id="lastName"
         name="lastName"
         placeholder="Last name (optional)"
-        class="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-zinc-800 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-400 dark:focus:ring-zinc-200"
+        class="newsletter-lastName w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-zinc-800 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-400 dark:focus:ring-zinc-200"
         disabled
       />
     </div>
@@ -40,10 +38,9 @@
     <div>
       <input
         type="email"
-        id="email"
         name="email"
         placeholder="Enter your email"
-        class="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-zinc-800 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-400 dark:focus:ring-zinc-200"
+        class="newsletter-email w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-zinc-800 disabled:opacity-50 dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-400 dark:focus:ring-zinc-200"
         required
         disabled
       />
@@ -51,8 +48,7 @@
 
     <button
       type="submit"
-      id="submit-button"
-      class="w-full cursor-pointer rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+      class="newsletter-submit w-full cursor-pointer rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
       disabled
     >
       Subscribe
@@ -60,27 +56,21 @@
   </form>
 
   <div
-    id="message"
-    class="mt-3 hidden rounded-lg p-3 text-sm transition-all duration-300"
+    class="newsletter-message mt-3 hidden rounded-lg p-3 text-sm transition-all duration-300"
   >
   </div>
 </div>
 
-<script>
+<script is:inline>
   // Newsletter signup form handling
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('newsletter-form') as HTMLFormElement
-    const emailInput = document.getElementById('email') as HTMLInputElement
-    const firstNameInput = document.getElementById(
-      'firstName'
-    ) as HTMLInputElement
-    const lastNameInput = document.getElementById(
-      'lastName'
-    ) as HTMLInputElement
-    const submitButton = document.getElementById(
-      'submit-button'
-    ) as HTMLButtonElement
-    const messageDiv = document.getElementById('message') as HTMLDivElement
+  function initializeNewsletterForm() {
+    // Use class selectors instead of IDs to avoid conflicts
+    const form = document.querySelector('.newsletter-form')
+    const emailInput = document.querySelector('.newsletter-email')
+    const firstNameInput = document.querySelector('.newsletter-firstName')
+    const lastNameInput = document.querySelector('.newsletter-lastName')
+    const submitButton = document.querySelector('.newsletter-submit')
+    const messageDiv = document.querySelector('.newsletter-message')
 
     if (
       !form ||
@@ -93,15 +83,23 @@
       return
     }
 
+    // Check if already initialized
+    if (form.dataset.initialized === 'true') {
+      return
+    }
+
+    // Mark as initialized
+    form.dataset.initialized = 'true'
+
     // Enable form inputs
     emailInput.disabled = false
     firstNameInput.disabled = false
     lastNameInput.disabled = false
     submitButton.disabled = false
 
-    const showMessage = (message: string, type: 'success' | 'error') => {
+    const showMessage = (message, type) => {
       messageDiv.textContent = message
-      messageDiv.className = `mt-3 rounded-lg p-3 text-sm transition-all duration-300 ${
+      messageDiv.className = `newsletter-message mt-3 rounded-lg p-3 text-sm transition-all duration-300 ${
         type === 'success'
           ? 'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200'
           : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'
@@ -113,7 +111,7 @@
       messageDiv.classList.add('hidden')
     }
 
-    const setLoading = (loading: boolean) => {
+    const setLoading = (loading) => {
       submitButton.disabled = loading
       emailInput.disabled = loading
       firstNameInput.disabled = loading
@@ -137,13 +135,14 @@
       hideMessage()
 
       try {
+        // Note: You'll need to get these env vars differently in inline scripts
         const response = await fetch(
-          `${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/subscribe`,
+          `${window.ENV?.PUBLIC_SUPABASE_URL || 'YOUR_SUPABASE_URL'}/functions/v1/subscribe`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY!}`
+              Authorization: `Bearer ${window.ENV?.PUBLIC_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY'}`
             },
             body: JSON.stringify({ email, firstName, lastName })
           }
@@ -170,5 +169,19 @@
         setLoading(false)
       }
     })
-  })
+  }
+
+  // Initialize on DOMContentLoaded (for hard refresh)
+  document.addEventListener('DOMContentLoaded', initializeNewsletterForm)
+
+  // Initialize on astro:page-load (for SPA navigation)
+  document.addEventListener('astro:page-load', initializeNewsletterForm)
+
+  // Initialize on astro:after-swap (for view transitions)
+  document.addEventListener('astro:after-swap', initializeNewsletterForm)
+
+  // Also run immediately if DOM is already loaded
+  if (document.readyState !== 'loading') {
+    initializeNewsletterForm()
+  }
 </script>
