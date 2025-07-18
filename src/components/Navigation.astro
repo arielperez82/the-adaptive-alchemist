@@ -15,7 +15,7 @@ const navItems = [
 
 // Get current path for active link highlighting
 const pathname = new URL(Astro.request.url).pathname
-const currentPath = pathname.slice(1) // remove the first "/"
+const currentPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '') // Remove trailing slash except for root
 ---
 
 <header
@@ -47,16 +47,16 @@ const currentPath = pathname.slice(1) // remove the first "/"
     <nav class="hidden items-center space-x-6 sm:flex">
       {
         navItems.map((item) => {
-          const isActive =
-            currentPath === (item.href === '/' ? '' : item.href.slice(1))
+          const isActive = currentPath === item.href
           return (
             <a
               href={item.href}
-              class={`text-sm font-medium transition-colors duration-300 ${
+              class={`nav-link text-sm font-medium transition-colors duration-300 ${
                 isActive
                   ? 'text-zinc-900 dark:text-white'
                   : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
               }`}
+              data-href={item.href}
             >
               {item.text}
             </a>
@@ -145,17 +145,17 @@ const currentPath = pathname.slice(1) // remove the first "/"
   >
     {
       navItems.map((item, index) => {
-        const isActive =
-          currentPath === (item.href === '/' ? '' : item.href.slice(1))
+        const isActive = currentPath === item.href
         return (
           <a
             href={item.href}
-            class={`mobile-nav-item translate-y-4 text-lg font-medium opacity-0 transition-all duration-500 ${
+            class={`mobile-nav-item mobile-nav-link translate-y-4 text-lg font-medium opacity-0 transition-all duration-500 ${
               isActive
                 ? 'text-zinc-900 dark:text-white'
                 : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
             }`}
             style={`transition-delay: ${index * 50}ms;`}
+            data-href={item.href}
           >
             {item.text}
           </a>
@@ -173,9 +173,65 @@ const currentPath = pathname.slice(1) // remove the first "/"
 
 <div class="h-16"></div>
 
-<script>
+<script is:inline>
+  // Function to update active nav links
+  function updateActiveNavLinks() {
+    const currentPath =
+      window.location.pathname === '/'
+        ? '/'
+        : window.location.pathname.replace(/\/$/, '')
+
+    // Define nav items with their paths
+    const navItems = [
+      { href: '/', text: 'Home' },
+      { href: '/posts', text: 'Posts' },
+      { href: '/tags', text: 'Topics' },
+      { href: '/about', text: 'About' }
+    ]
+
+    // Update desktop nav links
+    const desktopNavLinks = document.querySelectorAll('.nav-link')
+    desktopNavLinks.forEach((link) => {
+      const linkHref = link.getAttribute('data-href')
+      const isActive = currentPath === linkHref
+
+      if (isActive) {
+        link.className =
+          'nav-link text-sm font-medium transition-colors duration-300 text-zinc-900 dark:text-white'
+      } else {
+        link.className =
+          'nav-link text-sm font-medium transition-colors duration-300 text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
+      }
+    })
+
+    // Update mobile nav links
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link')
+    mobileNavLinks.forEach((link) => {
+      const linkHref = link.getAttribute('data-href')
+      const isActive = currentPath === linkHref
+
+      if (isActive) {
+        link.classList.remove(
+          'text-zinc-600',
+          'hover:text-zinc-900',
+          'dark:text-zinc-400',
+          'dark:hover:text-white'
+        )
+        link.classList.add('text-zinc-900', 'dark:text-white')
+      } else {
+        link.classList.remove('text-zinc-900', 'dark:text-white')
+        link.classList.add(
+          'text-zinc-600',
+          'hover:text-zinc-900',
+          'dark:text-zinc-400',
+          'dark:hover:text-white'
+        )
+      }
+    })
+  }
+
   // Mobile menu toggle with animations
-  document.addEventListener('DOMContentLoaded', () => {
+  function initializeNavigation() {
     const mobileMenuButton = document.getElementById('mobile-menu-button')
     const closeMenuButton = document.getElementById('close-menu-button')
     const mobileMenu = document.getElementById('mobile-menu')
@@ -247,5 +303,26 @@ const currentPath = pathname.slice(1) // remove the first "/"
         header.classList.remove('shadow-sm')
       }
     })
-  })
+
+    // Update active nav links on page load
+    updateActiveNavLinks()
+  }
+
+  // Initialize on DOMContentLoaded (for hard refresh)
+  document.addEventListener('DOMContentLoaded', initializeNavigation)
+
+  // Update active nav links on SPA navigation
+  document.addEventListener('astro:page-load', updateActiveNavLinks)
+  document.addEventListener('astro:after-swap', updateActiveNavLinks)
+
+  // Listen for custom SPA navigation events (from your Layout.astro)
+  document.addEventListener('spa-content-loaded', updateActiveNavLinks)
+
+  // Update when browser back/forward buttons are used
+  window.addEventListener('popstate', updateActiveNavLinks)
+
+  // Run immediately if DOM is already loaded
+  if (document.readyState !== 'loading') {
+    initializeNavigation()
+  }
 </script>
