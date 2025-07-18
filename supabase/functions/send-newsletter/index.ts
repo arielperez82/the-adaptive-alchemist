@@ -166,6 +166,8 @@ function generateNewsletterHTML(
         
         <h2 style="color: #111827; font-family: Inter, sans-serif; font-size: 2rem; font-weight: 700; margin: 2.5rem 0 1rem 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem;">${title}</h2>
         
+        <p style="color: #6b7280; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0; font-size: 1.125rem;">${description}</p>
+        
         ${
           author || publishDate
             ? `
@@ -178,8 +180,6 @@ function generateNewsletterHTML(
             : ''
         }
         
-        <p style="color: #6b7280; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">${description}</p>
-        
         <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
         
         <div style="color: #374151; font-family: Inter, sans-serif; line-height: 1.7; margin: 1.25rem 0;">
@@ -188,9 +188,13 @@ function generateNewsletterHTML(
         
         <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0;">
         
-        <p style="text-align: center; margin: 1.5rem 0;">
-          <a href="${url}" style="display: inline-block; background: #9d6ddb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-family: Inter, sans-serif;">Read Full Article</a>
-        </p>
+        <div style="text-align: center; margin: 2rem 0; padding: 1.5rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <h3 style="color: #111827; font-family: Inter, sans-serif; font-size: 1.25rem; font-weight: 600; margin: 0 0 1rem 0;">Want to dive deeper?</h3>
+          <p style="color: #4b5563; font-family: Inter, sans-serif; line-height: 1.6; margin: 0 0 1.5rem 0; font-size: 1rem;">
+            This is just the beginning! The full article contains deeper insights, practical examples, and actionable strategies that could transform how you think about leadership and organizational design.
+          </p>
+          <a href="${url}" style="display: inline-block; background: #9d6ddb; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-family: Inter, sans-serif; font-size: 1rem; transition: background-color 0.2s;">Continue Reading on the Blog</a>
+        </div>
         
         <p style="font-size: 14px; color: #6b7280; text-align: center; font-family: Inter, sans-serif; margin: 1.25rem 0;">
           You're receiving this because you subscribed to The Adaptive Alchemist newsletter.
@@ -236,7 +240,10 @@ function generateNewsletterText(
   text += '─'.repeat(50) + '\n\n'
   text += `${articleMarkdown}\n\n`
   text += '─'.repeat(50) + '\n\n'
-  text += `Read Full Article: ${url}\n\n`
+  text += 'Want to dive deeper?\n\n'
+  text +=
+    'This is just the beginning! The full article contains deeper insights, practical examples, and actionable strategies that could transform how you think about leadership and organizational design.\n\n'
+  text += `Continue Reading: ${url}\n\n`
   text +=
     "You're receiving this because you subscribed to The Adaptive Alchemist newsletter.\n"
   text += `To unsubscribe, please visit: ${siteUrl}/unsubscribe?emailId=${subscriptionId}`

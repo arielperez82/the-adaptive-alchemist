@@ -12,6 +12,31 @@ interface NewsletterPayload {
   forceSend?: boolean
 }
 
+// Function to truncate markdown to first 3 H2 sections
+function truncateToFirstXH2s(markdown: string, x: number = 3): string {
+  const lines = markdown.split('\n')
+  const h2Indices: number[] = []
+
+  // Find all H2 headings (## )
+  for (let i = 0; i < lines.length; i++) {
+    if (
+      lines[i].trim().startsWith('## ') &&
+      !lines[i].trim().startsWith('###')
+    ) {
+      h2Indices.push(i)
+    }
+  }
+
+  // If we have 3 or fewer H2s, return the full content
+  if (h2Indices.length <= x) {
+    return markdown
+  }
+
+  // Return content up to the end of the 3rd H2 section
+  const endIndex = h2Indices[x] - 1 // Stop before the 4th H2
+  return lines.slice(0, endIndex).join('\n')
+}
+
 async function sendNewsletter(
   articlePath: string,
   forceSend: boolean = false
@@ -34,13 +59,16 @@ async function sendNewsletter(
       )
     }
 
+    // Truncate markdown to first 3 H2 sections
+    const truncatedMarkdown = truncateToFirstXH2s(content)
+
     const payload: NewsletterPayload = {
       articleSlug: slug,
       articleTitle: data.title,
       articleDescription: data.description,
       articleAuthor: data.author || 'Ariel Pérez',
       articlePubDate: data.pubDate,
-      articleMarkdown: content,
+      articleMarkdown: truncatedMarkdown,
       articleUrl: `${process.env.SITE_URL}/${slug}`,
       forceSend
     }

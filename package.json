@@ -25,7 +25,7 @@
     "lint": "pnpm run lint:format && pnpm run lint:code && pnpm run lint:styles && pnpm run lint:md",
     "lint:fix": "pnpm run lint:format:fix && pnpm run lint:code:fix && pnpm run lint:styles:fix && pnpm run lint:md:fix",
     "generate:llms-txt": "dotenv -- tsx scripts/generate-llms-txt.ts",
-    "send-newsletter": "tsx scripts/send-newsletter.ts"
+    "send-newsletter": "dotenv -- tsx scripts/send-newsletter.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
