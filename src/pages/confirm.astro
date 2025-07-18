@@ -8,42 +8,31 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
   description="Confirm your newsletter subscription to The Adaptive Alchemist"
 >
   <div
-    class="theme-transition-all mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 md:py-16"
+    class="theme-transition-all mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-8 md:py-12"
   >
-    <div class="relative mb-12 sm:mb-16 md:mb-20">
-      <div
-        class="theme-transition-bg absolute -left-10 -top-10 h-36 w-36 animate-blob rounded-full bg-zinc-100 opacity-30 blur-3xl dark:bg-zinc-800/30 sm:-left-20 sm:-top-20 sm:h-48 sm:w-48 md:h-72 md:w-72"
-      >
-      </div>
-      <div
-        class="animation-delay-2000 theme-transition-bg absolute -bottom-10 -right-10 h-36 w-36 animate-blob rounded-full bg-zinc-200 opacity-30 blur-3xl dark:bg-zinc-800/30 sm:-bottom-20 sm:-right-20 sm:h-48 sm:w-48 md:h-72 md:w-72"
-      >
-      </div>
-
-      <div class="relative flex justify-center">
-        <div class="text-center">
-          <h1
-            class="theme-transition-color mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:mb-6 sm:text-4xl md:text-5xl"
+    <div class="relative flex justify-center">
+      <div class="text-center">
+        <h1
+          class="theme-transition-color mb-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:mb-6 sm:text-4xl md:text-5xl"
+        >
+          <span
+            class="theme-transition-all bg-gradient-to-r from-zinc-500 to-zinc-900 bg-clip-text text-transparent dark:from-zinc-300 dark:to-zinc-100"
           >
-            <span
-              class="theme-transition-all bg-gradient-to-r from-zinc-500 to-zinc-900 bg-clip-text text-transparent dark:from-zinc-300 dark:to-zinc-100"
-            >
-              Newsletter Confirmation
-            </span>
-          </h1>
+            Newsletter Confirmation
+          </span>
+        </h1>
 
-          <p
-            class="theme-transition-color mb-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 sm:mb-8 sm:text-xl"
-          >
-            Complete your subscription to The Adaptive Alchemist
-          </p>
-        </div>
+        <p
+          class="theme-transition-color mb-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 sm:mb-8 sm:text-xl"
+        >
+          Complete your subscription to The Adaptive Alchemist
+        </p>
       </div>
     </div>
+  </div>
 
-    <div class="theme-transition-all mx-auto max-w-3xl">
-      <ConfirmSubscription />
-    </div>
+  <div class="theme-transition-all mx-auto max-w-3xl">
+    <ConfirmSubscription />
   </div>
 </BaseLayout>
 

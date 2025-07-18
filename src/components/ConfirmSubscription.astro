@@ -7,26 +7,6 @@
   id="confirm-subscription"
 >
   <div class="text-center">
-    <div class="theme-transition-all mb-6 flex justify-center">
-      <div
-        class="theme-transition-all flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-zinc-100 shadow-lg dark:border-zinc-900 dark:bg-zinc-800 sm:h-20 sm:w-20 sm:border-4"
-      >
-        <span class="text-2xl sm:text-3xl">📧</span>
-      </div>
-    </div>
-
-    <h2
-      class="theme-transition-color mb-4 text-2xl font-bold text-zinc-900 dark:text-zinc-100 sm:text-3xl"
-    >
-      Confirming Your Subscription
-    </h2>
-
-    <p
-      class="theme-transition-color mb-6 text-base text-zinc-600 dark:text-zinc-400 sm:text-lg"
-    >
-      Please wait while we confirm your newsletter subscription...
-    </p>
-
     <div id="loading-spinner" class="theme-transition-all mb-6">
       <div
         class="theme-transition-all mx-auto h-8 w-8 animate-spin rounded-full border-4 border-zinc-300 border-t-zinc-800 dark:border-zinc-600 dark:border-t-zinc-200"
@@ -120,14 +100,36 @@
       messageDiv.textContent = message
       messageDiv.className = `theme-transition-all mt-6 rounded-lg p-4 text-sm ${
         type === 'success'
-          ? 'bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200'
+          ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200'
           : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'
       }`
       messageDiv.classList.remove('hidden')
+      messageDiv.style.opacity = '1'
+      messageDiv.style.transition = 'opacity 0.3s ease-in'
     }
 
     const hideMessage = () => {
-      messageDiv.classList.add('hidden')
+      messageDiv.style.transition = 'opacity 0.3s ease-out'
+      messageDiv.style.opacity = '0'
+      setTimeout(() => {
+        // Start height collapse transition
+        messageDiv.style.transition =
+          'opacity 0.3s ease-out, height 0.4s ease-out, margin 0.4s ease-out, padding 0.4s ease-out'
+        messageDiv.style.height = '0'
+        messageDiv.style.margin = '0'
+        messageDiv.style.padding = '0'
+        messageDiv.style.overflow = 'hidden'
+
+        setTimeout(() => {
+          messageDiv.classList.add('hidden')
+          messageDiv.style.opacity = ''
+          messageDiv.style.transition = ''
+          messageDiv.style.height = ''
+          messageDiv.style.margin = ''
+          messageDiv.style.padding = ''
+          messageDiv.style.overflow = ''
+        }, 360)
+      }, 300)
     }
 
     const showSuccess = () => {
@@ -171,20 +173,20 @@
       if (response.ok) {
         showSuccess()
         showMessage(data.message, 'success')
-        setTimeout(hideMessage, 5000) // Hide success message after 5 seconds
+        setTimeout(hideMessage, 5000)
       } else {
         showError()
         showMessage(
           data.error || 'Confirmation failed. Please try again.',
           'error'
         )
-        setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
+        setTimeout(hideMessage, 5000)
       }
     } catch (error) {
       console.error('Confirmation error:', error)
       showError()
       showMessage('Network error. Please try again.', 'error')
-      setTimeout(hideMessage, 8000) // Hide error message after 8 seconds
+      setTimeout(hideMessage, 5000)
     }
   })
 </script>
