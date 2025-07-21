@@ -194,6 +194,48 @@ const {
               }
             }
 
+            // Update canonical URL
+            const newCanonical = doc.querySelector('link[rel="canonical"]')
+            if (newCanonical) {
+              const currentCanonical = document.querySelector(
+                'link[rel="canonical"]'
+              )
+              if (currentCanonical) {
+                currentCanonical.setAttribute(
+                  'href',
+                  newCanonical.getAttribute('href') || ''
+                )
+              }
+            }
+
+            // Update Open Graph URL
+            const newOgUrl = doc.querySelector('meta[property="og:url"]')
+            if (newOgUrl) {
+              const currentOgUrl = document.querySelector(
+                'meta[property="og:url"]'
+              )
+              if (currentOgUrl) {
+                currentOgUrl.setAttribute(
+                  'content',
+                  newOgUrl.getAttribute('content') || ''
+                )
+              }
+            }
+
+            // Update Twitter Card URL
+            const newTwitterUrl = doc.querySelector('meta[name="twitter:url"]')
+            if (newTwitterUrl) {
+              const currentTwitterUrl = document.querySelector(
+                'meta[name="twitter:url"]'
+              )
+              if (currentTwitterUrl) {
+                currentTwitterUrl.setAttribute(
+                  'content',
+                  newTwitterUrl.getAttribute('content') || ''
+                )
+              }
+            }
+
             await new Promise((resolve) => setTimeout(resolve, 300))
 
             if (mainContent && newContent) {
