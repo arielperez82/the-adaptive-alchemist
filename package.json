@@ -83,7 +83,7 @@
     "stylelint-config-standard": "^38.0.0",
     "stylelint-config-tailwindcss": "^1.0.0",
     "stylelint-prettier": "^5.0.3",
-    "supabase": "^2.30.4",
+    "supabase": "^2.31.8",
     "tsx": "4.20.3",
     "turndown": "7.2.0",
     "typescript-eslint": "^8.34.1"
