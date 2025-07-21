@@ -50,7 +50,7 @@ const {
         }
       }}
       twitter={{
-        creator: '@adaptivealchemist',
+        creator: '@arielxperez',
         card: 'summary_large_image'
       }}
       extend={{
@@ -218,6 +218,20 @@ const {
                 currentOgUrl.setAttribute(
                   'content',
                   newOgUrl.getAttribute('content') || ''
+                )
+              }
+            }
+
+            // Update Open Graph Title
+            const newOgTitle = doc.querySelector('meta[property="og:title"]')
+            if (newOgTitle) {
+              const currentOgTitle = document.querySelector(
+                'meta[property="og:title"]'
+              )
+              if (currentOgTitle) {
+                currentOgTitle.setAttribute(
+                  'content',
+                  newOgTitle.getAttribute('content') || ''
                 )
               }
             }
