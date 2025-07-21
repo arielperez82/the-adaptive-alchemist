@@ -72,7 +72,8 @@ function extractMeta(html: string, filePath: string): PageMeta {
 
   // Extract path from file path
   const relativePath = path.relative(distDir, filePath)
-  const urlPath = relativePath.replace(/\.html$/, '').replace(/\/index$/, '')
+  const urlPath = relativePath.replace(/\.html$/, '').replace(/index$/, '')
+
   const baseUrl = getSiteURL()
   const url = `${baseUrl}/${urlPath}`
 
@@ -108,7 +109,8 @@ async function* walkHtmlFiles(dir: string): AsyncGenerator<string> {
       entry.name !== 'llms.txt' &&
       entry.name !== 'llms-full.txt' &&
       entry.name !== 'robots.txt' &&
-      entry.name !== 'sitemap.xml'
+      entry.name !== 'sitemap.xml' &&
+      !fullPath.includes('/confirm/')
     ) {
       yield fullPath
     }
