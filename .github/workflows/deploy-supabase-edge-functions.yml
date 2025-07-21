@@ -1,3 +1,6 @@
+# .github/workflows/deploy-supabase-edge-functions.yml
+# Purpose: Deploy Supabase Edge Functions with PR label-based force deploy logic
+
 name: Deploy Edge Functions
 
 on:
@@ -19,7 +22,56 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get PR labels as env vars
+        uses: joerick/pr-labels-action@v1.0.8
+
+      - uses: tj-actions/changed-files@v46
+        id: changed-files
+        with:
+          files: supabase/functions/**
+
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - run: supabase functions deploy --project-ref $PROJECT_ID
+
+      - name: Deploy functions (label/force logic)
+        env:
+          FORCE_DEPLOY: ${{ env.GITHUB_PR_LABEL_FORCE_DEPLOY == 'true' || vars.FORCE_DEPLOY == 'true' && 'true' || '' }}
+          DEPLOY_ALL: ${{ env.GITHUB_PR_LABEL_DEPLOY_ALL == 'true' || vars.DEPLOY_ALL == 'true' && 'true' || '' }}
+          DEPLOY_CONFIRM_SUBSCRIPTION: ${{ env.GITHUB_PR_LABEL_DEPLOY_CONFIRM_SUBSCRIPTION == 'true' || vars.DEPLOY_CONFIRM_SUBSCRIPTION == 'true' && 'true' || '' }}
+          DEPLOY_SEND_NEWSLETTER: ${{ env.GITHUB_PR_LABEL_DEPLOY_SEND_NEWSLETTER == 'true' || vars.DEPLOY_SEND_NEWSLETTER == 'true' && 'true' || '' }}
+          DEPLOY_SUBSCRIBE: ${{ env.GITHUB_PR_LABEL_DEPLOY_SUBSCRIBE == 'true' || vars.DEPLOY_SUBSCRIBE == 'true' && 'true' || '' }}
+          DEPLOY_UNSUBSCRIBE: ${{ env.GITHUB_PR_LABEL_DEPLOY_UNSUBSCRIBE == 'true' || vars.DEPLOY_UNSUBSCRIBE == 'true' && 'true' || '' }}
+        run: |
+          set -e
+          FUNCTIONS=(confirm-subscription send-newsletter subscribe unsubscribe)
+          deploy_function() {
+            fn="$1"
+            echo "Deploying $fn"
+            supabase functions deploy "$fn" --project-ref "$PROJECT_ID" --debug
+          }
+
+          if [[ "$FORCE_DEPLOY" == "true" ]]; then
+            echo "Force deploying"
+            if [[ "$DEPLOY_ALL" == "true" ]]; then
+              echo "Deploying all functions"
+              for fn in "${FUNCTIONS[@]}"; do
+                deploy_function "$fn"
+              done
+            else
+              for fn in "${FUNCTIONS[@]}"; do
+                # Convert hyphen-case to upper snake for env var
+                env_var="DEPLOY_$(echo "$fn" | tr '[:lower:]-' '[:upper:]_')"
+                if [[ "${!env_var}" == "true" ]]; then
+                  deploy_function "$fn"
+                fi
+              done
+            fi
+          elif [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              fn=$(basename $(dirname "$file"))
+              deploy_function "$fn"
+            done
+          else
+            echo "No functions to deploy."
+          fi
