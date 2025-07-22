@@ -120,9 +120,10 @@ const {
       is:inline
       defer
       src="https://unpkg.com/@tinybirdco/flock.js"
-      data-token={import.meta.env.PUBLIC_TRACKER_TOKEN}
-    >
-    </script>
+      data-token={import.meta.env.PUBLIC_TINYBIRD_TRACKER_TOKEN}
+      data-host={import.meta.env.PUBLIC_TINYBIRD_HOST}
+      web-vitals="true"
+    ></script>
   </head>
   <body
     class="flex min-h-screen flex-col bg-white text-zinc-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100"
