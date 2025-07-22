@@ -23,9 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-    env:
-      TINYBIRD_HOST: ${{ vars.TINYBIRD_HOST }}
-      TINYBIRD_TOKEN: ${{ secrets.TINYBIRD_TOKEN }}
 
     defaults:
       run:
@@ -55,13 +52,16 @@ jobs:
 
       - name: Deployment check
         run: |
-          tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deploy --check
+          tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deploy --check
 
   deploy-staging:
     if: github.event.inputs.target_job == 'deploy-staging'
     name: Deploy to Tinybird Staging
     needs: validate
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+
     defaults:
       run:
         working-directory: './tinybird'
@@ -88,7 +88,7 @@ jobs:
 
       - name: Deploy to Tinybird Staging
         run: |
-          tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deployment create
+          tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment create
 
       - name: Tag repo with Tinybird Staging Deployment ID
         if: success()
@@ -98,7 +98,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git fetch --tags
-          DEPLOYMENT_ID=$(tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deployment ls | awk '/Staging/ { print $2 }')
+          DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Staging/ { print $2 }')
           if [ -z "$DEPLOYMENT_ID" ]; then
             echo "No deployment ID found, skipping tag."
             exit 0
@@ -111,6 +111,9 @@ jobs:
     name: Promote to Tinybird Production
     if: github.event.inputs.target_job == 'promote'
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+
     defaults:
       run:
         working-directory: './tinybird'
@@ -124,13 +127,13 @@ jobs:
       - name: Promote to Tinybird Production
         run: |
           # Get the list of deployments and look for any with status "Staging"
-          STAGING_DEPLOYMENT=$(tb --cloud --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deployment ls | grep -i "Staging" || true)
+          STAGING_DEPLOYMENT=$(tb --cloud --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | grep -i "Staging" || true)
 
           if [ -z "$STAGING_DEPLOYMENT" ]; then
             echo "✅ No staging deployment to promote."
           else
             echo "🚀 Staging deployment found. Promoting to production..."
-            tb --cloud --host "${{ env.TINYBIRD_HOST }}" --token "${{ env.TINYBIRD_TOKEN }}" deployment promote
+            tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment promote
           fi
 
       - name: Tag repo with Tinybird Production Deployment ID
@@ -141,7 +144,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git fetch --tags
-          DEPLOYMENT_ID=$(tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deployment ls | awk '/Production/ { print $2 }')
+          DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Production/ { print $2 }')
           if [ -z "$DEPLOYMENT_ID" ]; then
             echo "No deployment ID found, skipping tag."
             exit 0
