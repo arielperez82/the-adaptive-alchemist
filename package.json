@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "pnpm check --watch & pnpm dev",
+    "start": "pnpm check:astro --watch & pnpm dev",
     "dev": "astro dev",
     "build": "astro build",
     "postbuild": "pnpm run generate:llms-txt",
