@@ -2,10 +2,11 @@ name: Send Newsletter
 
 on:
   push:
-    paths:
-      - 'src/content/blog/**'
     branches:
       - main
+    paths:
+      - 'src/content/blog/**'
+      - '.github/workflows/send-newsletter.yml'
 
 jobs:
   send-newsletter:
