@@ -23,8 +23,8 @@ jobs:
       name: github-pages
     env:
       TINYBIRD_HOST: ${{ vars.TINYBIRD_HOST }}
-      TINYBIRD_TOKEN: ${{ secrets.TINYBIRD_TOKEN }}  
- 
+      TINYBIRD_TOKEN: ${{ secrets.TINYBIRD_TOKEN }}
+
     defaults:
       run:
         working-directory: './tinybird'
