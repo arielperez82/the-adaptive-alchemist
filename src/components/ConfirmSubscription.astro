@@ -79,6 +79,9 @@
 </div>
 
 <script>
+  const PUBLIC_SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL
+  const PUBLIC_SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+
   // ConfirmSubscription component - handles subscription confirmation
   document.addEventListener('DOMContentLoaded', async () => {
     const loadingSpinner = document.getElementById(
@@ -157,12 +160,12 @@
 
     try {
       const response = await fetch(
-        `${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/confirm-subscription`,
+        `${PUBLIC_SUPABASE_URL}/functions/v1/confirm-subscription`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY!}`
+            Authorization: `Bearer ${PUBLIC_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({ token })
         }

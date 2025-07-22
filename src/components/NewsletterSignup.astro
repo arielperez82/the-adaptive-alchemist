@@ -61,7 +61,13 @@
   </div>
 </div>
 
-<script is:inline>
+<script
+  is:inline
+  define:vars={{
+    PUBLIC_SUPABASE_URL: import.meta.env.PUBLIC_SUPABASE_URL,
+    PUBLIC_SUPABASE_ANON_KEY: import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+  }}
+>
   // Newsletter signup form handling
   function initializeNewsletterForm() {
     // Use class selectors instead of IDs to avoid conflicts
@@ -137,12 +143,12 @@
       try {
         // Note: You'll need to get these env vars differently in inline scripts
         const response = await fetch(
-          `${window.ENV?.PUBLIC_SUPABASE_URL || 'YOUR_SUPABASE_URL'}/functions/v1/subscribe`,
+          `${PUBLIC_SUPABASE_URL || 'MISSING_SUPABASE_URL'}/functions/v1/subscribe`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${window.ENV?.PUBLIC_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY'}`
+              Authorization: `Bearer ${PUBLIC_SUPABASE_ANON_KEY || 'MISSING_SUPABASE_ANON_KEY'}`
             },
             body: JSON.stringify({ email, firstName, lastName })
           }

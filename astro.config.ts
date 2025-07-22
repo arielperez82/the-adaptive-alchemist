@@ -1,7 +1,7 @@
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'astro/config'
+import { defineConfig, envField } from 'astro/config'
 
 const getSiteURL = () => {
   return 'https://blog.adaptivealchemist.com'
@@ -15,6 +15,18 @@ const getBasePath = () => {
 export default defineConfig({
   site: getSiteURL(),
   base: getBasePath(),
+  env: {
+    schema: {
+      PUBLIC_SUPABASE_URL: envField.string({
+        context: 'client',
+        access: 'public'
+      }),
+      PUBLIC_SUPABASE_ANON_KEY: envField.string({
+        context: 'client',
+        access: 'public'
+      })
+    }
+  },
   integrations: [
     react(),
     sitemap({
