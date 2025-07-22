@@ -8,7 +8,7 @@ on:
         description: Select the job to run
         options:
           - validate
-          - deploy-staging (runs validate first)
+          - deploy-staging
           - promote
   push:
     branches:
