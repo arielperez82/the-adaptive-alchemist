@@ -7,7 +7,8 @@ on:
         type: choice
         description: Select the job to run
         options:
-          - deploy-staging (default)
+          - validate
+          - deploy-staging (runs validate first)
           - promote
   push:
     branches:
@@ -17,6 +18,7 @@ on:
 
 jobs:
   validate:
+    if: github.event.inputs.target_job == 'deploy-staging' || github.event.inputs.target_job == 'validate' 
     name: Validate Release
     runs-on: ubuntu-latest
     environment:
@@ -56,6 +58,7 @@ jobs:
           tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deploy --check
 
   deploy-staging:
+    if: github.event.inputs.target_job == 'deploy-staging'
     name: Deploy to Tinybird Staging
     needs: validate
     runs-on: ubuntu-latest
