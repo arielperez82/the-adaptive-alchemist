@@ -40,12 +40,10 @@ jobs:
 
       - name: Build project
         run: |
-          cd tinybird
           tb build
 
       - name: Run Tinybird tests
         run: |
-          cd tinybird
           tb test run
 
       - name: Run Python tests
@@ -55,13 +53,15 @@ jobs:
 
       - name: Deployment check
         run: |
-          cd tinybird
           tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deploy --check
 
   deploy-staging:
     name: Deploy to Tinybird Staging
     needs: validate
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './tinybird'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -85,7 +85,6 @@ jobs:
 
       - name: Deploy to Tinybird Staging
         run: |
-          cd tinybird
           tb --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deployment create
 
       - name: Tag repo with Tinybird Staging Deployment ID
@@ -109,6 +108,9 @@ jobs:
     name: Promote to Tinybird Production
     if: github.event.inputs.target_job == 'promote'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './tinybird'
     steps:
       - uses: actions/checkout@v3
 
@@ -118,8 +120,6 @@ jobs:
 
       - name: Promote to Tinybird Production
         run: |
-          cd tinybird
-
           # Get the list of deployments and look for any with status "Staging"
           STAGING_DEPLOYMENT=$(tb --cloud --cloud --host ${{ env.TINYBIRD_HOST }} --token ${{ env.TINYBIRD_TOKEN }} deployment ls | grep -i "Staging" || true)
 
