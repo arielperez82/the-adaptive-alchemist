@@ -34,7 +34,8 @@
     "typescriptreact"
   ],
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
+    "*.astro": "astro"
   },
   "stylelint.validate": ["astro"],
   "sqltools.connections": [
