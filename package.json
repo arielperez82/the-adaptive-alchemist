@@ -9,7 +9,9 @@
     "build": "astro build",
     "postbuild": "pnpm run generate:llms-txt",
     "preview": "astro preview",
-    "check": "astro check",
+    "check:astro": "astro check",
+    "check:tinybird": "cd tinybird && tb --cloud deployment create --check",
+    "check": "pnpm check:astro && pnpm check:tinybird",
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d dist",
     "prepare": "husky",
@@ -24,6 +26,7 @@
     "lint:styles:fix": "stylelint 'src/**/*.{css,astro}' --fix",
     "lint": "pnpm run lint:format && pnpm run lint:code && pnpm run lint:styles && pnpm run lint:md",
     "lint:fix": "pnpm run lint:format:fix && pnpm run lint:code:fix && pnpm run lint:styles:fix && pnpm run lint:md:fix",
+    "test:tinybird": "cd tinybird && tb test run",
     "generate:llms-txt": "dotenv -- tsx scripts/generate-llms-txt.ts",
     "send-newsletter": "dotenv -- tsx scripts/send-newsletter.ts"
   },
@@ -96,11 +99,17 @@
     "*.{js,jsx,ts,tsx,astro}": [
       "pnpm run lint:format:fix",
       "pnpm run lint:code:fix",
-      "pnpm run check"
+      "pnpm run check:astro"
     ],
     "*.{css,astro}": [
       "pnpm run lint:format:fix",
       "pnpm run lint:styles:fix"
+    ],
+    "tinybird/**/*.{pipe,datasource,njjson,json,sql,yaml}": [
+      "pnpm run test:tinybird"
+    ],
+    "tinybird/**/*.{pipe,datasource}": [
+      "pnpm run check:tinybird"
     ]
   }
 }
