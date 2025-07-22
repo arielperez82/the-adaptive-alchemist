@@ -11,6 +11,8 @@ on:
     paths:
       - 'supabase/functions/**'
       - 'supabase/config.toml'
+      - '.github/workflows/deploy-supabase-edge-functions.yml'
+
   workflow_dispatch:
 
 jobs:

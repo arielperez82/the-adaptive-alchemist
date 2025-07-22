@@ -11,7 +11,7 @@ on:
       - 'pnpm-lock.yaml'
       - 'astro.config.mjs'
       - 'tsconfig.json'
-      - '.github/workflows/deploy.yml'
+      - '.github/workflows/deploy-site.yml'
 
   workflow_dispatch:
 
