@@ -110,15 +110,17 @@ jobs:
 
       - name: Send newsletter
         if: env.ARTICLE_PATH != ''
+        id: send-newsletter
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: |
-          pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }}
+          result=$(pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }})
+          echo "result=$result" >> $GITHUB_OUTPUT
 
       - name: Create newsletter sent tag
-        if: env.ARTICLE_PATH != ''
+        if: steps.send-newsletter.outputs.result == 'Newsletter sent successfully'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"

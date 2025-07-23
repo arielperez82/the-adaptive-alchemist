@@ -102,7 +102,7 @@ async function sendNewsletter(
     const result = await response.json()
 
     if (result.alreadySent) {
-      console.log('Article has already been broadcast. Use --force to resend.')
+      console.log('Article has already been sent. Use --force to resend.')
     } else {
       console.log('Newsletter sent successfully')
     }
