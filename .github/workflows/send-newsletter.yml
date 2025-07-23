@@ -49,6 +49,10 @@ jobs:
 
       - name: Force Send newsletter
         if: steps.trim.outputs.trimmed_filepath != ''
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SITE_URL: ${{ vars.SITE_URL }}
         run: | 
           echo "Force sending newsletter for ${{ steps.trim.outputs.trimmed_filepath }}"
           pnpm run send-newsletter ${{ steps.trim.outputs.trimmed_filepath }} --force  
