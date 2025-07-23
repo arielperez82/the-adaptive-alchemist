@@ -1,6 +1,12 @@
 name: Send Newsletter
 
 on:
+  workflow_dispatch:
+    inputs:
+      force_send:
+        type: string
+        required: true
+        description: Enter path to file to send
   push:
     branches:
       - main
@@ -36,7 +42,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Trim manual workflow input
+        if: github.event.inputs.force_send != ''
+        id: trim
+        run: |
+          trimmed_input=$(echo "${{ github.event.inputs.force_send }}" | xargs)
+          echo "trimmed_filepath=$trimmed_input" >> $GITHUB_OUTPUT
+
+      - name: Force Send newsletter
+        if: steps.trim.outputs.trimmed_filepath != ''
+        run: | 
+          echo "Force sending newsletter for ${{ steps.trim.outputs.trimmed_filepath }}"
+          pnpm run send-newsletter ${{ steps.trim.outputs.trimmed_filepath }} --force  
+
       - name: Get latest article info
+        if: steps.trim.outputs.trimmed_filepath == ''
         id: article
         run: |
           # Find the most recent blog post by pubDate in frontmatter
@@ -86,7 +106,7 @@ jobs:
           echo "article_path=$LATEST_POST" >> $GITHUB_OUTPUT
 
       - name: Send newsletter
-        if: steps.article.outputs.is_new_article == 'true'
+        if: steps.trim.outputs.trimmed_filepath == '' && steps.article.outputs.is_new_article == 'true'
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -94,7 +114,7 @@ jobs:
         run: pnpm run send-newsletter ${{ steps.article.outputs.article_path }}
 
       - name: Skip newsletter (article already published)
-        if: steps.article.outputs.is_new_article == 'false'
+        if: steps.trim.outputs.trimmed_filepath == '' && steps.article.outputs.is_new_article == 'false'
         run: |
           echo "Skipping newsletter send - article has already been published"
           echo "Use 'pnpm run send-newsletter <article-path> --force' to manually resend"
