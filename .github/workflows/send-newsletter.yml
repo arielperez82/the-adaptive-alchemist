@@ -118,6 +118,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: |
           result=$(pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }} | tail -n 1)
+          echo "$result"
           echo "result=$result" >> $GITHUB_OUTPUT
 
       - name: Create newsletter sent tag
