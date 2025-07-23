@@ -65,7 +65,8 @@
   is:inline
   define:vars={{
     PUBLIC_SUPABASE_URL: import.meta.env.PUBLIC_SUPABASE_URL,
-    PUBLIC_SUPABASE_ANON_KEY: import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    PUBLIC_SUPABASE_PUBLISHABLE_KEY: import.meta.env
+      .PUBLIC_SUPABASE_PUBLISHABLE_KEY
   }}
 >
   // Newsletter signup form handling
@@ -148,7 +149,7 @@
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${PUBLIC_SUPABASE_ANON_KEY || 'MISSING_SUPABASE_ANON_KEY'}`
+              Authorization: `Bearer ${PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'MISSING_SUPABASE_PUBLISHABLE_KEY'}`
             },
             body: JSON.stringify({ email, firstName, lastName })
           }

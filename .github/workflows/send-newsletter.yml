@@ -51,7 +51,7 @@ jobs:
         if: steps.trim.outputs.trimmed_filepath != ''
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: | 
           echo "Force sending newsletter for ${{ steps.trim.outputs.trimmed_filepath }}"
@@ -111,7 +111,7 @@ jobs:
         if: steps.trim.outputs.trimmed_filepath == '' && steps.article.outputs.is_new_article == 'true'
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: pnpm run send-newsletter ${{ steps.article.outputs.article_path }}
 

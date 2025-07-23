@@ -74,11 +74,11 @@ async function sendNewsletter(
     }
 
     const supabaseUrl = process.env.SUPABASE_URL
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY
 
-    if (!supabaseUrl || !serviceRoleKey) {
+    if (!supabaseUrl || !publishableKey) {
       throw new Error(
-        'Missing required environment variables: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY'
+        'Missing required environment variables: SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY'
       )
     }
 
@@ -87,7 +87,7 @@ async function sendNewsletter(
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${serviceRoleKey}`,
+          Authorization: `Bearer ${publishableKey}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
