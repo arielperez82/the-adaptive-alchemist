@@ -21,6 +21,7 @@ jobs:
       name: github-pages
     env:
       ARTICLE_PATH: ''
+      ARTICLE_SLUG: ''
       FORCE: ''
     steps:
       - name: Trim manual workflow input
@@ -37,7 +38,7 @@ jobs:
           # Extract article slug from filename (remove .md extension)
           post_filename=$(basename "${{ steps.trim.outputs.trimmed_input }}")
           article_slug="${post_filename%.md}"
-          
+
           echo "ARTICLE_PATH=${{ steps.trim.outputs.trimmed_input }}" >> $GITHUB_ENV
           echo "ARTICLE_SLUG=$article_slug" >> $GITHUB_ENV
           echo "FORCE=--force" >> $GITHUB_ENV
@@ -79,7 +80,7 @@ jobs:
           # Extract article slug from filename (remove .md extension)
           post_filename=$(basename "$latest_post")
           article_slug="${post_filename%.md}"
-          
+
           # Check if newsletter has already been sent for this article
           newsletter_tag="newsletter-sent-$article_slug"
           if git tag --list "$newsletter_tag" | grep -q "$newsletter_tag"; then
