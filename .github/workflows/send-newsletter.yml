@@ -117,7 +117,7 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: |
-          result=$(pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }})
+          result=$(pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }} | tail -n 1)
           echo "result=$result" >> $GITHUB_OUTPUT
 
       - name: Create newsletter sent tag
