@@ -19,8 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-    # Only run if newsletter sending is enabled
-    if: ${{ vars.SEND_NEWSLETTER == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
