@@ -87,8 +87,9 @@ jobs:
             if [[ "${{ github.event.inputs.deploy_all }}" == "true" || "${{ github.event.inputs.deploy_unsubscribe }}" == "true" ]]; then
               deploy_function "unsubscribe"
             fi
+          fi
           # Check if any functions should be deployed from the changed files
-          elif [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
+          if [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
             for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               fn=$(basename $(dirname "$file"))
               deploy_function "$fn"
