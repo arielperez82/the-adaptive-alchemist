@@ -13,6 +13,22 @@ on:
       - 'supabase/config.toml'
 
   workflow_dispatch:
+    inputs:
+      deploy_all:
+        type: boolean
+        description: Deploy all functions
+      deploy_confirm_subscription:
+        type: boolean
+        description: Deploy confirm subscription function
+      deploy_send_newsletter:
+        type: boolean
+        description: Deploy send newsletter function
+      deploy_subscribe:
+        type: boolean
+        description: Deploy subscribe function
+      deploy_unsubscribe:
+        type: boolean
+        description: Deploy unsubscribe function
 
 jobs:
   deploy:
@@ -34,9 +50,6 @@ jobs:
           git config user.name "Github Actions"
           git config user.email "github-actions@github.com"
 
-      - name: Get PR labels as env vars
-        uses: joerick/pr-labels-action@v1.0.8
-
       - uses: tj-actions/changed-files@v46
         id: changed-files
         with:
@@ -46,43 +59,35 @@ jobs:
         with:
           version: latest
 
-      - name: Deploy functions (label/force logic)
-        env:
-          FORCE_DEPLOY: ${{ env.GITHUB_PR_LABEL_FORCE_DEPLOY == 'true' || vars.FORCE_DEPLOY == 'true' && 'true' || '' }}
-          DEPLOY_ALL: ${{ env.GITHUB_PR_LABEL_DEPLOY_ALL == 'true' || vars.DEPLOY_ALL == 'true' && 'true' || '' }}
-          DEPLOY_CONFIRM_SUBSCRIPTION: ${{ env.GITHUB_PR_LABEL_DEPLOY_CONFIRM_SUBSCRIPTION == 'true' || vars.DEPLOY_CONFIRM_SUBSCRIPTION == 'true' && 'true' || '' }}
-          DEPLOY_SEND_NEWSLETTER: ${{ env.GITHUB_PR_LABEL_DEPLOY_SEND_NEWSLETTER == 'true' || vars.DEPLOY_SEND_NEWSLETTER == 'true' && 'true' || '' }}
-          DEPLOY_SUBSCRIBE: ${{ env.GITHUB_PR_LABEL_DEPLOY_SUBSCRIBE == 'true' || vars.DEPLOY_SUBSCRIBE == 'true' && 'true' || '' }}
-          DEPLOY_UNSUBSCRIBE: ${{ env.GITHUB_PR_LABEL_DEPLOY_UNSUBSCRIBE == 'true' || vars.DEPLOY_UNSUBSCRIBE == 'true' && 'true' || '' }}
+      - name: Deploy functions
         run: |
           set -e
-          FUNCTIONS=(confirm-subscription send-newsletter subscribe unsubscribe)
           deploy_function() {
             fn="$1"
             echo "Deploying $fn"
             supabase functions deploy "$fn" --project-ref "$PROJECT_ID"          
 
+            # Tag the deployment for the function
             function_deployment_tag="supabase-function-deployment-${fn}-$(date +%Y%m%d%H%M%S)"
             git tag "$function_deployment_tag"
             git push origin "$function_deployment_tag"
           }
 
-          if [[ "$FORCE_DEPLOY" == "true" ]]; then
-            echo "Force deploying"
-            if [[ "$DEPLOY_ALL" == "true" ]]; then
-              echo "Deploying all functions"
-              for fn in "${FUNCTIONS[@]}"; do
-                deploy_function "$fn"
-              done
-            else
-              for fn in "${FUNCTIONS[@]}"; do
-                # Convert hyphen-case to upper snake for env var
-                env_var="DEPLOY_$(echo "$fn" | tr '[:lower:]-' '[:upper:]_')"
-                if [[ "${!env_var}" == "true" ]]; then
-                  deploy_function "$fn"
-                fi
-              done
+          # Check which functions are to be force deployed by the workflow dispatch
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ "${{ github.event.inputs.deploy_all }}" == "true" || "${{ github.event.inputs.deploy_confirm_subscription }}" == "true" ]]; then
+              deploy_function "confirm-subscription"
             fi
+            if [[ "${{ github.event.inputs.deploy_all }}" == "true" || "${{ github.event.inputs.deploy_send_newsletter }}" == "true" ]]; then
+              deploy_function "send-newsletter"
+            fi
+            if [[ "${{ github.event.inputs.deploy_all }}" == "true" || "${{ github.event.inputs.deploy_subscribe }}" == "true" ]]; then
+              deploy_function "subscribe"
+            fi
+            if [[ "${{ github.event.inputs.deploy_all }}" == "true" || "${{ github.event.inputs.deploy_unsubscribe }}" == "true" ]]; then
+              deploy_function "unsubscribe"
+            fi
+          # Check if any functions should be deployed from the changed files
           elif [[ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]]; then
             for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
               fn=$(basename $(dirname "$file"))
