@@ -121,11 +121,13 @@ jobs:
           echo "$result"
           echo "result=$result" >> $GITHUB_OUTPUT
 
-      - name: Create newsletter sent tag
+      - name: Tag repo with newsletter sent tag
         if: steps.send-newsletter.outputs.result == 'Newsletter sent successfully'
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
           newsletter_tag="newsletter-sent-${{ env.ARTICLE_SLUG }}"
           git tag "$newsletter_tag"
           git push origin "$newsletter_tag"

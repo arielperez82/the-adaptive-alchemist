@@ -81,3 +81,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Tag repo with site deployment tag
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
+          site_deployment_tag="site-deployment-$(date +%Y%m%d%H%M%S)"
+          git tag "$site_deployment_tag"
+          git push origin "$site_deployment_tag"

@@ -96,7 +96,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "github-actions"
+          git config user.name "Github Actions"
           git config user.email "github-actions@github.com"
           git fetch --tags
           DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Staging/ { print $2 }')
@@ -142,7 +142,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "github-actions"
+          git config user.name "Github Actions"
           git config user.email "github-actions@github.com"
           git fetch --tags
           DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Production/ { print $2 }')

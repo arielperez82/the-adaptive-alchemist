@@ -21,7 +21,7 @@ jobs:
       PROJECT_ID: ${{ vars.SUPABASE_PROJECT_ID }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install Supabase CLI
@@ -30,3 +30,14 @@ jobs:
           version: latest
       - run: supabase link --project-ref $PROJECT_ID
       - run: supabase db push
+
+      - name: Tag repo with migration deployment tag
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
+          migration_tag="supabase-db-deployment-$(date +%Y%m%d%H%M%S)"
+          git tag "$migration_tag"
+          git push origin "$migration_tag"
