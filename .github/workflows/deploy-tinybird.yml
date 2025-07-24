@@ -15,11 +15,13 @@ on:
       - main
     paths:
       - 'tinybird/**'
-      - '.github/workflows/deploy-tinybird.yml'
+
+permissions:
+  contents: read
 
 jobs:
   validate:
-    if: github.event.inputs.target_job == 'deploy-staging' || github.event.inputs.target_job == 'validate'
+    if: github.event_name == 'push' || github.event.inputs.target_job == 'deploy-staging' || github.event.inputs.target_job == 'validate'
     name: Validate Release
     runs-on: ubuntu-latest
     environment:
@@ -34,17 +36,16 @@ jobs:
         ports:
           - 7181:7181
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Install Tinybird CLI
         run: curl https://tinybird.co | sh
 
       - name: Build project
-        run: |
-          tb build
+        run: tb build
 
       - name: Run Tinybird tests
-        run: |
-          tb test run
+        run: tb test run
 
       #  - name: Run Python tests
       #    run: |
@@ -52,20 +53,20 @@ jobs:
       #      PYTHONPATH=ree_data_tracker/src pytest ree_data_tracker/tests
 
       - name: Deployment check
-        run: |
-          tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deploy --check
+        run: tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deploy --check
 
   deploy-staging:
-    if: github.event.inputs.target_job == 'deploy-staging'
+    if: github.event_name == 'push' && github.event.inputs.target_job == 'deploy-staging'
     name: Deploy to Tinybird Staging
     needs: validate
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-
     defaults:
       run:
         working-directory: './tinybird'
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -98,8 +99,6 @@ jobs:
 
       - name: Tag repo with Tinybird Staging Deployment ID
         if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           git fetch --tags
           DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Staging/ { print $2 }')
@@ -117,12 +116,11 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-    env:
-      GH_TOKEN: ${{ secrets.GH_PAT }}
-
     defaults:
       run:
         working-directory: './tinybird'
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - name: Configure Git

@@ -12,7 +12,9 @@ on:
       - main
     paths:
       - 'src/content/blog/**'
-      - '.github/workflows/send-newsletter.yml'
+
+permissions:
+  contents: write      
 
 jobs:
   send-newsletter:
@@ -23,7 +25,6 @@ jobs:
       ARTICLE_PATH: ''
       ARTICLE_SLUG: ''
       FORCE: ''
-      GH_TOKEN: ${{ secrets.GH_PAT }}
     steps:
       - name: Trim manual workflow input
         if: github.event.inputs.force_send != ''
