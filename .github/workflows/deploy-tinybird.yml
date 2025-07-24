@@ -67,10 +67,15 @@ jobs:
       run:
         working-directory: './tinybird'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
+      
+      - name: Configure Git
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
 
       - name: Show diff between main and latest production deployment
         run: |
@@ -96,8 +101,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "Github Actions"
-          git config user.email "github-actions@github.com"
           git fetch --tags
           DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Staging/ { print $2 }')
           if [ -z "$DEPLOYMENT_ID" ]; then
@@ -114,12 +117,18 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+    env:
+      GH_TOKEN: ${{ secrets.GH_PAT }}
 
     defaults:
       run:
         working-directory: './tinybird'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Configure Git
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
 
       - name: Install Tinybird CLI
         run: |
@@ -139,11 +148,7 @@ jobs:
 
       - name: Tag repo with Tinybird Production Deployment ID
         if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "Github Actions"
-          git config user.email "github-actions@github.com"
           git fetch --tags
           DEPLOYMENT_ID=$(tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deployment ls | awk '/Production/ { print $2 }')
           if [ -z "$DEPLOYMENT_ID" ]; then

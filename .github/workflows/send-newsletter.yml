@@ -23,6 +23,7 @@ jobs:
       ARTICLE_PATH: ''
       ARTICLE_SLUG: ''
       FORCE: ''
+      GH_TOKEN: ${{ secrets.GH_PAT }}
     steps:
       - name: Trim manual workflow input
         if: github.event.inputs.force_send != ''
@@ -49,6 +50,12 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+
+      - name: Configure Git
+        if: env.ARTICLE_PATH == ''
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
 
       - name: Get latest article info
         if: env.ARTICLE_PATH == ''
@@ -123,11 +130,7 @@ jobs:
 
       - name: Tag repo with newsletter sent tag
         if: steps.send-newsletter.outputs.result == 'Newsletter sent successfully'
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "Github Actions"
-          git config user.email "github-actions@github.com"
           newsletter_tag="newsletter-sent-${{ env.ARTICLE_SLUG }}"
           git tag "$newsletter_tag"
           git push origin "$newsletter_tag"

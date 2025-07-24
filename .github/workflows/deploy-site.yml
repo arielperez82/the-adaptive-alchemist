@@ -11,7 +11,6 @@ on:
       - 'pnpm-lock.yaml'
       - 'astro.config.mjs'
       - 'tsconfig.json'
-      - '.github/workflows/deploy-site.yml'
 
   workflow_dispatch:
 
@@ -76,19 +75,24 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ secrets.GH_PAT }}
 
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: Tag repo with site deployment tag
         if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          git config user.name "Github Actions"
-          git config user.email "github-actions@github.com"
           site_deployment_tag="site-deployment-$(date +%Y%m%d%H%M%S)"
           git tag "$site_deployment_tag"
           git push origin "$site_deployment_tag"

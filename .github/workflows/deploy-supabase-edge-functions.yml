@@ -28,6 +28,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Configure Git
+        run: |
+          git config user.name "Github Actions"
+          git config user.email "github-actions@github.com"
+
       - name: Get PR labels as env vars
         uses: joerick/pr-labels-action@v1.0.8
 
@@ -48,7 +53,6 @@ jobs:
           DEPLOY_SEND_NEWSLETTER: ${{ env.GITHUB_PR_LABEL_DEPLOY_SEND_NEWSLETTER == 'true' || vars.DEPLOY_SEND_NEWSLETTER == 'true' && 'true' || '' }}
           DEPLOY_SUBSCRIBE: ${{ env.GITHUB_PR_LABEL_DEPLOY_SUBSCRIBE == 'true' || vars.DEPLOY_SUBSCRIBE == 'true' && 'true' || '' }}
           DEPLOY_UNSUBSCRIBE: ${{ env.GITHUB_PR_LABEL_DEPLOY_UNSUBSCRIBE == 'true' || vars.DEPLOY_UNSUBSCRIBE == 'true' && 'true' || '' }}
-          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           set -e
           FUNCTIONS=(confirm-subscription send-newsletter subscribe unsubscribe)
@@ -56,9 +60,7 @@ jobs:
             fn="$1"
             echo "Deploying $fn"
             supabase functions deploy "$fn" --project-ref "$PROJECT_ID"          
-            
-            git config user.name "Github Actions"
-            git config user.email "github-actions@github.com"
+
             function_deployment_tag="supabase-function-deployment-${fn}-$(date +%Y%m%d%H%M%S)"
             git tag "$function_deployment_tag"
             git push origin "$function_deployment_tag"
