@@ -95,5 +95,5 @@ jobs:
               deploy_function "$fn"
             done
           else
-            echo "No functions to deploy."
+            echo "No changed functions to deploy."
           fi
