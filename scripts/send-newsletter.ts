@@ -60,7 +60,7 @@ async function sendNewsletter(
     }
 
     // Truncate markdown to first 3 H2 sections
-    const truncatedMarkdown = truncateToFirstXH2s(content)
+    const truncatedMarkdown = truncateToFirstXH2s(content, 2)
 
     const payload: NewsletterPayload = {
       articleSlug: slug,
