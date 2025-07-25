@@ -19,6 +19,11 @@
       "@/*": ["src/*"]
     }
   },
-  "include": [".astro/types.d.ts", "src/**/*", "scripts/**/*"],
+  "include": [
+    ".astro/types.d.ts",
+    "astro.config.ts",
+    "src/**/*",
+    "scripts/**/*"
+  ],
   "exclude": ["node_modules", "dist", "supabase/functions"]
 }

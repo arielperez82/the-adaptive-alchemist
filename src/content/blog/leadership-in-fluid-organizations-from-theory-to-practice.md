@@ -132,7 +132,7 @@ Most leadership failures in fluid organizations stem from applying traditional a
 
 Traditional leaders often try to control mission team execution because rapid cycles feel chaotic. This destroys the speed and learning advantages that make mission teams effective.
 
-The solution is [leadership without control](https://www.adaptivealchemist.com/leadership-without-control-part-1/): setting clear outcomes and constraints while giving teams complete autonomy over execution methods.
+The solution is [leadership without control](/leadership-without-control-part-1/): setting clear outcomes and constraints while giving teams complete autonomy over execution methods.
 
 ### Neglecting home base development
 
@@ -150,7 +150,7 @@ The counter-intuitive solution is to share more information during uncertain tim
 
 Fluid organizations require high-trust relationships that can handle direct feedback and difficult conversations. Leaders who avoid conflict in the name of harmony actually undermine team effectiveness.
 
-Building [shared consciousness](https://www.adaptivealchemist.com/leadership-without-control-part-2/) requires the ability to have crucial conversations about performance, priorities, and resource allocation.
+Building [shared consciousness](/leadership-without-control-part-2/) requires the ability to have crucial conversations about performance, priorities, and resource allocation.
 
 ## Measuring dual system leadership effectiveness
 

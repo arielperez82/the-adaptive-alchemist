@@ -137,6 +137,6 @@ The future belongs to leaders who build understanding, not control systems.
 
 - [**Drive**](https://amzn.to/3HoqSYZ) by Daniel Pink \- Research on autonomy, mastery, and purpose as performance drivers
 - [**Team Topologies**](https://amzn.to/4kTBOMN) by Matthew Skelton and Manuel Pais \- Essential for understanding how team structure affects information flow and cognitive load
-- [**Team of Teams**](https://amzn.to/3SgypeG?ref=adaptivealchemist.com) by General Stanley McChrystal \- The military perspective on building shared consciousness at scale
+- [**Team of Teams**](https://amzn.to/3SgypeG) by General Stanley McChrystal \- The military perspective on building shared consciousness at scale
 - [**Dynamic Reteaming**](https://amzn.to/43IWU9E) by Heidi Helfand \- Practical guide to fluid team structures and knowledge sharing
 - [**The Fifth Discipline**](https://amzn.to/4kupi6w) by Peter Senge \- Classic work on learning organizations and systems thinking

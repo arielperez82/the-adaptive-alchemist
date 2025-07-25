@@ -1,6 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { visit } from 'unist-util-visit'
 
-export function remarkExternalLinks(options = {}) {
+export function remarkExternalLinks(options: { siteUrl?: string } = {}) {
   const { siteUrl = 'https://blog.adaptivealchemist.com' } = options
   const siteHostname = new globalThis.URL(siteUrl).hostname
 

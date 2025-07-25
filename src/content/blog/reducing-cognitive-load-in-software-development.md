@@ -9,7 +9,7 @@ tags: ['High-Performing Teams']
 
 Most of my writing focuses on organizational design, systems thinking, and leadership practices because I firmly believe that's where we can create the most broad-scale, long-lasting change. Over the past year however, conversations with CEOs have revealed a consistent pattern: their engineering teams are drowning in technical debt, struggling to build momentum, and burning out trying to ship features that should take weeks but somehow take months.
 
-These leaders know their organizational structures need work. They've heard about Team Topologies, Org Topologies, empowered teams, understand they need better product strategy, and hopefully read [Leadership without Control](https://www.adaptivealchemist.com/leadership-without-control-part-1/)\! But they're facing an immediate problem: their engineering teams can't build maintainable software at a sustainable pace.
+These leaders know their organizational structures need work. They've heard about Team Topologies, Org Topologies, empowered teams, understand they need better product strategy, and hopefully read [Leadership without Control](/leadership-without-control-part-1/)\! But they're facing an immediate problem: their engineering teams can't build maintainable software at a sustainable pace.
 
 This got me thinking about taking a different approach. Instead of starting with large-scale organizational transformation, what if we focused on what engineering teams can do right now to reduce their cognitive load and ship more effectively? What practices can any team adopt, regardless of their organizational context, to make their work more sustainable?
 
