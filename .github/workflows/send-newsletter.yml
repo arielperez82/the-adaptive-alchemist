@@ -14,7 +14,7 @@ on:
       - 'src/content/blog/**'
 
 permissions:
-  contents: write      
+  contents: write
 
 jobs:
   send-newsletter:
