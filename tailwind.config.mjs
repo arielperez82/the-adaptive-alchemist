@@ -21,7 +21,7 @@ export default {
             '--tw-prose-bullets': theme('colors.zinc.300'),
             '--tw-prose-hr': theme('colors.zinc.200'),
             '--tw-prose-quotes': theme('colors.zinc.900'),
-            '--tw-prose-quote-borders': theme('colors.blue.500'),
+            '--tw-prose-quote-borders': theme('colors.purple.500'),
             '--tw-prose-captions': theme('colors.zinc.500'),
             '--tw-prose-code': theme('colors.zinc.900'),
             '--tw-prose-pre-code': theme('colors.gray.200'),

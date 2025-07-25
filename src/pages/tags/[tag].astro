@@ -55,7 +55,7 @@ const relatedTags = [
   title={`Posts tagged with "${tag}"`}
   description={`Explore ${sortedPosts.length} articles tagged with "${tag}". Discover insights on adaptive leadership, fluid organizations, and technological enablement.`}
 >
-  <div class="mx-auto max-w-5xl px-4 py-10 sm:py-16">
+  <div class="mx-auto max-w-2xl px-4 py-10 sm:py-16">
     <!-- Header section với màu zinc thay vì gray -->
     <div class="relative mb-10 sm:mb-16">
       <div
@@ -67,38 +67,38 @@ const relatedTags = [
       >
       </div>
 
-      <div class="relative text-center sm:text-left">
-        <a
-          href="/tags"
-          class="group mb-4 inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
+      <div class="relative">
+        <div class="mb-4 text-left">
+          <a
+            href="/tags"
+            class="group inline-flex items-center gap-2 text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1"
             >
-            </path>
-          </svg>
-          <span>Back to all tags</span>
-          <span
-            class="block h-0.5 max-w-0 bg-zinc-300 transition-all duration-300 group-hover:max-w-full dark:bg-zinc-700"
-          >
-          </span>
-        </a>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              >
+              </path>
+            </svg>
+            <span>Back to all topics</span>
+            <span
+              class="block h-0.5 max-w-0 bg-zinc-300 transition-all duration-300 group-hover:max-w-full dark:bg-zinc-700"
+            >
+            </span>
+          </a>
+        </div>
 
-        <div
-          class="mb-2 flex flex-col justify-center gap-4 sm:flex-row sm:items-center sm:justify-start"
-        >
+        <div class="mb-2 flex flex-col gap-4 sm:flex-row">
           <div
-            class="tag-icon mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-100 shadow-sm dark:bg-zinc-800 sm:mx-0"
+            class="tag-icon flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-100 shadow-sm dark:bg-zinc-800"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,7 @@ const relatedTags = [
         </div>
 
         <p
-          class="mx-auto mt-4 max-w-2xl text-base text-zinc-600 dark:text-zinc-400 sm:mx-0 sm:text-lg"
+          class="mx-auto mt-4 max-w-2xl text-base text-zinc-600 dark:text-zinc-400 sm:text-lg"
         >
           Exploring <span class="font-medium text-zinc-900 dark:text-zinc-100">
             {sortedPosts.length}
@@ -157,10 +157,10 @@ const relatedTags = [
     {
       relatedTags.length > 0 && (
         <div class="hide-scrollbar mb-8 overflow-x-auto pb-4 sm:mb-12">
-          <h2 class="mb-3 text-center text-lg font-medium text-zinc-900 dark:text-zinc-100 sm:text-left">
+          <h2 class="mb-3 text-center text-lg font-medium text-zinc-900 dark:text-zinc-100">
             Related topics
           </h2>
-          <div class="flex flex-nowrap justify-center gap-2 sm:justify-start">
+          <div class="flex flex-nowrap justify-center gap-2">
             {relatedTags.map((relatedTag) => (
               <a
                 href={`/tags/${relatedTag}`}
@@ -183,12 +183,12 @@ const relatedTags = [
       <div class="relative space-y-6 sm:space-y-8">
         {
           sortedPosts.map((post) => (
-            <article class="hover-card group relative mx-auto flex max-w-2xl flex-col rounded-2xl border border-zinc-200 p-5 transition-all duration-300 hover:bg-zinc-50/80 hover:shadow-md dark:border-zinc-800 dark:hover:bg-zinc-900/50 sm:mx-0 sm:p-8">
+            <article class="hover-card group relative mx-auto flex max-w-2xl flex-col rounded-2xl border border-zinc-200 p-5 transition-all duration-300 hover:bg-zinc-50/80 hover:shadow-md dark:border-zinc-800 dark:hover:bg-zinc-900/50 sm:p-8">
               <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-zinc-50/0 to-zinc-100/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:from-zinc-900/0 dark:to-zinc-800/0" />
 
               <div class="flex flex-col gap-5 sm:flex-row sm:gap-6">
                 {post.data.heroImage && (
-                  <div class="mx-auto h-40 w-full flex-shrink-0 overflow-hidden rounded-xl shadow-sm transition-all duration-300 group-hover:shadow-md sm:mx-0 sm:w-56">
+                  <div class="mx-auto h-40 w-full flex-shrink-0 overflow-hidden rounded-xl shadow-sm transition-all duration-300 group-hover:shadow-md sm:w-56">
                     <OptimizedImage
                       src={post.data.heroImage}
                       alt={post.data.title}
@@ -201,7 +201,7 @@ const relatedTags = [
                 )}
 
                 <div class="flex-1">
-                  <div class="mb-2 flex flex-wrap items-center justify-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 sm:mb-3 sm:justify-start sm:gap-4 sm:text-sm">
+                  <div class="mb-2 flex flex-wrap gap-3 text-xs text-zinc-500 dark:text-zinc-400 sm:mb-3 sm:gap-4 sm:text-sm">
                     {post.data.pubDate && (
                       <time
                         datetime={post.data.pubDate.toISOString()}
@@ -248,7 +248,7 @@ const relatedTags = [
                     )}
                   </div>
 
-                  <h2 class="mb-2 text-center text-xl font-semibold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-3 sm:text-left sm:text-2xl">
+                  <h2 class="mb-2 text-xl font-semibold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-3 sm:text-2xl">
                     <a
                       href={`/${post.slug}/`}
                       class="before:absolute before:inset-0"
@@ -257,15 +257,15 @@ const relatedTags = [
                     </a>
                   </h2>
 
-                  <p class="mb-4 line-clamp-2 text-center text-sm text-zinc-600 dark:text-zinc-400 sm:line-clamp-3 sm:text-left sm:text-base">
+                  <p class="mb-4 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400 sm:line-clamp-3 sm:text-base">
                     {post.data.description}
                   </p>
                 </div>
               </div>
 
-              <div class="mt-4 flex flex-wrap items-end justify-center border-t border-zinc-100 pt-4 dark:border-zinc-800 sm:justify-between">
+              <div class="mt-4 flex flex-wrap items-end justify-center border-t border-zinc-100 pt-4 dark:border-zinc-800">
                 {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="mb-3 flex flex-wrap justify-center gap-2 sm:mb-0 sm:justify-start">
+                  <div class="mb-3 flex flex-wrap justify-center gap-2 sm:mb-0">
                     {post.data.tags.slice(0, 3).map((postTag) => (
                       <a
                         href={`/tags/${postTag}`}

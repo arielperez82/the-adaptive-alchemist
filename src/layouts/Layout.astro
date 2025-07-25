@@ -141,7 +141,7 @@ const {
 
     <Background />
 
-    <div class="mx-auto w-full max-w-3xl flex-grow px-4 sm:px-6">
+    <div class="mx-auto w-full max-w-6xl flex-grow px-4 sm:px-6">
       <Navigation />
       <main class="py-12 transition-all duration-500">
         <slot />
@@ -292,7 +292,20 @@ const {
             document.dispatchEvent(
               new CustomEvent('spa-content-loaded', { detail: { url } })
             )
-            window.scrollTo(0, 0)
+
+            // Handle anchor links properly
+            const urlObj = new URL(url)
+            if (urlObj.hash) {
+              const targetElement = document.querySelector(urlObj.hash)
+              if (targetElement) {
+                setTimeout(() => {
+                  targetElement.scrollIntoView({ behavior: 'smooth' })
+                }, 100)
+              }
+            } else {
+              window.scrollTo(0, 0)
+            }
+
             attachLinkListeners()
           } catch (error) {
             console.error('Error loading content:', error)
@@ -306,7 +319,6 @@ const {
             if (
               link.hasAttribute('data-spa-handled') ||
               !link.href.startsWith(window.location.origin) ||
-              link.href.includes('#') ||
               link.hasAttribute('target') ||
               link.hasAttribute('download') ||
               link.getAttribute('rel') === 'external'
@@ -326,6 +338,20 @@ const {
 
               if (targetHref === window.location.href) {
                 return
+              }
+
+              // Handle anchor links on the same page
+              const urlObj = new URL(targetHref)
+              const currentUrlObj = new URL(window.location.href)
+
+              if (urlObj.pathname === currentUrlObj.pathname && urlObj.hash) {
+                // Same page anchor link - let it scroll naturally
+                const targetElement = document.querySelector(urlObj.hash)
+                if (targetElement) {
+                  targetElement.scrollIntoView({ behavior: 'smooth' })
+                  window.history.pushState({ path: targetHref }, '', targetHref)
+                  return
+                }
               }
 
               window.history.pushState({ path: targetHref }, '', targetHref)

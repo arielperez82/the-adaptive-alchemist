@@ -24,7 +24,7 @@ export default [
   },
   // Type-aware rules only for TS/TSX
   {
-    files: ['{src,scripts}/**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -61,7 +61,7 @@ export default [
 
   // React files
   {
-    files: ['src/**/*.{jsx,tsx}'],
+    files: ['**/*.{jsx,tsx}'],
     plugins: { react, 'jsx-a11y': jsxA11y },
     rules: {
       ...react.configs.recommended.rules,

@@ -1,0 +1,48 @@
+---
+import type { Heading } from '@/utils/extractHeadings'
+
+export interface Props {
+  maxDepth?: number
+  headings?: Heading[]
+}
+
+const { maxDepth = 3, headings = [] } = Astro.props
+
+// Function to get the appropriate padding class based on heading depth
+function getPaddingClass(depth: number): string {
+  const paddingMap: Record<number, string> = {
+    2: 'pl-0',
+    3: 'pl-2',
+    4: 'pl-4',
+    5: 'pl-6',
+    6: 'pl-8'
+  }
+  return paddingMap[depth] || 'pl-0'
+}
+---
+
+<nav
+  class="table-of-contents hidden lg:block lg:w-1/4 lg:pr-8"
+  data-max-depth={maxDepth}
+>
+  <div class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto">
+    <ul id="toc-list" class="mb-16 space-y-1">
+      {
+        headings
+          .filter((heading) => maxDepth >= heading.depth)
+          .map((heading) => {
+            return (
+              <li class={getPaddingClass(heading.depth)}>
+                <a
+                  href={`#${heading.slug}`}
+                  class="toc-link text-md ml-2 mt-2 block border-l-2 border-transparent pl-2 text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                >
+                  {heading.text}
+                </a>
+              </li>
+            )
+          })
+      }
+    </ul>
+  </div>
+</nav>
