@@ -22,7 +22,7 @@ function getPaddingClass(depth: number): string {
 ---
 
 <nav class="table-of-contents hidden lg:block" data-max-depth={maxDepth}>
-  <div class="max-h-[calc(100vh-6rem)] overflow-y-auto">
+  <div class="max-h-[calc(100vh-6rem)] overflow-y-auto" id="toc-container">
     <ul id="toc-list" class="mb-12 space-y-1">
       {
         headings
@@ -46,12 +46,43 @@ function getPaddingClass(depth: number): string {
 </nav>
 
 <script>
+  function scrollActiveLinkIntoView(activeLink: HTMLElement) {
+    const tocContainer = document.getElementById('toc-container') as HTMLElement
+
+    if (!activeLink || !tocContainer) return
+
+    const containerRect = tocContainer.getBoundingClientRect()
+    const linkRect = activeLink.getBoundingClientRect()
+
+    // Check if the active link is not visible in the container
+    const isLinkAboveContainer = linkRect.top < containerRect.top
+    const isLinkBelowContainer = linkRect.bottom > containerRect.bottom
+
+    if (isLinkAboveContainer || isLinkBelowContainer) {
+      // Calculate the scroll position to center the link in the container
+      const containerHeight = containerRect.height
+      const linkHeight = linkRect.height
+      const scrollTop = tocContainer.scrollTop
+      const linkOffsetTop = activeLink.offsetTop
+
+      // Center the link in the container
+      const targetScrollTop =
+        linkOffsetTop - containerHeight / 2 + linkHeight / 2
+
+      // Smooth scroll to the target position
+      tocContainer.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   function updateActiveTocLink() {
     const tocLinks = document.querySelectorAll('.toc-link')
     const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
     const viewportTop = window.scrollY + window.innerHeight * 0.15 // 15% from top
 
-    let activeLink: Element | null = null
+    let activeLink: HTMLElement | null = null
 
     // Find the heading that's currently in the 25% viewport area
     for (let i = headings.length - 1; i >= 0; i--) {
@@ -74,6 +105,8 @@ function getPaddingClass(depth: number): string {
     // Add active class to the current active link
     if (activeLink) {
       activeLink.setAttribute('data-active', 'true')
+      // Scroll the active link into view if it's not visible
+      scrollActiveLinkIntoView(activeLink)
     }
   }
 
