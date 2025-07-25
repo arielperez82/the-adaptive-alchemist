@@ -25,7 +25,11 @@ jobs:
       ARTICLE_PATH: ''
       ARTICLE_SLUG: ''
       FORCE: ''
+    defaults:
+      run:
+        working-directory: ./  
     steps:
+      
       - name: Trim manual workflow input
         if: github.event.inputs.force_send != ''
         id: trim
