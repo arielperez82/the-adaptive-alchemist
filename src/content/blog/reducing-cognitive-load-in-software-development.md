@@ -95,7 +95,7 @@ At Split, we deliberately rotated who worked on different parts of the system. T
 
 **Architectural guidelines** help reduce decision fatigue. Instead of debating fundamental approaches for every feature, teams establish principles like "prefer simple pipelines over complex orchestration" or "use domain language in code naming." These guidelines eliminate overhead by making many decisions automatic.
 
-**Ubiquitous language** connects code directly to business concepts. When the code uses the same terms customers use, engineers spend less mental energy translating between technical and business domains. A customer should be able to read feature code with minimal guidance—if they can't, the cognitive load for engineers will be high too. On this topic "[Domain-Driven Design](https://amzn.to/3H2gndW)" provides the foundation for building this shared language that reduces translation overhead between business and technical domains.
+**Ubiquitous language** connects code directly to business concepts. When the code uses the same terms customers use, engineers spend less mental energy translating between technical and business domains. A customer should be able to read feature code with minimal guidance—if they can't, the cognitive load for engineers will be high too. On this topic ["Domain-Driven Design"](https://amzn.to/3H2gndW) provides the foundation for building this shared language that reduces translation overhead between business and technical domains.
 
 Collective ownership requires psychological safety and trust. Teams need confidence that colleagues will maintain code quality and respect existing patterns. This trust develops through pairing, shared standards, and consistent practices.
 
@@ -113,7 +113,7 @@ TDD works as a requirements discovery tool. Writing tests first forces you to th
 
 The testing-first approach also builds confidence incrementally. Each passing test represents verified functionality that you don't need to worry about while working on the next piece. Your mental model grows gradually rather than trying to encompass everything at once.
 
-Kent Beck's insight about TDD applies here: it's not really about testing. It's about having conversations with your code in small, manageable chunks. Each test is a hypothesis about behavior. Each implementation is an experiment. Each refactoring is an improvement based on what you've learned. His book, “[Test-Driven Development: By Example](https://amzn.to/3H2gndW)" remains the definitive resource for learning and practicing TDD.
+Kent Beck's insight about TDD applies here: it's not really about testing. It's about having conversations with your code in small, manageable chunks. Each test is a hypothesis about behavior. Each implementation is an experiment. Each refactoring is an improvement based on what you've learned. His book, ["Test-Driven Development: By Example"](https://amzn.to/3H2gndW) remains the definitive resource for learning and practicing TDD.
 
 ### Pair and ensemble programming
 
@@ -133,7 +133,7 @@ At Split, some of our most complex algorithmic work happened through ensemble pr
 
 The collaboration overhead is real but temporary. Teams need time to develop effective pairing and ensemble skills. But once teams learn to work together smoothly, the cognitive load reduction is dramatic.
 
-"[Software Teaming: A Mob Programming, Whole-Team Approach](https://amzn.to/4mg6xEu)" provides excellent guidance on building effective collaboration practices that distribute cognitive load rather than just adding coordination overhead.
+["Software Teaming: A Mob Programming, Whole-Team Approach"](https://amzn.to/4mg6xEu) provides excellent guidance on building effective collaboration practices that distribute cognitive load rather than just adding coordination overhead.
 
 ### Continuous integration and frequent commits
 
@@ -167,7 +167,7 @@ At Chase Digital and Chase UK, we deployed new banking features days and/or week
 
 The key benefit: engineers can focus on building good solutions without the stress of deployment coordination. Features get deployed incrementally as they're completed, rather than waiting for arbitrary release windows.
 
-Paul Hammant’s "[Trunk-Based Development and Branch By Abstraction](https://leanpub.com/trunk-based-development)" covers the full implementation details for making this approach work at scale.
+Paul Hammant’s ["Trunk-Based Development and Branch By Abstraction"](https://leanpub.com/trunk-based-development) covers the full implementation details for making this approach work at scale.
 
 ### Trunk-based development
 
@@ -187,7 +187,7 @@ The practice feels risky if the supporting practices aren't in place. Without go
 
 Refactoring isn't optional maintenance—it's essential cognitive load management. Code that's hard to understand today will be harder to understand tomorrow unless you actively improve it.
 
-Hands-down, Kent Beck’s "[Tidy First?](https://amzn.to/4lKAqg5)" needs to be on your shelf if you want to master this. The principle is simple: before making functional changes, first make the code easy to change. This might mean extracting methods, clarifying names, or restructuring for better readability. These preparatory changes reduce the cognitive load of the subsequent functional work.
+Hands-down, Kent Beck’s ["Tidy First?"](https://amzn.to/4lKAqg5) needs to be on your shelf if you want to master this. The principle is simple: before making functional changes, first make the code easy to change. This might mean extracting methods, clarifying names, or restructuring for better readability. These preparatory changes reduce the cognitive load of the subsequent functional work.
 
 **Preventing cognitive debt accumulation** through regular refactoring keeps the codebase maintainable over time. Instead of letting complexity build up until it becomes overwhelming, you address it incrementally as part of regular development.
 
@@ -199,7 +199,7 @@ I've worked with codebases where engineers needed three days just to understand 
 
 Continuous refactoring works best when it's integrated into regular development rather than treated as separate "cleanup" work. Each time you touch code, you have the opportunity to leave it slightly better than you found it. These small improvements accumulate into significant cognitive load reduction over time.
 
-To round out your library, Martin Fowler’s "[Refactoring: Improving the Design of Existing Code](https://amzn.to/3IJhSOK)" provides the complete catalog of techniques for keeping code maintainable without breaking functionality.
+To round out your library, Martin Fowler’s ["Refactoring: Improving the Design of Existing Code"](https://amzn.to/3IJhSOK) provides the complete catalog of techniques for keeping code maintainable without breaking functionality.
 
 ### Finishing more, starting less
 
@@ -231,7 +231,7 @@ This interdependence explains why trying to skip steps usually fails. Teams that
 
 The investment in learning these practices pays dividends immediately and compounds over time. Teams that master these approaches consistently outperform those that rely on individual heroics or process complexity to manage software development challenges.
 
-"[Accelerate](https://amzn.to/4l2gcNL)" provides the research foundation showing how these practices drive organizational performance through reduced cognitive load and increased development effectiveness.
+["Accelerate"](https://amzn.to/4l2gcNL) provides the research foundation showing how these practices drive organizational performance through reduced cognitive load and increased development effectiveness.
 
 ## Getting started
 

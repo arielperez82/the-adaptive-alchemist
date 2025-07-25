@@ -2,6 +2,7 @@ import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
+import { remarkExternalLinks } from './src/utils/remark-external-links.mjs'
 
 const getSiteURL = () => {
   return 'https://blog.adaptivealchemist.com'
@@ -36,6 +37,9 @@ export default defineConfig({
       }
     })
   ],
+  markdown: {
+    remarkPlugins: [remarkExternalLinks]
+  },
   vite: {
     plugins: [...tailwindcss()]
   }

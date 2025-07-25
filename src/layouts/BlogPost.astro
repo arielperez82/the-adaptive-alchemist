@@ -182,4 +182,7 @@ const headings = extractHeadings(content)
   // Initialize on various page load events
   document.addEventListener('DOMContentLoaded', initializeBlogPost)
   document.addEventListener('astro:page-load', initializeBlogPost)
+
+  // Also run on SPA transitions
+  document.addEventListener('astro:after-swap', initializeBlogPost)
 </script>

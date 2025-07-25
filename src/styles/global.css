@@ -42,4 +42,31 @@
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
+
+  /* External link styling */
+  .external-link {
+    position: relative;
+  }
+
+  .external-link::after {
+    content: '↗';
+    font-size: 0.75em;
+    margin-left: 0.1rem;
+    opacity: 0.7;
+    position: relative;
+    transition: opacity 0.2s ease;
+  }
+
+  .external-link:hover::after {
+    opacity: 1;
+  }
+
+  /* Dark mode support for external link indicator */
+  .dark .external-link::after {
+    opacity: 0.8;
+  }
+
+  .dark .external-link:hover::after {
+    opacity: 1;
+  }
 }

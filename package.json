@@ -92,7 +92,8 @@
     "supabase": "^2.31.8",
     "tsx": "4.20.3",
     "turndown": "7.2.0",
-    "typescript-eslint": "^8.34.1"
+    "typescript-eslint": "^8.34.1",
+    "unist-util-visit": "^5.0.0"
   },
   "lint-staged": {
     "*.md": [
