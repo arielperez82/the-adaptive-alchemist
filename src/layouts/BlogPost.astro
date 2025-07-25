@@ -52,7 +52,17 @@ const headings = extractHeadings(content)
 >
   <div class="mx-auto max-w-6xl">
     <div class="flex gap-8">
-      <TableOfContents maxDepth={maxTocDepth} headings={headings} />
+      <div
+        class="flex flex-col gap-6 lg:sticky lg:top-24 lg:w-1/4 lg:self-start lg:pr-8"
+      >
+        <TableOfContents maxDepth={maxTocDepth} headings={headings} />
+        <div
+          id="sidebar-share-buttons"
+          class="hidden transition-opacity duration-300 lg:block"
+        >
+          <ShareButtons url={canonicalURL.toString()} title={title} />
+        </div>
+      </div>
       <article class="flex-1 animate-fade-in">
         <div class="mb-12">
           <h1
@@ -100,6 +110,7 @@ const headings = extractHeadings(content)
         <div class="mt-12 border-t border-zinc-200 pt-8 dark:border-zinc-800">
           <div
             class="flex flex-col items-center justify-between gap-6 sm:flex-row"
+            id="bottom-share-buttons"
           >
             <ShareButtons url={canonicalURL.toString()} title={title} />
           </div>
@@ -185,4 +196,58 @@ const headings = extractHeadings(content)
 
   // Also run on SPA transitions
   document.addEventListener('astro:after-swap', initializeBlogPost)
+
+  // Handle ShareButtons visibility on large screens
+  function updateShareButtonsVisibility() {
+    const sidebarShareButtons = document.getElementById('sidebar-share-buttons')
+    const bottomShareButtons = document.getElementById('bottom-share-buttons')
+
+    if (!sidebarShareButtons || !bottomShareButtons) return
+
+    const rect = bottomShareButtons.getBoundingClientRect()
+    const viewportTop = window.scrollY + window.innerHeight * 0.1 // 10% from top
+
+    // Check if bottom buttons are in the viewport
+    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+      // Bottom buttons are visible, hide sidebar buttons
+      sidebarShareButtons.style.opacity = '0'
+      sidebarShareButtons.style.pointerEvents = 'none'
+    } else {
+      // Bottom buttons are not visible, show sidebar buttons
+      sidebarShareButtons.style.opacity = '1'
+      sidebarShareButtons.style.pointerEvents = 'auto'
+    }
+  }
+
+  function setupShareButtonsVisibility() {
+    const sidebarShareButtons = document.getElementById('sidebar-share-buttons')
+    const bottomShareButtons = document.getElementById('bottom-share-buttons')
+
+    if (!sidebarShareButtons || !bottomShareButtons) return
+
+    // Reset initial state
+    sidebarShareButtons.style.opacity = '1'
+    sidebarShareButtons.style.pointerEvents = 'auto'
+
+    // Initial check
+    updateShareButtonsVisibility()
+  }
+
+  // Set up share buttons visibility
+  document.addEventListener('DOMContentLoaded', setupShareButtonsVisibility)
+  document.addEventListener('astro:page-load', setupShareButtonsVisibility)
+  document.addEventListener('astro:after-swap', setupShareButtonsVisibility)
+
+  // Update on scroll
+  window.addEventListener('scroll', updateShareButtonsVisibility, {
+    passive: true
+  })
+  window.addEventListener('load', updateShareButtonsVisibility)
+
+  // Also update when the page is fully loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateShareButtonsVisibility)
+  } else {
+    updateShareButtonsVisibility()
+  }
 </script>
