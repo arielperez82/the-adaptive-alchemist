@@ -1,0 +1,10 @@
+---
+description: Apply the rule when I ask you to calculate the reading time of an article
+alwaysApply: false
+---
+
+# To calculate the reading time of any article
+
+1) Perform a word count, not including the metadata
+2) Divide that number by 250 (average words per minute for reading)
+3) Take the floor of that
