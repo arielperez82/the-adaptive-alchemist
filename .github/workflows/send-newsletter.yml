@@ -26,23 +26,10 @@ jobs:
       ARTICLE_SLUG: ''
       FORCE: ''
     steps:
-      - name: Diagnostics
-        run: |
-          echo "PWD=${PWD}"
-          echo "GITHUB_WORKSPACE=${{ github.workspace }}"
-          ls -al .
-          ls -al ../
-          trimmed_input=$(echo "${{ github.event.inputs.force_send }}" | xargs)
-          echo "trimmed_input=$trimmed_input" >> $GITHUB_OUTPUT
-
       - name: Trim manual workflow input
         if: github.event.inputs.force_send != ''
         id: trim
         run: |
-          echo "PWD=${PWD}"
-          echo "GITHUB_WORKSPACE=${{ github.workspace }}"
-          ls -al .
-          ls -al ../
           trimmed_input=$(echo "${{ github.event.inputs.force_send }}" | xargs)
           echo "trimmed_input=$trimmed_input" >> $GITHUB_OUTPUT
 
@@ -59,14 +46,12 @@ jobs:
           echo "FORCE=--force" >> $GITHUB_ENV
 
       - name: Checkout
-        if: env.ARTICLE_PATH == ''
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Configure Git
-        if: env.ARTICLE_PATH == ''
         run: |
           git config user.name "Github Actions"
           git config user.email "github-actions@github.com"
@@ -111,18 +96,12 @@ jobs:
               echo "ARTICLE_PATH=$latest_post" >> $GITHUB_ENV
               echo "ARTICLE_SLUG=$article_slug" >> $GITHUB_ENV
           fi
+
       - name: Setup pnpm
         if: env.ARTICLE_PATH != ''
         uses: pnpm/action-setup@v2
         with:
           version: '10.8.0'
-
-      - name: Diagnostics 2
-        run: |
-          echo "PWD=${PWD}"
-          echo "GITHUB_WORKSPACE=${{ github.workspace }}"
-          ls -al .
-          ls -al ../
 
       - name: Setup Node.js
         if: env.ARTICLE_PATH != ''
@@ -131,14 +110,6 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
-
-
-      - name: Diagnostics 3
-        run: |
-          echo "PWD=${PWD}"
-          echo "GITHUB_WORKSPACE=${{ github.workspace }}"
-          ls -al .
-          ls -al ../
 
       - name: Install dependencies
         if: env.ARTICLE_PATH != ''
