@@ -1,5 +1,5 @@
 ---
-import type { Heading } from '@/utils/extractHeadings'
+import type { Heading } from '@/utils/extract-headings'
 
 export interface Props {
   maxDepth?: number
@@ -62,7 +62,6 @@ function getPaddingClass(depth: number): string {
       // Calculate the scroll position to center the link in the container
       const containerHeight = containerRect.height
       const linkHeight = linkRect.height
-      const scrollTop = tocContainer.scrollTop
       const linkOffsetTop = activeLink.offsetTop
 
       // Center the link in the container

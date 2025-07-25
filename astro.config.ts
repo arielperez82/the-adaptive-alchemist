@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, envField } from 'astro/config'
 
 import { remarkExternalLinks } from './src/utils/remark-external-links.ts'
+import { remarkHeadingLinks } from './src/utils/remark-heading-links.ts'
 
 const getSiteURL = () => {
   return 'https://blog.adaptivealchemist.com'
@@ -39,7 +40,7 @@ export default defineConfig({
     })
   ],
   markdown: {
-    remarkPlugins: [remarkExternalLinks]
+    remarkPlugins: [remarkExternalLinks, remarkHeadingLinks]
   },
   vite: {
     plugins: [...tailwindcss()]

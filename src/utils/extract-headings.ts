@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import slug from 'slug'
 
 export interface Heading {
   depth: number
@@ -8,12 +9,7 @@ export interface Heading {
 
 // Function to generate a slug from text
 function generateSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
+  return slug(text)
 }
 
 // Function to strip HTML tags and get plain text
@@ -37,8 +33,8 @@ function stripHtml(html: string): string {
     .replace(/&rsquo;/g, '\u2019')
     .replace(/&ldquo;/g, '\u201C')
     .replace(/&rdquo;/g, '\u201D')
-    .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
-    .replace(/&#x([0-9a-fA-F]+);/g, (match, hex) =>
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) =>
       String.fromCharCode(parseInt(hex, 16))
     )
 

@@ -69,4 +69,36 @@
   .dark .external-link:hover::after {
     opacity: 1;
   }
+
+  /* Heading link icons */
+  .heading-with-link {
+    position: relative;
+  }
+
+  .heading-link-icon {
+    background: none;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    left: -1.5rem;
+    opacity: 0;
+    padding: 0.25rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease;
+  }
+
+  .heading-link-icon:hover {
+    background-color: rgb(0 0 0 / 5%);
+  }
+
+  .dark .heading-link-icon:hover {
+    background-color: rgb(255 255 255 / 5%);
+  }
+
+  /* Show icon on heading hover */
+  .heading-with-link:hover .heading-link-icon {
+    opacity: 1;
+  }
 }
