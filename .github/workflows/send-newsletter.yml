@@ -130,6 +130,10 @@ jobs:
       - name: Tag repo with newsletter sent tag
         if: steps.send-newsletter.outputs.result == 'Newsletter sent successfully'
         run: |
-          newsletter_tag="newsletter-sent-${{ env.ARTICLE_SLUG }}"
+          if [[ -n "${{ env.FORCE }}" ]]; then
+            newsletter_tag="newsletter-sent-${{ env.ARTICLE_SLUG }}-force-$(date +%Y%m%d%H%M%S)"
+          else
+            newsletter_tag="newsletter-sent-${{ env.ARTICLE_SLUG }}"
+          fi
           git tag "$newsletter_tag"
           git push origin "$newsletter_tag"
