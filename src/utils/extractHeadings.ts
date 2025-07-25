@@ -18,7 +18,32 @@ function generateSlug(text: string): string {
 
 // Function to strip HTML tags and get plain text
 function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '')
+  // First decode HTML entities
+  const decoded = html
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&copy;/g, '©')
+    .replace(/&reg;/g, '®')
+    .replace(/&trade;/g, '™')
+    .replace(/&hellip;/g, '…')
+    .replace(/&mdash;/g, '—')
+    .replace(/&ndash;/g, '–')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&ldquo;/g, '\u201C')
+    .replace(/&rdquo;/g, '\u201D')
+    .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
+    .replace(/&#x([0-9a-fA-F]+);/g, (match, hex) =>
+      String.fromCharCode(parseInt(hex, 16))
+    )
+
+  // Then strip HTML tags
+  return decoded.replace(/<[^>]*>/g, '')
 }
 
 export function extractHeadings(markdown: string): Heading[] {

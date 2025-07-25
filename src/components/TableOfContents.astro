@@ -35,7 +35,8 @@ function getPaddingClass(depth: number): string {
               <li class={getPaddingClass(heading.depth)}>
                 <a
                   href={`#${heading.slug}`}
-                  class="toc-link text-md ml-2 mt-2 block border-l-2 border-transparent pl-2 text-zinc-500 transition-colors duration-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                  class="toc-link text-md ml-2 mt-2 block border-l-2 border-transparent pl-2 text-zinc-500 transition-colors duration-200 hover:text-zinc-900 data-[active=true]:border-purple-500 data-[active=true]:font-semibold data-[active=true]:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 dark:data-[active=true]:text-zinc-100"
+                  data-heading-id={heading.slug}
                 >
                   {heading.text}
                 </a>
@@ -46,3 +47,47 @@ function getPaddingClass(depth: number): string {
     </ul>
   </div>
 </nav>
+
+<script>
+  function updateActiveTocLink() {
+    const tocLinks = document.querySelectorAll('.toc-link')
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+    const viewportTop = window.scrollY + window.innerHeight * 0.15 // 15% from top
+
+    let activeLink: Element | null = null
+
+    // Find the heading that's currently in the 25% viewport area
+    for (let i = headings.length - 1; i >= 0; i--) {
+      const heading = headings[i] as HTMLElement
+      const rect = heading.getBoundingClientRect()
+      const headingTop = rect.top + window.scrollY
+
+      if (headingTop <= viewportTop) {
+        const headingId = heading.id
+        activeLink = document.querySelector(`[data-heading-id="${headingId}"]`)
+        break
+      }
+    }
+
+    // Remove active class from all links
+    tocLinks.forEach((link) => {
+      link.removeAttribute('data-active')
+    })
+
+    // Add active class to the current active link
+    if (activeLink) {
+      activeLink.setAttribute('data-active', 'true')
+    }
+  }
+
+  // Update on scroll and on page load
+  window.addEventListener('scroll', updateActiveTocLink, { passive: true })
+  window.addEventListener('load', updateActiveTocLink)
+
+  // Also update when the page is fully loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateActiveTocLink)
+  } else {
+    updateActiveTocLink()
+  }
+</script>
