@@ -4,7 +4,16 @@
 
 <script>
   // Global function for copying heading links
-  ;(window as any).copyHeadingLink = function (slug: string) {
+  ;(window as any).copyHeadingLink = function (event: Event) {
+    // Get the anchor element that emitted the event
+    const anchor = event.currentTarget as HTMLAnchorElement
+    const href = anchor.getAttribute('href')
+
+    if (!href) return
+
+    // Extract the slug from the href, which is always a hash
+    const slug = href.slice(1)
+
     // Copy the URL to clipboard
     const url = new URL(window.location.href)
     url.hash = slug
@@ -53,4 +62,3 @@
       })
   }
 </script>
-
