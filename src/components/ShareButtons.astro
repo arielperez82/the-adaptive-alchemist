@@ -133,24 +133,28 @@ const encodedUrl = encodeURIComponent(url)
     const copyButtons = document.querySelectorAll('#copy-link-button')
 
     copyButtons.forEach((button) => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
         const url = window.location.href
 
-        navigator.clipboard
-          .writeText(url)
-          .then(() => {
-            const tooltip = button.querySelector('#copy-tooltip')
-            if (tooltip) {
-              tooltip.classList.add('opacity-100')
+        try {
+          await navigator.clipboard.writeText(url)
+        } catch (err) {
+          // Fallback for older browsers or non-secure contexts
+          const textArea = document.createElement('textarea')
+          textArea.value = url
+          document.body.appendChild(textArea)
+          textArea.select()
+          document.execCommand('copy')
+          document.body.removeChild(textArea)
+        }
+        const tooltip = button.querySelector('#copy-tooltip')
+        if (tooltip) {
+          tooltip.classList.add('opacity-100')
 
-              setTimeout(() => {
-                tooltip.classList.remove('opacity-100')
-              }, 2000)
-            }
-          })
-          .catch((err) => {
-            console.error('Failed to copy: ', err)
-          })
+          setTimeout(() => {
+            tooltip.classList.remove('opacity-100')
+          }, 2000)
+        }
       })
     })
   }
