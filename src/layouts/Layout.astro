@@ -124,8 +124,7 @@ const {
       data-host={import.meta.env.PUBLIC_TINYBIRD_HOST}
       data-tb-site={'the-adaptive-alchemist'}
       web-vitals="true"
-    >
-    </script>
+    ></script>
   </head>
   <body
     class="flex min-h-screen flex-col bg-white text-zinc-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100"
@@ -386,6 +385,21 @@ const {
       }
 
       document.addEventListener('DOMContentLoaded', setupThemeHandling)
+
+      // Track the previous pathname to detect actual page changes
+      let previousPathname = window.location.pathname
+
+      window.addEventListener('astro:page-load', () => {
+        const currentPathname = window.location.pathname
+
+        // Only trigger analytics if we're actually navigating to a different page
+        if (currentPathname !== previousPathname) {
+          window.dispatchEvent(new Event('popstate')) // Force the flock.js page_hit event to emit on SPA navigation
+        }
+
+        // Update the previous pathname for the next comparison
+        previousPathname = currentPathname
+      })
     </script>
   </body>
 </html>
