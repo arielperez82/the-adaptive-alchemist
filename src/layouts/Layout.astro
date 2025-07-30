@@ -116,15 +116,7 @@ const {
         ]
       }}
     />
-    <script
-      is:inline
-      defer
-      src="https://unpkg.com/@tinybirdco/flock.js"
-      data-token={import.meta.env.PUBLIC_TINYBIRD_TRACKER_TOKEN}
-      data-host={import.meta.env.PUBLIC_TINYBIRD_HOST}
-      data-tb-site={'the-adaptive-alchemist'}
-      web-vitals="true"
-    ></script>
+    <script src="/src/scripts/analytics.ts"></script>
   </head>
   <body
     class="flex min-h-screen flex-col bg-white text-zinc-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100"
@@ -159,6 +151,9 @@ const {
         if (mainContent) {
           mainContent.classList.add('animate-fade-in')
         }
+
+        // Track initial page view
+        window.analytics.page()
 
         // Function to load content via fetch
         async function loadContent(url: string) {
@@ -275,6 +270,9 @@ const {
                   mainContent.appendChild(newScript)
                 }
               )
+
+              // Track SPA Transition page view
+              window.analytics.page()
             }
 
             if (mainContent) {
@@ -316,6 +314,18 @@ const {
         // Attach event listeners to links
         function attachLinkListeners() {
           document.querySelectorAll('a').forEach((link) => {
+            // Track outbound links
+            if (
+              link.classList.contains('external-link') ||
+              link.getAttribute('target') === '_blank'
+            ) {
+              link.addEventListener('click', (e) => {
+                window.analytics.track('outbound', {
+                  target_url: link.href
+                })
+              })
+            }
+
             if (
               link.hasAttribute('data-spa-handled') ||
               !link.href.startsWith(window.location.origin) ||
@@ -385,21 +395,6 @@ const {
       }
 
       document.addEventListener('DOMContentLoaded', setupThemeHandling)
-
-      // Track the previous pathname to detect actual page changes
-      let previousPathname = window.location.pathname
-
-      window.addEventListener('astro:page-load', () => {
-        const currentPathname = window.location.pathname
-
-        // Only trigger analytics if we're actually navigating to a different page
-        if (currentPathname !== previousPathname) {
-          window.dispatchEvent(new Event('popstate')) // Force the flock.js page_hit event to emit on SPA navigation
-        }
-
-        // Update the previous pathname for the next comparison
-        previousPathname = currentPathname
-      })
     </script>
   </body>
 </html>
