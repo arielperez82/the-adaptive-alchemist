@@ -319,7 +319,7 @@ const {
               link.classList.contains('external-link') ||
               link.getAttribute('target') === '_blank'
             ) {
-              link.addEventListener('click', (e) => {
+              link.addEventListener('click', () => {
                 window.analytics.track('outbound', {
                   target_url: link.href
                 })
