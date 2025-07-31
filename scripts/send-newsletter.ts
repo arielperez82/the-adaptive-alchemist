@@ -74,9 +74,9 @@ async function sendNewsletter(
     }
 
     const supabaseUrl = process.env.SUPABASE_URL
-    const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY
+    const anonKey = process.env.SUPABASE_ANON_KEY
 
-    if (!supabaseUrl || !publishableKey) {
+    if (!supabaseUrl || !anonKey) {
       throw new Error(
         'Missing required environment variables: SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY'
       )
@@ -87,7 +87,7 @@ async function sendNewsletter(
       {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${publishableKey}`,
+          Authorization: `Bearer ${anonKey}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)

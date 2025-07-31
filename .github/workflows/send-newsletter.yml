@@ -120,7 +120,7 @@ jobs:
         id: send-newsletter
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: |
           # Run the newsletter command and capture both output and exit code
