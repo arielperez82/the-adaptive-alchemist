@@ -6,7 +6,7 @@ import { defineConfig, envField } from 'astro/config'
 import { remarkExternalLinks } from './src/utils/remark-external-links.ts'
 
 const getSiteURL = () => {
-  return 'https://blog.adaptivealchemist.com'
+  return 'https://www.adaptivealchemist.com'
 }
 
 const getBasePath = () => {

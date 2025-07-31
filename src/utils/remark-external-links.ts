@@ -3,7 +3,7 @@
 import { visit } from 'unist-util-visit'
 
 export function remarkExternalLinks(options: { siteUrl?: string } = {}) {
-  const { siteUrl = 'https://blog.adaptivealchemist.com' } = options
+  const { siteUrl = 'https://www.adaptivealchemist.com' } = options
   const siteHostname = new globalThis.URL(siteUrl).hostname
 
   return function (tree) {
