@@ -1,4 +1,7 @@
-declare module 'analytics-plugin-do-not-track' {
-  const doNotTrack: () => Record<string, unknown>
-  export default doNotTrack
+import type Analytics from 'analytics'
+
+declare global {
+  interface Window {
+    analytics: Analytics
+  }
 }

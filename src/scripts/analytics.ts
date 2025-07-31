@@ -20,11 +20,6 @@ const analytics = Analytics({
 })
 
 // Make analytics available globally
-declare global {
-  interface Window {
-    analytics: typeof analytics
-  }
-}
 window.analytics = analytics
 
 export default analytics
