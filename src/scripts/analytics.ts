@@ -1,5 +1,6 @@
 // Client-side analytics initialization
 import Analytics from 'analytics'
+import doNotTrack from 'analytics-plugin-do-not-track'
 
 import tinybirdPlugin from './tinybird-analytics-plugin'
 
@@ -7,10 +8,12 @@ import tinybirdPlugin from './tinybird-analytics-plugin'
 const analytics = Analytics({
   app: 'the-adaptive-alchemist',
   plugins: [
+    doNotTrack(),
     tinybirdPlugin({
       token: import.meta.env.PUBLIC_TINYBIRD_TRACKER_TOKEN,
       host: import.meta.env.PUBLIC_TINYBIRD_HOST,
       datasource: 'analytics_events',
+      storage: 'localStorage',
       webVitals: true
     })
   ]

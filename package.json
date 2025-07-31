@@ -41,6 +41,7 @@
     "@tailwindcss/vite": "^4.1.10",
     "@types/mdast": "^4.0.4",
     "analytics": "^0.8.16",
+    "analytics-plugin-do-not-track": "^0.1.5",
     "astro": "5.12.3",
     "astro-seo": "^0.8.4",
     "countries-and-timezones": "^3.8.0",

@@ -41,6 +41,16 @@ interface SessionItem {
   expiry: number
 }
 
+interface AttributionData {
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  utm_term?: string
+  utm_content?: string
+  landing_page?: string
+  referrer?: string
+}
+
 interface CountryLocale {
   country?: string
   locale?: string
@@ -55,9 +65,17 @@ interface SessionManager {
   setSessionId(): void
 }
 
+interface AttributionManager {
+  getAttributionData(): AttributionData | null
+  captureAttributionData(): void
+  getAttributionFromStorage(): AttributionData | null
+  setAttributionToStorage(data: AttributionData): void
+}
+
 interface TinybirdAnalytics {
   config: TinybirdAnalyticsConfig
   _sessionManager: SessionManager
+  _attributionManager: AttributionManager
   sendEvent: (eventName: string, event: TinybirdEvent) => void
   page: (event: TinybirdEvent) => void
   track: (eventName: string, event: TinybirdEvent) => void
@@ -72,6 +90,7 @@ declare global {
 }
 
 const STORAGE_KEY = 'session-id'
+const ATTRIBUTION_STORAGE_KEY = 'attribution-data'
 
 const storageMethods: Record<string, StorageMethod> = {
   cookie: 'cookie',
@@ -84,6 +103,106 @@ const storageMethods: Record<string, StorageMethod> = {
  */
 function _uuidv4(): string {
   return crypto.randomUUID()
+}
+
+/**
+ * Create attribution manager
+ */
+function createAttributionManager(
+  config: TinybirdAnalyticsConfig
+): AttributionManager {
+  return {
+    getAttributionData(): AttributionData | null {
+      // First try to get from storage
+      const storedData = this.getAttributionFromStorage()
+      if (storedData) {
+        return storedData
+      }
+
+      // If not in storage, capture and store
+      this.captureAttributionData()
+      return this.getAttributionFromStorage()
+    },
+
+    captureAttributionData(): void {
+      const urlParams = new URLSearchParams(window.location.search)
+      const attributionData: AttributionData = {}
+
+      // Capture UTM parameters
+      const utmParams = [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content'
+      ]
+      utmParams.forEach((param) => {
+        const value = urlParams.get(param)
+        if (value) {
+          attributionData[param as keyof AttributionData] = value
+        }
+      })
+
+      // Capture landing page (current page if no stored data)
+      const storedData = this.getAttributionFromStorage()
+      if (!storedData?.landing_page) {
+        attributionData.landing_page = window.location.pathname
+      }
+
+      // Capture referrer (document.referrer if no stored data)
+      if (!storedData?.referrer && document.referrer) {
+        attributionData.referrer = document.referrer
+      }
+
+      // Only store if we have some attribution data
+      if (Object.keys(attributionData).length > 0) {
+        this.setAttributionToStorage(attributionData)
+      }
+    },
+
+    getAttributionFromStorage(): AttributionData | null {
+      if (
+        [storageMethods.localStorage, storageMethods.sessionStorage].includes(
+          config.storage!
+        )
+      ) {
+        const storage =
+          config.storage === storageMethods.localStorage
+            ? localStorage
+            : sessionStorage
+        const serializedData = storage.getItem(ATTRIBUTION_STORAGE_KEY)
+
+        if (!serializedData) return null
+
+        try {
+          const data = JSON.parse(serializedData)
+          return data as AttributionData
+        } catch (error) {
+          console.info('Error getting attribution data:', error)
+          return null
+        }
+      }
+
+      // For cookie storage, we'd need to implement cookie parsing
+      // For now, return null for cookie storage
+      return null
+    },
+
+    setAttributionToStorage(data: AttributionData): void {
+      if (
+        [storageMethods.localStorage, storageMethods.sessionStorage].includes(
+          config.storage!
+        )
+      ) {
+        const storage =
+          config.storage === storageMethods.localStorage
+            ? localStorage
+            : sessionStorage
+        storage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(data))
+      }
+      // For cookie storage, we'd need to implement cookie setting
+    }
+  }
 }
 
 /**
@@ -113,8 +232,11 @@ function getCountryAndLocale(): CountryLocale {
 /**
  * Get common properties used across all analytics events
  */
-function getCommonProperties(): Record<string, unknown> {
+function getCommonProperties(
+  attributionManager?: AttributionManager
+): Record<string, unknown> {
   const { country, locale } = getCountryAndLocale()
+  const attributionData = attributionManager?.getAttributionData()
 
   return {
     'user-agent': window.navigator.userAgent,
@@ -122,7 +244,27 @@ function getCommonProperties(): Record<string, unknown> {
     location: country,
     referrer: document.referrer,
     pathname: window.location.pathname,
-    href: window.location.href
+    href: window.location.href,
+    // Attribution data
+    ...(attributionData?.utm_source && {
+      utm_source: attributionData.utm_source
+    }),
+    ...(attributionData?.utm_medium && {
+      utm_medium: attributionData.utm_medium
+    }),
+    ...(attributionData?.utm_campaign && {
+      utm_campaign: attributionData.utm_campaign
+    }),
+    ...(attributionData?.utm_term && { utm_term: attributionData.utm_term }),
+    ...(attributionData?.utm_content && {
+      utm_content: attributionData.utm_content
+    }),
+    ...(attributionData?.landing_page && {
+      landing_page: attributionData.landing_page
+    }),
+    ...(attributionData?.referrer && {
+      original_referrer: attributionData.referrer
+    })
   }
 }
 
@@ -324,6 +466,7 @@ const tinybirdAnalytics = (
   } as TinybirdAnalyticsConfig
 
   const sessionManager = createSessionManager(configWithDefaults)
+  const attributionManager = createAttributionManager(configWithDefaults)
 
   const sendEvent = (eventName: string, event: TinybirdEvent): void => {
     const config = configWithDefaults
@@ -385,7 +528,7 @@ const tinybirdAnalytics = (
     }
 
     if (import.meta.env.DEV) {
-      console.log('Sending event to Tinybird:', tinybirdEvent)
+      console.log('Analytics Event Captured:', tinybirdEvent)
     } else {
       // Use Beacon API for better performance and reliability
       const eventData = JSON.stringify(tinybirdEvent)
@@ -408,7 +551,7 @@ const tinybirdAnalytics = (
     const eventData: TinybirdEvent = {
       ...event,
       // Add context data
-      ...getCommonProperties()
+      ...getCommonProperties(attributionManager)
     }
 
     // Send the event
@@ -431,7 +574,7 @@ const tinybirdAnalytics = (
     const identifyData: TinybirdEvent = {
       userId: instance._userId,
       ...event.traits,
-      ...getCommonProperties()
+      ...getCommonProperties(attributionManager)
     }
 
     // Send identify event
@@ -441,6 +584,7 @@ const tinybirdAnalytics = (
   const tinybirdAnalyticsInstance = {
     config: configWithDefaults,
     _sessionManager: sessionManager,
+    _attributionManager: attributionManager,
     sendEvent,
     page,
     track,
@@ -464,6 +608,7 @@ const tinybirdAnalytics = (
 
 export default tinybirdAnalytics
 export type {
+  AttributionData,
   TinybirdAnalytics,
   TinybirdAnalyticsConfig,
   TinybirdEvent,
