@@ -33,7 +33,15 @@ function tinybirdPlugin(pluginConfig: TinybirdPluginConfig = {}) {
       initializeTinybirdAnalytics(config)
     },
     page: ({ payload: { properties = {} } }: { payload: AnalyticsPayload }) => {
-      window.tinybirdAnalytics.page(properties)
+      // Removing analytics.js url and path properties, which are handled by the href and pathname properties in tinybird-analytics.ts
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { url, path, ...rest } = properties
+
+      const pageProperties = {
+        ...rest
+      }
+
+      window.tinybirdAnalytics.page(pageProperties)
     },
 
     track: ({
