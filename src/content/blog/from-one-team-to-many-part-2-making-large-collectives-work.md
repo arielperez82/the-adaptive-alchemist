@@ -371,7 +371,7 @@ The future belongs to organizations that can coordinate large groups of talented
 
 **Organizational patterns:**
 
-- [**Building Shared Consciousness**](https://www.adaptivealchemist.com/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/) \- Practical systems for transparency without information overload
+- [**Building Shared Consciousness**](/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/) \- Practical systems for transparency without information overload
 - [**Reinventing Organizations**](https://amzn.to/44XJU1O) by Frederic Laloux \- How organizations reach the next stage of self-organization
 
 _Next in the series: **From One Team to Many \- Part 3: The Stability Engine** \- How the Operations Squad model balances innovation with operational excellence_
