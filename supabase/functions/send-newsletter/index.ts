@@ -498,7 +498,7 @@ function generateNewsletterHTML(
             <p style="color: #4b5563; font-family: Inter, sans-serif; line-height: 1.6; margin: 0 0 1.5rem 0; font-size: 1rem;">
               This is just the beginning! The full article contains deeper insights, practical examples, and actionable strategies that could transform how you think about leadership and organizational design.
             </p>
-            <a href="${url}" class="cta-button">Continue Reading on the Blog</a>
+            <a href="${url}?utm_source=newsletter&utm_medium=email" class="cta-button">Continue Reading on the Blog</a>
           </div>
           
           <p class="footer-text">

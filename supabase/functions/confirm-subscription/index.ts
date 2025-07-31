@@ -313,7 +313,7 @@ serve(async (req) => {
             <p><strong>Ready to get started?</strong></p>
             
             <div style="text-align: center; margin: 24px 0;">
-              <a href="${siteUrl}/posts" class="cta-button">Explore our Latest Articles</a>
+              <a href="${siteUrl}/posts?utm_source=newsletter&utm_medium=email" class="cta-button">Explore our Latest Articles</a>
             </div>
             
             <p>Your first newsletter will arrive in the next few days. If you change your mind, you can unsubscribe anytime using the link in our emails.</p>
