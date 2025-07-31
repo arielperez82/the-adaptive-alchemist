@@ -116,7 +116,7 @@ const {
         ]
       }}
     />
-    <script src="/src/scripts/analytics.ts"></script>
+    <script src="/src/scripts/analytics/"></script>
   </head>
   <body
     class="flex min-h-screen flex-col bg-white text-zinc-900 transition-colors duration-300 dark:bg-zinc-900 dark:text-zinc-100"
@@ -320,7 +320,7 @@ const {
               link.getAttribute('target') === '_blank'
             ) {
               link.addEventListener('click', () => {
-                window.analytics.track('outbound', {
+                window.analytics.track('outbound_click', {
                   target_url: link.href
                 })
               })

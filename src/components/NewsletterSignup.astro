@@ -165,15 +165,18 @@
           emailInput.value = ''
           firstNameInput.value = ''
           lastNameInput.value = ''
+          window.analytics.track('newsletter_signup_success')
         } else {
           showMessage(
             data.error || 'Something went wrong. Please try again.',
             'error'
           )
+          window.analytics.track('newsletter_signup_error')
         }
       } catch (error) {
         console.error('Newsletter signup error:', error)
         showMessage('Network error. Please try again.', 'error')
+        window.analytics.track('newsletter_signup_error')
       } finally {
         setLoading(false)
       }

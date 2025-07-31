@@ -177,6 +177,7 @@
         showSuccess()
         showMessage(data.message, 'success')
         setTimeout(hideMessage, 5000)
+        window.analytics.track('subscription_confirmation_success')
       } else {
         showError()
         showMessage(
@@ -184,12 +185,14 @@
           'error'
         )
         setTimeout(hideMessage, 5000)
+        window.analytics.track('subscription_confirmation_error')
       }
     } catch (error) {
       console.error('Confirmation error:', error)
       showError()
       showMessage('Network error. Please try again.', 'error')
       setTimeout(hideMessage, 5000)
+      window.analytics.track('subscription_confirmation_error')
     }
   })
 </script>
