@@ -24,6 +24,8 @@ interface TinybirdAnalyticsConfig {
   domain?: string
   datasource?: string
   storage?: StorageMethod
+  storageFallbacks?: StorageMethod[]
+  enableMemoryFallback?: boolean
   stringifyPayload?: boolean
   globalAttributes?: Record<string, unknown>
   webVitals?: boolean
@@ -56,19 +58,40 @@ interface CountryLocale {
   locale?: string
 }
 
-type StorageMethod = 'cookie' | 'localStorage' | 'sessionStorage'
+type StorageMethod = 'cookie' | 'localStorage' | 'memory' | 'sessionStorage'
+
+interface StorageOptions {
+  expiry?: number // seconds
+  domain?: string
+  secure?: boolean
+}
+
+interface StorageManager {
+  get(key: string): string | null
+  set(key: string, value: string, options?: StorageOptions): boolean
+  remove(key: string): boolean
+  isAvailable(method: StorageMethod): boolean
+  getFromMethod(method: StorageMethod, key: string): string | null
+  setInMethod(
+    method: StorageMethod,
+    key: string,
+    value: string,
+    options?: StorageOptions
+  ): boolean
+  removeFromMethod(method: StorageMethod, key: string): boolean
+  getCookie(name: string): string | null
+  setCookie(name: string, value: string, options?: StorageOptions): boolean
+  removeCookie(name: string): boolean
+}
 
 interface SessionManager {
-  getSessionIdFromCookie(): string | undefined
   getSessionId(): string | null
-  setSessionIdFromCookie(sessionId: string): void
-  setSessionId(): void
+  setSessionId(sessionId: string): void
 }
 
 interface AttributionManager {
   getAttributionData(): AttributionData | null
   captureAttributionData(): void
-  getAttributionFromStorage(): AttributionData | null
   setAttributionToStorage(data: AttributionData): void
 }
 
@@ -92,12 +115,6 @@ declare global {
 const STORAGE_KEY = 'session-id'
 const ATTRIBUTION_STORAGE_KEY = 'attribution-data'
 
-const storageMethods: Record<string, StorageMethod> = {
-  cookie: 'cookie',
-  localStorage: 'localStorage',
-  sessionStorage: 'sessionStorage'
-}
-
 /**
  * Generate uuid to identify the session.
  */
@@ -106,25 +123,263 @@ function _uuidv4(): string {
 }
 
 /**
- * Create attribution manager
+ * Check if session data is expired
+ */
+function isSessionExpired(sessionData: SessionItem): boolean {
+  return Date.now() > sessionData.expiry
+}
+
+/**
+ * Parse session data from string
+ */
+function parseSessionData(data: string): SessionItem | null {
+  try {
+    const parsed = JSON.parse(data)
+    if (
+      parsed &&
+      typeof parsed === 'object' &&
+      'value' in parsed &&
+      'expiry' in parsed
+    ) {
+      return parsed as SessionItem
+    }
+  } catch {
+    // Invalid JSON
+  }
+  return null
+}
+
+/**
+ * Create storage manager with fallback strategy
+ */
+function createStorageManager(config: TinybirdAnalyticsConfig): StorageManager {
+  const primary = config.storage || 'localStorage'
+  const fallbacks = config.storageFallbacks || ['sessionStorage', 'cookie']
+  const enableMemoryFallback = config.enableMemoryFallback ?? true
+
+  const methods = [primary, ...fallbacks]
+  if (enableMemoryFallback) {
+    methods.push('memory')
+  }
+
+  // In-memory storage for fallback
+  const memoryStorage = new Map<string, { value: string; expiry: number }>()
+
+  return {
+    get(key: string): string | null {
+      for (const method of methods) {
+        try {
+          const value = this.getFromMethod(method, key)
+          if (value) return value
+        } catch {
+          continue
+        }
+      }
+      return null
+    },
+
+    set(key: string, value: string, options?: StorageOptions): boolean {
+      for (const method of methods) {
+        try {
+          if (this.setInMethod(method, key, value, options)) {
+            return true
+          }
+        } catch {
+          continue
+        }
+      }
+      return false
+    },
+
+    remove(key: string): boolean {
+      let removed = false
+      for (const method of methods) {
+        try {
+          if (this.removeFromMethod(method, key)) {
+            removed = true
+          }
+        } catch {
+          continue
+        }
+      }
+      return removed
+    },
+
+    isAvailable(method: StorageMethod): boolean {
+      try {
+        switch (method) {
+          case 'localStorage':
+            return 'localStorage' in window && localStorage !== null
+          case 'sessionStorage':
+            return 'sessionStorage' in window && sessionStorage !== null
+          case 'cookie':
+            return 'document' in window && 'cookie' in document
+          case 'memory':
+            return true
+          default:
+            return false
+        }
+      } catch {
+        return false
+      }
+    },
+
+    getFromMethod(method: StorageMethod, key: string): string | null {
+      switch (method) {
+        case 'localStorage':
+          return localStorage.getItem(key)
+        case 'sessionStorage':
+          return sessionStorage.getItem(key)
+        case 'cookie':
+          return this.getCookie(key)
+        case 'memory':
+          // eslint-disable-next-line no-case-declarations
+          const item = memoryStorage.get(key)
+          if (item && Date.now() < item.expiry) {
+            return item.value
+          }
+          memoryStorage.delete(key)
+          return null
+        default:
+          return null
+      }
+    },
+
+    setInMethod(
+      method: StorageMethod,
+      key: string,
+      value: string,
+      options?: StorageOptions
+    ): boolean {
+      switch (method) {
+        case 'localStorage':
+          try {
+            localStorage.setItem(key, value)
+            return true
+          } catch {
+            return false
+          }
+        case 'sessionStorage':
+          try {
+            sessionStorage.setItem(key, value)
+            return true
+          } catch {
+            return false
+          }
+        case 'cookie':
+          return this.setCookie(key, value, options)
+        case 'memory':
+          // eslint-disable-next-line no-case-declarations
+          const expiry = options?.expiry
+            ? Date.now() + options.expiry * 1000
+            : Date.now() + 24 * 60 * 60 * 1000
+          memoryStorage.set(key, { value, expiry })
+          return true
+        default:
+          return false
+      }
+    },
+
+    removeFromMethod(method: StorageMethod, key: string): boolean {
+      switch (method) {
+        case 'localStorage':
+          try {
+            localStorage.removeItem(key)
+            return true
+          } catch {
+            return false
+          }
+        case 'sessionStorage':
+          try {
+            sessionStorage.removeItem(key)
+            return true
+          } catch {
+            return false
+          }
+        case 'cookie':
+          return this.removeCookie(key)
+        case 'memory':
+          return memoryStorage.delete(key)
+        default:
+          return false
+      }
+    },
+
+    getCookie(name: string): string | null {
+      const value = `; ${document.cookie}`
+      const parts = value.split(`; ${name}=`)
+      if (parts.length === 2) {
+        return parts.pop()?.split(';').shift() || null
+      }
+      return null
+    },
+
+    setCookie(name: string, value: string, options?: StorageOptions): boolean {
+      try {
+        let cookieValue = `${name}=${value}`
+
+        if (options?.expiry) {
+          const date = new Date()
+          date.setTime(date.getTime() + options.expiry * 1000)
+          cookieValue += `; expires=${date.toUTCString()}`
+        }
+
+        cookieValue += '; path=/'
+
+        if (options?.secure) {
+          cookieValue += '; secure'
+        }
+
+        if (options?.domain) {
+          cookieValue += `; domain=${options.domain}`
+        }
+
+        document.cookie = cookieValue
+        return true
+      } catch {
+        return false
+      }
+    },
+
+    removeCookie(name: string): boolean {
+      try {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+        return true
+      } catch {
+        return false
+      }
+    }
+  }
+}
+
+/**
+ * Create attribution manager with fallback storage
  */
 function createAttributionManager(
   config: TinybirdAnalyticsConfig
 ): AttributionManager {
+  const storageManager = createStorageManager(config)
+
   return {
     getAttributionData(): AttributionData | null {
-      // First try to get from storage
-      const storedData = this.getAttributionFromStorage()
-      if (storedData) {
-        return storedData
+      const stored = storageManager.get(ATTRIBUTION_STORAGE_KEY)
+      if (stored) {
+        try {
+          return JSON.parse(stored) as AttributionData
+        } catch {
+          storageManager.remove(ATTRIBUTION_STORAGE_KEY)
+        }
       }
-
-      // If not in storage, capture and store
-      this.captureAttributionData()
-      return this.getAttributionFromStorage()
+      return null
     },
 
     captureAttributionData(): void {
+      const stored = this.getAttributionData()
+
+      if (stored) {
+        return
+      }
+
       const urlParams = new URLSearchParams(window.location.search)
       const attributionData: AttributionData = {}
 
@@ -143,64 +398,25 @@ function createAttributionManager(
         }
       })
 
-      // Capture landing page (current page if no stored data)
-      const storedData = this.getAttributionFromStorage()
-      if (!storedData?.landing_page) {
-        attributionData.landing_page = window.location.pathname
-      }
-
-      // Capture referrer (document.referrer if no stored data)
-      if (!storedData?.referrer && document.referrer) {
-        attributionData.referrer = document.referrer
-      }
-
       // Only store if we have some attribution data
       if (Object.keys(attributionData).length > 0) {
+        attributionData.landing_page = window.location.pathname
+        attributionData.referrer = document.referrer
         this.setAttributionToStorage(attributionData)
       }
     },
 
-    getAttributionFromStorage(): AttributionData | null {
-      if (
-        [storageMethods.localStorage, storageMethods.sessionStorage].includes(
-          config.storage!
-        )
-      ) {
-        const storage =
-          config.storage === storageMethods.localStorage
-            ? localStorage
-            : sessionStorage
-        const serializedData = storage.getItem(ATTRIBUTION_STORAGE_KEY)
-
-        if (!serializedData) return null
-
-        try {
-          const data = JSON.parse(serializedData)
-          return data as AttributionData
-        } catch (error) {
-          console.info('Error getting attribution data:', error)
-          return null
-        }
-      }
-
-      // For cookie storage, we'd need to implement cookie parsing
-      // For now, return null for cookie storage
-      return null
-    },
-
     setAttributionToStorage(data: AttributionData): void {
-      if (
-        [storageMethods.localStorage, storageMethods.sessionStorage].includes(
-          config.storage!
-        )
-      ) {
-        const storage =
-          config.storage === storageMethods.localStorage
-            ? localStorage
-            : sessionStorage
-        storage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(data))
+      const storageManager = createStorageManager(config)
+      const success = storageManager.set(
+        ATTRIBUTION_STORAGE_KEY,
+        JSON.stringify(data),
+        { expiry: 24 * 60 * 60 } // 24 hours
+      )
+
+      if (!success) {
+        console.warn('Failed to store attribution data in all storage methods')
       }
-      // For cookie storage, we'd need to implement cookie setting
     }
   }
 }
@@ -331,84 +547,43 @@ function _isValidPayload(payloadStr?: string): boolean {
 }
 
 /**
- * Create session manager
+ * Create session manager with fallback storage
  */
 function createSessionManager(config: TinybirdAnalyticsConfig): SessionManager {
+  const storageManager = createStorageManager(config)
+
   return {
-    getSessionIdFromCookie(): string | undefined {
-      const cookie: Record<string, string> = {}
-      document.cookie.split(';').forEach(function (el) {
-        const [key, value] = el.split('=')
-        cookie[key.trim()] = value
-      })
-      return cookie[STORAGE_KEY]
-    },
-
     getSessionId(): string | null {
-      if (
-        [storageMethods.localStorage, storageMethods.sessionStorage].includes(
-          config.storage!
-        )
-      ) {
-        const storage =
-          config.storage === storageMethods.localStorage
-            ? localStorage
-            : sessionStorage
-        const serializedItem = storage.getItem(STORAGE_KEY)
+      // Try to get from storage
+      const stored = storageManager.get(STORAGE_KEY)
 
-        if (!serializedItem) return null
-
-        let item: SessionItem | null = null
-        try {
-          item = JSON.parse(serializedItem)
-        } catch (error) {
-          console.info('Error getting session id:', error)
-          return null
+      if (stored) {
+        const sessionData = parseSessionData(stored)
+        if (sessionData && !isSessionExpired(sessionData)) {
+          return sessionData.value
         }
-
-        if (typeof item !== 'object' || item === null) return null
-
-        const now = new Date()
-        if (now.getTime() > item.expiry) {
-          storage.removeItem(STORAGE_KEY)
-          return null
-        }
-
-        return item.value
       }
 
-      return this.getSessionIdFromCookie() || null
+      // Generate new session if none exists or expired
+      const newSessionId = _uuidv4()
+      this.setSessionId(newSessionId)
+      return newSessionId
     },
 
-    setSessionIdFromCookie(sessionId: string): void {
-      let cookieValue = `${STORAGE_KEY}=${sessionId}; Max-Age=1800; path=/; secure`
-      if (config.domain) {
-        cookieValue += `; domain=${config.domain}`
+    setSessionId(sessionId: string): void {
+      const sessionData: SessionItem = {
+        value: sessionId,
+        expiry: Date.now() + 30 * 60 * 1000 // 30 minutes
       }
-      document.cookie = cookieValue
-    },
 
-    setSessionId(): void {
-      const sessionId = this.getSessionId() || _uuidv4()
+      const success = storageManager.set(
+        STORAGE_KEY,
+        JSON.stringify(sessionData),
+        { expiry: 1800 } // 30 minutes
+      )
 
-      if (
-        [storageMethods.localStorage, storageMethods.sessionStorage].includes(
-          config.storage!
-        )
-      ) {
-        const now = new Date()
-        const item: SessionItem = {
-          value: sessionId,
-          expiry: now.getTime() + 1800 * 1000
-        }
-        const value = JSON.stringify(item)
-        const storage =
-          config.storage === storageMethods.localStorage
-            ? localStorage
-            : sessionStorage
-        storage.setItem(STORAGE_KEY, value)
-      } else {
-        this.setSessionIdFromCookie(sessionId)
+      if (!success) {
+        console.warn('Failed to store session ID in all storage methods')
       }
     }
   }
@@ -458,7 +633,9 @@ const tinybirdAnalytics = (
     proxyUrl: null,
     domain: null,
     datasource: 'analytics_events',
-    storage: storageMethods.cookie,
+    storage: 'localStorage' as StorageMethod,
+    storageFallbacks: ['sessionStorage', 'cookie'] as StorageMethod[],
+    enableMemoryFallback: true,
     stringifyPayload: true,
     globalAttributes: {},
     webVitals: false,
@@ -472,7 +649,7 @@ const tinybirdAnalytics = (
     const config = configWithDefaults
 
     // Set session ID
-    sessionManager.setSessionId()
+    sessionManager.setSessionId(sessionManager.getSessionId() || _uuidv4())
 
     // Validate user agent
     if (!_isValidUserAgent(window.navigator.userAgent)) {
@@ -499,7 +676,8 @@ const tinybirdAnalytics = (
       processedPayload = Object.assign(
         {},
         JSON.parse(processedPayload),
-        config.globalAttributes
+        config.globalAttributes,
+        { storage: config.storage }
       )
       processedPayload = JSON.stringify(processedPayload)
 
@@ -507,7 +685,9 @@ const tinybirdAnalytics = (
         return
       }
     } else {
-      processedPayload = Object.assign({}, event, config.globalAttributes)
+      processedPayload = Object.assign({}, event, config.globalAttributes, {
+        storage: config.storage
+      })
       const maskedStr = _maskSuspiciousAttributes(processedPayload)
 
       if (!_isValidPayload(maskedStr)) {
@@ -603,12 +783,17 @@ const tinybirdAnalytics = (
     window.tinybirdAnalytics = tinybirdAnalyticsInstance
   }
 
+  attributionManager?.captureAttributionData()
+
   return tinybirdAnalyticsInstance
 }
 
 export default tinybirdAnalytics
 export type {
   AttributionData,
+  StorageManager,
+  StorageMethod,
+  StorageOptions,
   TinybirdAnalytics,
   TinybirdAnalyticsConfig,
   TinybirdEvent,
