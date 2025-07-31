@@ -80,8 +80,7 @@
 
 <script>
   const PUBLIC_SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL
-  const PUBLIC_SUPABASE_PUBLISHABLE_KEY = import.meta.env
-    .PUBLIC_SUPABASE_PUBLISHABLE_KEY
+  const PUBLIC_SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 
   // ConfirmSubscription component - handles subscription confirmation
   document.addEventListener('DOMContentLoaded', async () => {
@@ -166,7 +165,7 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${PUBLIC_SUPABASE_PUBLISHABLE_KEY}`
+            Authorization: `Bearer ${PUBLIC_SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({ token })
         }
