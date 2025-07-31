@@ -22,13 +22,29 @@ export default [
       'simple-import-sort/exports': 'error'
     }
   },
-  // Type-aware rules only for TS/TSX
+  // Type-aware rules only for TS/TSX in src/ and scripts/ folders
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['{src,scripts}/**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         project: './tsconfig.json'
+      }
+    },
+    rules: {
+      ...tseslint.configs.recommendedTypeChecked.rules,
+      '@typescript-eslint/triple-slash-reference': 'off',
+      '@typescript-eslint/sort-type-constituents': 'error'
+    }
+  },
+
+  // Supabase functions TypeScript configuration
+  {
+    files: ['supabase/functions/**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        project: './supabase/tsconfig.json'
       }
     },
     rules: {

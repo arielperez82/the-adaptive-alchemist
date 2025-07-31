@@ -25,5 +25,5 @@
     "src/**/*",
     "scripts/**/*"
   ],
-  "exclude": ["node_modules", "dist", "supabase/functions"]
+  "exclude": ["node_modules", "dist"]
 }
