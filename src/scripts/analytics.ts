@@ -14,7 +14,10 @@ const analytics = Analytics({
       host: import.meta.env.PUBLIC_TINYBIRD_HOST,
       datasource: 'analytics_events',
       storage: 'localStorage',
-      webVitals: true
+      webVitals: true,
+      globalAttributes: {
+        site: 'the-adaptive-alchemist'
+      }
     })
   ]
 })
