@@ -123,9 +123,16 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: |
-          result=$(pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }} | tail -n 1)
-          echo "$result"
-          echo "result=$result" >> $GITHUB_OUTPUT
+          # Run the newsletter command and capture both output and exit code
+          if output=$(pnpm run send-newsletter ${{ env.ARTICLE_PATH }} ${{ env.FORCE }} 2>&1); then
+            result=$(echo "$output" | tail -n 1)
+            echo "$result"
+            echo "result=$result" >> $GITHUB_OUTPUT
+          else
+            echo "Newsletter sending failed with exit code $?"
+            echo "Output: $output"
+            exit 1
+          fi
 
       - name: Tag repo with newsletter sent tag
         if: steps.send-newsletter.outputs.result == 'Newsletter sent successfully'
