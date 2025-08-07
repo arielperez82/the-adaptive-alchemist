@@ -28,6 +28,7 @@ export interface TinybirdAnalyticsConfig {
   proxy?: string
   proxyUrl?: string
   domain?: string
+  tenantId?: string
   datasource?: string
   storage?: StorageMethod
   storageFallbacks?: StorageMethod[]
