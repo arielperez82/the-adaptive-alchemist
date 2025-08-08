@@ -56,7 +56,7 @@ jobs:
         run: tb --cloud --host ${{ vars.TINYBIRD_HOST }} --token ${{ secrets.TINYBIRD_TOKEN }} deploy --check
 
   deploy-staging:
-    if: github.event_name == 'push' && github.event.inputs.target_job == 'deploy-staging'
+    if: github.event_name == 'push' || github.event.inputs.target_job == 'deploy-staging'
     name: Deploy to Tinybird Staging
     needs: validate
     runs-on: ubuntu-latest
