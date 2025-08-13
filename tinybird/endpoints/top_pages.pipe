@@ -37,7 +37,10 @@ DESCRIPTION >
 SQL >
     %
     SELECT 
-        pathname, 
+        CASE 
+            WHEN pathname = '/' THEN pathname
+            ELSE if(endsWith(pathname, '/'), substring(pathname, 1, length(pathname) - 1), pathname)
+        END as pathname, 
         uniqMerge(visits) as current_visits, 
         countMerge(hits) as current_hits
     FROM analytics_pages_mv
@@ -57,9 +60,12 @@ DESCRIPTION >
 
 SQL >
     %
-    {% if defined(include_previous_period) and include_previous_period == 'true' %}
+        {% if defined(include_previous_period) and include_previous_period == 'true' %}
     SELECT 
-        pathname, 
+        CASE 
+            WHEN pathname = '/' THEN pathname
+            ELSE if(endsWith(pathname, '/'), substring(pathname, 1, length(pathname) - 1), pathname)
+        END as pathname, 
         uniqMerge(visits) as previous_visits, 
         countMerge(hits) as previous_hits
     FROM analytics_pages_mv
@@ -89,12 +95,12 @@ SQL >
         c.current_hits as hits,
         coalesce(p.previous_visits, 0) as previous_visits,
         coalesce(p.previous_hits, 0) as previous_hits,
-        CASE 
+        CASE
             WHEN coalesce(p.previous_visits, 0) = 0 AND c.current_visits > 0 THEN 100.0
             WHEN coalesce(p.previous_visits, 0) = 0 THEN 0.0
             ELSE round(((c.current_visits - coalesce(p.previous_visits, 0)) * 100.0) / p.previous_visits, 2)
         END as visits_growth_percentage,
-        CASE 
+        CASE
             WHEN coalesce(p.previous_hits, 0) = 0 AND c.current_hits > 0 THEN 100.0
             WHEN coalesce(p.previous_hits, 0) = 0 THEN 0.0
             ELSE round(((c.current_hits - coalesce(p.previous_hits, 0)) * 100.0) / p.previous_hits, 2)
