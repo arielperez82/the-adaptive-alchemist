@@ -82,6 +82,7 @@ serve(async (req) => {
       name: articleTitle,
       audienceId,
       subject: articleTitle,
+      previewText: articleDescription,
       html: generateNewsletterHTML(
         articleTitle,
         articleDescription,
