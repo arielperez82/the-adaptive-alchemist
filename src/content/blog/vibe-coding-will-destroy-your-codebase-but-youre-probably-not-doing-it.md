@@ -12,7 +12,7 @@ tags: ['AI']
 
 Everyone is calling AI code generation "vibe coding." Product managers, CTOs, security researchers, and developers—they're using this term to describe everything from structured AI workflows to full autonomous development. That's like calling a bicycle and a rocket ship both "transportation"—the differences matter, and getting them wrong has consequences. Half the internet thinks vibe coding creates security holes and technical debt. The other half thinks it's just using AI to write code faster. Both sides are missing the point, and this confusion is wrecking teams that could be shipping quality software with AI.
 
-The critical insight isn't about different AI tools or approaches. It's about understanding that **AI multiplies whatever rigor you already apply**. At low rigor, AI accelerates chaos. At high rigor, AI enhances quality and velocity. Your outcomes depend less on the tool and more on the discipline you bring to the process.
+The key point isn't about different AI tools or approaches. It's about understanding that **AI multiplies whatever rigor you already apply**. At low rigor, AI accelerates chaos. At high rigor, AI enhances quality and velocity. Your outcomes depend less on the tool and more on the discipline you bring to the process.
 
 Most teams using AI tools responsibly aren't vibe coding at all—they're operating in entirely different regions of what I see as the AI development matrix. Understanding where you sit on this matrix determines whether AI becomes a superpower or a disaster.
 
@@ -80,13 +80,13 @@ This is where most real-world development lives today, and it's the most importa
 <img src="/blog/vibe-coding/phpstorm-llm-code-completion.webp" alt="PHPStorm code completion of function body" class="mx-auto w-3/4 h-auto" />
 <div class="text-sm text-center italic text-gray-600 dark:text-gray-400">PHPStorm generating implementation for function</div>
 
-**What we generally see here:** AI can produce impressive amounts of code quickly, generating complete implementations, handling boilerplate, and even creating complex logic. Teams often feel a productivity rush because they're generating far more code than they could manually. But here's the crucial insight: **the bottleneck in software development has never really been typing speed or code volume**.
+**What we generally see here:** AI can produce impressive amounts of code quickly, generating complete implementations, handling boilerplate, and even creating complex logic. Teams often feel a productivity rush because they're generating far more code than they could manually. But here's the key point: **the bottleneck in software development has never really been typing speed or code volume**.
 
 The real bottlenecks are understanding requirements, designing good architecture, handling edge cases, debugging issues, and maintaining systems over time. AI can accelerate code generation dramatically, but whether this helps or hurts depends entirely on the rigor you apply.
 
 **The hallucination challenge:** AI can generate entire classes not grounded in your actual codebase or real libraries. It makes stuff up. Vigilance and rigor keep this in check.
 
-**The critical insight:** The same level of AI autonomy produces completely different outcomes based on the discipline you bring to the process.
+**The core principle:** The same level of AI autonomy produces completely different outcomes based on the discipline you bring to the process.
 
 Without systematic rigor, teams naturally drift toward the path of least resistance, which is usually lower quality.
 
@@ -245,7 +245,7 @@ The practical guidance is straightforward: **your level of rigor determines what
 
 **Vibe coding works for prototypes and exploration.** Use it for learning and creative work, but don't deploy results to production without rebuilding with appropriate rigor.
 
-The critical insight: **don't increase AI autonomy faster than you can increase rigor**. Teams that violate this principle create the disasters that fuel backlash against AI tools.
+The essential rule: **don't increase AI autonomy faster than you can increase rigor**. Teams that violate this principle create the disasters that fuel backlash against AI tools.
 
 ## The path forward
 
