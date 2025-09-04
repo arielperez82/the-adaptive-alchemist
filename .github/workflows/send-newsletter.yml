@@ -101,7 +101,7 @@ jobs:
         if: env.ARTICLE_PATH != ''
         uses: pnpm/action-setup@v2
         with:
-          version: '10.13.1'
+          version: '10.15.1'
 
       - name: Setup Node.js
         if: env.ARTICLE_PATH != ''
