@@ -2,6 +2,7 @@
 // Post-build script to generate llms.txt and llms-full.txt from all HTML files in dist
 import { execSync } from 'child_process'
 import fs from 'fs/promises'
+import { unescape } from 'html-escaper'
 import path from 'path'
 import TurndownService from 'turndown'
 import { fileURLToPath } from 'url'
@@ -22,10 +23,15 @@ type PageMeta = {
   url: string
   path: string
   section: string
+  publishingDate?: string
 }
 
 const getSiteURL = () => {
   return process.env.SITE_URL || 'https://www.adaptivealchemist.com'
+}
+
+function unescapeHtml(text: string): string {
+  return unescape(text)
 }
 
 function getGitTimestamp(filePath: string): string {
@@ -64,11 +70,15 @@ function getGitTimestamp(filePath: string): string {
 function extractMeta(html: string, filePath: string): PageMeta {
   const titleMatch = html.match(/<title>(.*?)<\/title>/i)
   const descMatch = html.match(
-    /<meta name=["']description["'] content=["'](.*?)["']/i
+    /<meta name=["']description["'] content=["'](.*?)["']>/i
   )
   const ogTypeMatch = html.match(
-    /<meta property=["']og:type["'] content=["'](.*?)["']/i
+    /<meta property=["']og:type["'] content=["'](.*?)["']>/i
   )
+
+  // Extract publishing date from time tag
+  const timeMatch = html.match(/<time[^>]*datetime=["']([^"']*)["'][^>]*>/i)
+  const publishingDate = timeMatch ? timeMatch[1] : undefined
 
   // Extract path from file path
   const relativePath = path.relative(distDir, filePath)
@@ -88,11 +98,12 @@ function extractMeta(html: string, filePath: string): PageMeta {
   }
 
   return {
-    title: titleMatch ? titleMatch[1] : 'Untitled',
-    description: descMatch ? descMatch[1] : '',
+    title: titleMatch ? unescapeHtml(titleMatch[1]) : 'Untitled',
+    description: descMatch ? unescapeHtml(descMatch[1]) : '',
     url,
     path: urlPath,
-    section
+    section,
+    publishingDate
   }
 }
 
@@ -182,11 +193,12 @@ async function processHtmlFileForFull(filePath: string): Promise<string> {
 
   return `---
 
-URL: ${meta.url}
+Source: ${meta.url}
+Publishing date: ${meta.publishingDate || lastUpdate}
 Last update: ${lastUpdate}
 ---
-title: "${meta.title}"
-description: "${meta.description}"
+Title: "${meta.title}"
+Description: "${meta.description}"
 ---
 
 ${markdown}
