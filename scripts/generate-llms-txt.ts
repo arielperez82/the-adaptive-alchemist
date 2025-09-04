@@ -196,10 +196,11 @@ async function processHtmlFileForFull(filePath: string): Promise<string> {
 Source: ${meta.url}
 Publishing date: ${meta.publishingDate || lastUpdate}
 Last update: ${lastUpdate}
----
 Title: "${meta.title}"
 Description: "${meta.description}"
 ---
+
+# ${meta.title}
 
 ${markdown}
 
