@@ -1,5 +1,5 @@
 ---
-title: " Vibe coding will destroy your codebase but, you're probably not doing it"
+title: "Vibe coding will destroy your codebase but, you're probably not doing it"
 description: 'Everyone is calling AI code generation "vibe coding"—from harmless autocomplete to security nightmares. This confusion leads to wrong bets on tools and policies. Here''s the matrix that separates hype from reality.'
 pubDate: 2025-09-03
 heroImage: '/assets/full-matrix.png'

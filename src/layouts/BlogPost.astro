@@ -79,7 +79,14 @@ const headings = extractHeadings(content)
             class="mb-6 flex items-center gap-x-4 text-sm text-zinc-500 dark:text-zinc-400"
           >
             <FormattedDate date={pubDate} />
-            {readingTime && <span>· {readingTime}</span>}
+            {
+              readingTime && (
+                <>
+                  <span>·</span>
+                  <span class="reading-time">{readingTime}</span>
+                </>
+              )
+            }
           </div>
 
           <TagList tags={tags} class="mt-2" />
@@ -92,7 +99,7 @@ const headings = extractHeadings(content)
                 <OptimizedImage
                   src={heroImage}
                   alt={title}
-                  class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                  class="hero-image h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                   loading="eager"
                 />
               </div>

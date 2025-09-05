@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename)
 const distDir = path.join(__dirname, '../dist')
 const llmsFile = path.join(distDir, 'llms.txt')
 const llmsFullFile = path.join(distDir, 'llms-full.txt')
+const blogJsonFile = path.join(distDir, 'blog.json')
 const turndownService = new TurndownService()
 
 type PageMeta = {
@@ -24,6 +25,8 @@ type PageMeta = {
   path: string
   section: string
   publishingDate?: string
+  heroImageUrl?: string
+  readingTime?: string
 }
 
 const getSiteURL = () => {
@@ -80,11 +83,26 @@ function extractMeta(html: string, filePath: string): PageMeta {
   const timeMatch = html.match(/<time[^>]*datetime=["']([^"']*)["'][^>]*>/i)
   const publishingDate = timeMatch ? timeMatch[1] : undefined
 
+  const baseUrl = getSiteURL()
+
+  // Extract hero image URL from HTML
+  const heroImageMatch = html.match(
+    /<img[^>]*src=["']([^"']*)["'][^>]*class=["'][^"']*hero-image[^"']*["'][^>]*>/i
+  )
+  const heroImageUrl = heroImageMatch
+    ? `${baseUrl}${heroImageMatch[1]}`
+    : undefined
+
+  // Extract reading time from HTML
+  const readingTimeMatch = html.match(
+    /<span[^>]*class=["'][^"']*reading-time[^"']*["'][^>]*>([^<]*)<\/span>/i
+  )
+  const readingTime = readingTimeMatch ? readingTimeMatch[1].trim() : undefined
+
   // Extract path from file path
   const relativePath = path.relative(distDir, filePath)
   const urlPath = relativePath.replace(/\.html$/, '').replace(/index$/, '')
 
-  const baseUrl = getSiteURL()
   const url = `${baseUrl}/${urlPath}`
 
   // Determine section based on path and og:type
@@ -103,7 +121,9 @@ function extractMeta(html: string, filePath: string): PageMeta {
     url,
     path: urlPath,
     section,
-    publishingDate
+    publishingDate,
+    heroImageUrl,
+    readingTime
   }
 }
 
@@ -233,6 +253,29 @@ async function generateSitemap(pages: PageMeta[]): Promise<string> {
   return sitemap
 }
 
+async function generateBlogJson(pages: PageMeta[]): Promise<string> {
+  // Filter to only blog posts
+  const blogPosts = pages.filter((page) => page.section === 'Posts')
+
+  // Sort by publishing date (newest first)
+  blogPosts.sort((a, b) => {
+    const dateA = a.publishingDate ? new Date(a.publishingDate) : new Date(0)
+    const dateB = b.publishingDate ? new Date(b.publishingDate) : new Date(0)
+    return dateB.getTime() - dateA.getTime()
+  })
+
+  // Map to JSON structure
+  const blogJson = blogPosts.map((post) => ({
+    title: post.title,
+    description: post.description,
+    publishingDate: post.publishingDate,
+    readingTime: post.readingTime || 'Unknown',
+    heroImageUrl: post.heroImageUrl
+  }))
+
+  return JSON.stringify(blogJson, null, 2)
+}
+
 async function main() {
   const pages: PageMeta[] = []
   const fullContent: string[] = []
@@ -257,6 +300,11 @@ async function main() {
   const fullContentText = fullContent.join('\n')
   await fs.writeFile(llmsFullFile, fullContentText, 'utf-8')
   console.log('llms-full.txt generated at', llmsFullFile)
+
+  // Generate blog.json (blog content JSON)
+  const blogJson = await generateBlogJson(pages)
+  await fs.writeFile(blogJsonFile, blogJson, 'utf-8')
+  console.log('blog.json generated at', blogJsonFile)
 }
 
 main().catch((err) => {

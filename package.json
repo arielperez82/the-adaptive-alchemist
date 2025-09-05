@@ -73,6 +73,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.29.0",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/html-escaper": "^3.0.4",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "24.0.3",
     "@types/slug": "^5.0.9",

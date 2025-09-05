@@ -1,6 +1,6 @@
 ---
 title: 'Why 19 out of 20 enterprise AI initiatives deliver zero ROI (and how the 5% succeed)'
-description: " 95% of enterprise GenAI pilots deliver zero financial impact. The successful 5% aren't using better AI—they're organized differently."
+description: "95% of enterprise GenAI pilots deliver zero financial impact. The successful 5% aren't using better AI—they're organized differently."
 pubDate: 2025-08-25
 heroImage: '/assets/this-is-fine.jpg'
 readingTime: '9 min read'
