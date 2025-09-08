@@ -270,7 +270,8 @@ async function generateBlogJson(pages: PageMeta[]): Promise<string> {
     description: post.description,
     publishingDate: post.publishingDate,
     readingTime: post.readingTime || 'Unknown',
-    heroImageUrl: post.heroImageUrl
+    heroImageUrl: post.heroImageUrl,
+    url: post.url
   }))
 
   return JSON.stringify(blogJson, null, 2)
