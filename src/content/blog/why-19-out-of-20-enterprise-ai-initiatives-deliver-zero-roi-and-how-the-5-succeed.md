@@ -4,7 +4,7 @@ description: "95% of enterprise GenAI pilots deliver zero financial impact. The 
 pubDate: 2025-08-25
 heroImage: '/assets/this-is-fine.jpg'
 readingTime: '9 min read'
-tags: ['AI', 'Organizational Design']
+tags: ['AI', 'Organizational Design', 'Software Development']
 ---
 
 Another week, another study telling us what we already suspected. MIT's NANDA initiative just dropped their bombshell: [The GenAI Divide: State of AI in Business 2025](https://nanda.media.mit.edu/ai_report_2025.pdf) shows that 95% of enterprise GenAI pilots are delivering zero financial impact. That's not a typo. After all the hype, all the investment, all the promises about transforming business, nineteen out of twenty initiatives are complete washouts.

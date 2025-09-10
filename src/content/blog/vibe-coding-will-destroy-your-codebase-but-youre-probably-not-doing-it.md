@@ -4,7 +4,7 @@ description: 'Everyone is calling AI code generation "vibe coding"—from harmle
 pubDate: 2025-09-03
 heroImage: '/assets/full-matrix.png'
 readingTime: '12 min read'
-tags: ['AI']
+tags: ['AI', 'Software Development']
 ---
 
 <!-- markdownlint-disable MD033 -->

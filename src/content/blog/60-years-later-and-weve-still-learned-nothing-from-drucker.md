@@ -4,7 +4,7 @@ description: 'This week I''m reading "The Effective Executive" on vacation and I
 pubDate: 2025-08-12
 heroImage: '/assets/effective-executive-review.jpeg'
 readingTime: '5 min read'
-tags: ['Leadership']
+tags: ['Leadership', 'Software Development']
 ---
 
 This week I'm writing from the beaches of Cantabria, where my children are building sand castles and running into the Atlantic while I read in the cool, teal-filtered light of the [Neso tent](https://amzn.to/45up3Sz) my wife talked me into buying a few years ago (she was right). I'm trading my usual organizational design deep dives for something a bit more foundational—finally reading Peter Drucker's ["The Effective Executive"](https://amzn.to/3UXh6QZ)—and I'm genuinely irritated. Not by the book, by the fact that we're still fighting battles Drucker won in 1966.

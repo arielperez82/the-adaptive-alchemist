@@ -4,7 +4,7 @@ description: 'Your competitors ship faster while staying compliant because they 
 pubDate: 2025-08-19
 heroImage: '/assets/red-tape.jpg'
 readingTime: '10 min read'
-tags: ['High-Performing Teams']
+tags: ['High-Performing Teams', 'Software Development']
 ---
 
 I've lost count of how many engineering discussions end with "the regulators won't let us do that." Someone suggests trunk-based development? "Can't do it, compliance issues." Continuous deployment? "Too risky for our industry." You build it, you run it? "Our risk team would never approve."
