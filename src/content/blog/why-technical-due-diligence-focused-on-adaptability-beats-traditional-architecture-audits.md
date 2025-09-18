@@ -1,5 +1,5 @@
 ---
-title: 'Technical due diligence focused on adaptability beats traditional architecture audits'
+title: 'Why technical due diligence focused on adaptability beats traditional architecture audits'
 description: "Traditional tech due diligence audits architecture but misses adaptability. Smart VCs evaluate a startup's capacity to evolve, not just code quality."
 pubDate: 2025-09-18
 heroImage: '/assets/due-diligence.png'
