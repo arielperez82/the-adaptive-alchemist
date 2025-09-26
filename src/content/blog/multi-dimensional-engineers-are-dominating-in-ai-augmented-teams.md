@@ -7,11 +7,13 @@ readingTime: '5 min read'
 tags: ['AI', 'Software Development']
 ---
 
-Two weeks ago, I watched a senior backend engineer realize his job was disappearing. Not to AI directly, but to a junior developer who could use AI to write backend services, understand frontend constraints, and communicate directly with product managers about user needs.
+I recently watched a senior backend engineer realize his role was becoming less valuable. Not because he lacked technical skills—his architecture was solid, his code was clean, and his database knowledge ran deep. The issue was that he couldn't connect his technical decisions to business outcomes.
 
-The senior engineer was technically superior. Better architecture, cleaner code, deeper database knowledge. But he couldn't explain why his technical choices mattered to the business. He'd never touched the frontend. Product discussions frustrated him because "that's not my job."
+Across the table sat a junior developer who had spent six months learning to use AI tools effectively, understanding frontend constraints, and sitting in on product strategy meetings. When stakeholders asked why certain technical choices mattered, the junior engineer could explain the customer impact. When requirements changed, they understood the business reasoning and could adapt quickly.
 
-The junior engineer shipped features that customers used. The senior engineer built elegant systems that solved the wrong problems.
+Both engineers could solve the technical problems. But only one could solve the right problems for the business.
+
+The senior engineer built elegant systems in isolation. The junior engineer shipped features that customers used and stakeholders valued.
 
 This isn't a future scenario. It's happening now across engineering organizations, though the pace varies by industry and context. The direction is consistent even where the timeline differs. AI isn't replacing engineers—it's making narrow specialists much easier to replace while supercharging those who can work across multiple dimensions.
 
