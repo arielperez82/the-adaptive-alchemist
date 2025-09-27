@@ -43,7 +43,7 @@ importers:
         version: 5.12.3(@types/node@24.0.3)(jiti@2.4.2)(lightningcss@1.30.1)(rollup@4.43.0)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
       astro-seo:
         specifier: ^0.8.4
-        version: 0.8.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)
+        version: 0.8.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)
       countries-and-timezones:
         specifier: ^3.8.0
         version: 3.8.0
@@ -83,10 +83,13 @@ importers:
       tailwindcss:
         specifier: ^4.1.10
         version: 4.1.10
+      tinybird-analytics:
+        specifier: github:arielperez82/web-analytics#path:/client
+        version: https://codeload.github.com/arielperez82/web-analytics/tar.gz/78941923e27f9de6c0778926137d4e84ded4222d#path:/client(@types/dlv@1.1.5)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
-        version: 0.9.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)
+        version: 0.9.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)
       '@eslint/eslintrc':
         specifier: ^3.3.1
         version: 3.3.1
@@ -137,7 +140,7 @@ importers:
         version: 6.10.2(eslint@9.29.0(jiti@2.4.2))
       eslint-plugin-prettier:
         specifier: ^5.5.0
-        version: 5.5.0(eslint-config-prettier@10.1.5(eslint@9.29.0(jiti@2.4.2)))(eslint@9.29.0(jiti@2.4.2))(prettier@3.5.3)
+        version: 5.5.0(eslint-config-prettier@10.1.5(eslint@9.29.0(jiti@2.4.2)))(eslint@9.29.0(jiti@2.4.2))(prettier@3.6.2)
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@9.29.0(jiti@2.4.2))
@@ -157,8 +160,8 @@ importers:
         specifier: ^0.45.0
         version: 0.45.0
       prettier:
-        specifier: ^3.0.3
-        version: 3.5.3
+        specifier: ^3.6.2
+        version: 3.6.2
       prettier-plugin-astro:
         specifier: ^0.12.0
         version: 0.12.3
@@ -167,7 +170,7 @@ importers:
         version: 1.8.8(typescript@5.8.3)
       prettier-plugin-tailwindcss:
         specifier: ^0.5.4
-        version: 0.5.14(@ianvs/prettier-plugin-sort-imports@4.4.2(prettier@3.5.3))(prettier-plugin-astro@0.12.3)(prettier-plugin-sort-imports@1.8.8(typescript@5.8.3))(prettier@3.5.3)
+        version: 0.5.14(@ianvs/prettier-plugin-sort-imports@4.4.2(prettier@3.6.2))(prettier-plugin-astro@0.12.3)(prettier-plugin-sort-imports@1.8.8(typescript@5.8.3))(prettier@3.6.2)
       sharp:
         specifier: 0.34.2
         version: 0.34.2
@@ -197,7 +200,7 @@ importers:
         version: 1.0.0(stylelint@16.20.0(typescript@5.8.3))(tailwindcss@4.1.10)
       stylelint-prettier:
         specifier: ^5.0.3
-        version: 5.0.3(prettier@3.5.3)(stylelint@16.20.0(typescript@5.8.3))
+        version: 5.0.3(prettier@3.6.2)(stylelint@16.20.0(typescript@5.8.3))
       supabase:
         specifier: ^2.31.8
         version: 2.31.8
@@ -337,8 +340,8 @@ packages:
     resolution: {integrity: sha512-ZGhA37l0e/g2s1Cnzdix0O3aLYm66eF8aufiVteOgnwxgnRP8GoyMj7VWsgWnQbVKXyge7hqrFh2K2TQM6t1Hw==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/generator@7.28.0':
-    resolution: {integrity: sha512-lJjzvrbEeWrhB4P3QBsH7tey117PjLZnDbLiQEKjQ/fNJTjuq4HSqgFA+UNSwZT8D7dxxbnuSBMsa1lrWzKlQg==}
+  '@babel/generator@7.28.3':
+    resolution: {integrity: sha512-3lSpxGgvnmZznmBkCRnVREPUFJv2wrv9iAoFDvADJc0ypmdOxdUtcLeBgBJ6zE0PMeTKnxeQzyk0xTBq4Ep7zw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/helper-compilation-targets@7.27.2':
@@ -389,6 +392,11 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.28.4':
+    resolution: {integrity: sha512-yZbBqeM6TkpP9du/I2pUZnJsRMGGvOuIrhjzC1AwHwW+6he4mni6Bp/m8ijn0iOuZuPI2BfkCoSRunpyjnrQKg==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/plugin-transform-react-jsx-self@7.27.1':
     resolution: {integrity: sha512-6UzkCs+ejGdZ5mFFC/OCUrv028ab2fp1znZmCZjAOBKiBK2jXD1O+BPSfX8X2qjJ75fZBMSnQn3Rq2mrBJK2mw==}
     engines: {node: '>=6.9.0'}
@@ -409,8 +417,8 @@ packages:
     resolution: {integrity: sha512-oNcu2QbHqts9BtOWJosOVJapWjBDSxGCpFvikNR5TGDYDQf3JwpIoMzIKrvfoti93cLfPJEG4tH9SPVeyCGgdA==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/traverse@7.28.0':
-    resolution: {integrity: sha512-mGe7UK5wWyh0bKRfupsUchrQGqvDbZDbKJw+kcRGSmdHVYrv+ltd0pnpDTVpiTqnaBru9iEvA8pz8W46v0Amwg==}
+  '@babel/traverse@7.28.4':
+    resolution: {integrity: sha512-YEzuboP2qvQavAcjgQNVgsvHIDv6ZpwXvcvjmyySP2DIMuByS/6ioU5G9pYrWHM6T2YDfc7xga9iNzYOs12CFQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.27.6':
@@ -419,6 +427,10 @@ packages:
 
   '@babel/types@7.28.1':
     resolution: {integrity: sha512-x0LvFTekgSX+83TI28Y9wYPUfzrnl2aT5+5QLnO6v7mSJYtEEevuDRN0F0uSHRk1G1IWZC43o00Y0xDDrpBGPQ==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/types@7.28.4':
+    resolution: {integrity: sha512-bkFqkLhh3pMBUQQkpVgWDWq/lqzc2678eUyDlTBhRqhCHFguYYGM0Efga7tYk4TogG/3x0EEl66/OQ+WGbWB/Q==}
     engines: {node: '>=6.9.0'}
 
   '@capsizecss/unpack@2.4.0':
@@ -626,6 +638,12 @@ packages:
 
   '@eslint-community/eslint-utils@4.7.0':
     resolution: {integrity: sha512-dyybb3AcajC7uha6CvhdVRJqaKyn7w2YKqKyAN37NKYgZT36w+iRb0Dymmc5qEJ549c/S31cMMSFd75bteCpCw==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
+
+  '@eslint-community/eslint-utils@4.9.0':
+    resolution: {integrity: sha512-ayVFHdtZ+hsq1t2Dy24wCmGXGe4q9Gu3smhLYALJrr473ZH27MsnSL+LKUlimp4BWJqMDMLmPpx/Q9R3OAlL4g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
@@ -932,8 +950,8 @@ packages:
     resolution: {integrity: sha512-wgm9Ehl2jpeqP3zw/7mo3kRHFp5MEDhqAdwy1fTGkHAwnkGOVsgpvQhL8B5n1qlb01jV3n/bI0ZfZp5lWA1k4w==}
     engines: {node: '>=18.0.0'}
 
-  '@jridgewell/gen-mapping@0.3.12':
-    resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
+  '@jridgewell/gen-mapping@0.3.13':
+    resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
   '@jridgewell/gen-mapping@0.3.8':
     resolution: {integrity: sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==}
@@ -950,14 +968,14 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
 
-  '@jridgewell/sourcemap-codec@1.5.4':
-    resolution: {integrity: sha512-VT2+G1VQs/9oz078bLrYbecdZKs912zQlkelYpuf+SXF+QvZDYJlbx/LSx+meSAwdDFnF8FVXW92AVjjkVmgFw==}
+  '@jridgewell/sourcemap-codec@1.5.5':
+    resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@jridgewell/trace-mapping@0.3.29':
-    resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
+  '@jridgewell/trace-mapping@0.3.31':
+    resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
   '@keyv/serialize@1.0.3':
     resolution: {integrity: sha512-qnEovoOp5Np2JDGonIDL6Ayihw0RhnRh6vxPuHo4RDn1UOzwEo4AeIfpL6UGIrsceWrCMiVPgwRjbHu4vYFc3g==}
@@ -1847,6 +1865,15 @@ packages:
 
   debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@4.4.3:
+    resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -3662,8 +3689,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.5.3:
-    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4218,6 +4245,10 @@ packages:
 
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
+
+  tinybird-analytics@https://codeload.github.com/arielperez82/web-analytics/tar.gz/78941923e27f9de6c0778926137d4e84ded4222d#path:/client:
+    resolution: {path: /client, tarball: https://codeload.github.com/arielperez82/web-analytics/tar.gz/78941923e27f9de6c0778926137d4e84ded4222d}
+    version: 1.1.1
 
   tinyexec@0.3.2:
     resolution: {integrity: sha512-KQQR9yN7R5+OSwaK0XQoj22pwHoTlgYqmUscPYoknOoWCWfj/5/ABTMRi69FrKU5ffPVh5QcFikpWJI/P1ocHA==}
@@ -4811,9 +4842,9 @@ snapshots:
 
   '@analytics/type-utils@0.6.2': {}
 
-  '@astrojs/check@0.5.10(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)':
+  '@astrojs/check@0.5.10(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)':
     dependencies:
-      '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)
+      '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)
       chokidar: 3.6.0
       fast-glob: 3.3.3
       kleur: 4.1.5
@@ -4823,9 +4854,9 @@ snapshots:
       - prettier
       - prettier-plugin-astro
 
-  '@astrojs/check@0.9.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)':
+  '@astrojs/check@0.9.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)':
     dependencies:
-      '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)
+      '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)
       chokidar: 4.0.3
       kleur: 4.1.5
       typescript: 5.8.3
@@ -4840,7 +4871,7 @@ snapshots:
 
   '@astrojs/internal-helpers@0.6.1': {}
 
-  '@astrojs/language-server@2.15.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)':
+  '@astrojs/language-server@2.15.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)':
     dependencies:
       '@astrojs/compiler': 2.12.2
       '@astrojs/yaml2ts': 0.2.2
@@ -4854,14 +4885,14 @@ snapshots:
       volar-service-css: 0.0.62(@volar/language-service@2.4.14)
       volar-service-emmet: 0.0.62(@volar/language-service@2.4.14)
       volar-service-html: 0.0.62(@volar/language-service@2.4.14)
-      volar-service-prettier: 0.0.62(@volar/language-service@2.4.14)(prettier@3.5.3)
+      volar-service-prettier: 0.0.62(@volar/language-service@2.4.14)(prettier@3.6.2)
       volar-service-typescript: 0.0.62(@volar/language-service@2.4.14)
       volar-service-typescript-twoslash-queries: 0.0.62(@volar/language-service@2.4.14)
       volar-service-yaml: 0.0.62(@volar/language-service@2.4.14)
       vscode-html-languageservice: 5.5.0
       vscode-uri: 3.1.0
     optionalDependencies:
-      prettier: 3.5.3
+      prettier: 3.6.2
       prettier-plugin-astro: 0.12.3
     transitivePeerDependencies:
       - typescript
@@ -5010,12 +5041,12 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 3.1.0
 
-  '@babel/generator@7.28.0':
+  '@babel/generator@7.28.3':
     dependencies:
-      '@babel/parser': 7.28.0
-      '@babel/types': 7.28.1
-      '@jridgewell/gen-mapping': 0.3.12
-      '@jridgewell/trace-mapping': 0.3.29
+      '@babel/parser': 7.28.4
+      '@babel/types': 7.28.4
+      '@jridgewell/gen-mapping': 0.3.13
+      '@jridgewell/trace-mapping': 0.3.31
       jsesc: 3.1.0
     optional: true
 
@@ -5067,6 +5098,11 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.1
 
+  '@babel/parser@7.28.4':
+    dependencies:
+      '@babel/types': 7.28.4
+    optional: true
+
   '@babel/plugin-transform-react-jsx-self@7.27.1(@babel/core@7.27.4)':
     dependencies:
       '@babel/core': 7.27.4
@@ -5095,15 +5131,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/traverse@7.28.0':
+  '@babel/traverse@7.28.4':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/generator': 7.28.0
+      '@babel/generator': 7.28.3
       '@babel/helper-globals': 7.28.0
-      '@babel/parser': 7.28.0
+      '@babel/parser': 7.28.4
       '@babel/template': 7.27.2
-      '@babel/types': 7.28.1
-      debug: 4.4.1
+      '@babel/types': 7.28.4
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -5117,6 +5153,12 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
+
+  '@babel/types@7.28.4':
+    dependencies:
+      '@babel/helper-string-parser': 7.27.1
+      '@babel/helper-validator-identifier': 7.27.1
+    optional: true
 
   '@capsizecss/unpack@2.4.0':
     dependencies:
@@ -5251,6 +5293,11 @@ snapshots:
       eslint: 9.29.0(jiti@2.4.2)
       eslint-visitor-keys: 3.4.3
 
+  '@eslint-community/eslint-utils@4.9.0(eslint@9.29.0(jiti@2.4.2))':
+    dependencies:
+      eslint: 9.29.0(jiti@2.4.2)
+      eslint-visitor-keys: 3.4.3
+
   '@eslint-community/regexpp@4.12.1': {}
 
   '@eslint/config-array@0.20.1':
@@ -5307,13 +5354,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@ianvs/prettier-plugin-sort-imports@4.4.2(prettier@3.5.3)':
+  '@ianvs/prettier-plugin-sort-imports@4.4.2(prettier@3.6.2)':
     dependencies:
-      '@babel/generator': 7.28.0
-      '@babel/parser': 7.28.0
-      '@babel/traverse': 7.28.0
-      '@babel/types': 7.28.1
-      prettier: 3.5.3
+      '@babel/generator': 7.28.3
+      '@babel/parser': 7.28.4
+      '@babel/traverse': 7.28.4
+      '@babel/types': 7.28.4
+      prettier: 3.6.2
       semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
@@ -5494,10 +5541,10 @@ snapshots:
     dependencies:
       minipass: 7.1.2
 
-  '@jridgewell/gen-mapping@0.3.12':
+  '@jridgewell/gen-mapping@0.3.13':
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.4
-      '@jridgewell/trace-mapping': 0.3.29
+      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/trace-mapping': 0.3.31
     optional: true
 
   '@jridgewell/gen-mapping@0.3.8':
@@ -5512,7 +5559,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
-  '@jridgewell/sourcemap-codec@1.5.4':
+  '@jridgewell/sourcemap-codec@1.5.5':
     optional: true
 
   '@jridgewell/trace-mapping@0.3.25':
@@ -5520,10 +5567,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@jridgewell/trace-mapping@0.3.29':
+  '@jridgewell/trace-mapping@0.3.31':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.5.4
+      '@jridgewell/sourcemap-codec': 1.5.5
     optional: true
 
   '@keyv/serialize@1.0.3':
@@ -6192,9 +6239,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro-seo@0.8.4(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3):
+  astro-seo@0.8.4(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3):
     dependencies:
-      '@astrojs/check': 0.5.10(prettier-plugin-astro@0.12.3)(prettier@3.5.3)(typescript@5.8.3)
+      '@astrojs/check': 0.5.10(prettier-plugin-astro@0.12.3)(prettier@3.6.2)(typescript@5.8.3)
     transitivePeerDependencies:
       - prettier
       - prettier-plugin-astro
@@ -6584,6 +6631,11 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+  debug@4.4.3:
+    dependencies:
+      ms: 2.1.3
+    optional: true
+
   decode-named-character-reference@1.2.0:
     dependencies:
       character-entities: 2.0.2
@@ -6925,7 +6977,7 @@ snapshots:
 
   eslint-plugin-es-x@7.8.0(eslint@9.29.0(jiti@2.4.2)):
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.29.0(jiti@2.4.2))
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.29.0(jiti@2.4.2))
       '@eslint-community/regexpp': 4.12.1
       eslint: 9.29.0(jiti@2.4.2)
       eslint-compat-utils: 0.5.1(eslint@9.29.0(jiti@2.4.2))
@@ -6980,7 +7032,7 @@ snapshots:
 
   eslint-plugin-n@16.6.2(eslint@9.29.0(jiti@2.4.2)):
     dependencies:
-      '@eslint-community/eslint-utils': 4.7.0(eslint@9.29.0(jiti@2.4.2))
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.29.0(jiti@2.4.2))
       builtins: 5.1.0
       eslint: 9.29.0(jiti@2.4.2)
       eslint-plugin-es-x: 7.8.0(eslint@9.29.0(jiti@2.4.2))
@@ -6993,10 +7045,10 @@ snapshots:
       resolve: 1.22.10
       semver: 7.7.2
 
-  eslint-plugin-prettier@5.5.0(eslint-config-prettier@10.1.5(eslint@9.29.0(jiti@2.4.2)))(eslint@9.29.0(jiti@2.4.2))(prettier@3.5.3):
+  eslint-plugin-prettier@5.5.0(eslint-config-prettier@10.1.5(eslint@9.29.0(jiti@2.4.2)))(eslint@9.29.0(jiti@2.4.2))(prettier@3.6.2):
     dependencies:
       eslint: 9.29.0(jiti@2.4.2)
-      prettier: 3.5.3
+      prettier: 3.6.2
       prettier-linter-helpers: 1.0.0
       synckit: 0.11.8
     optionalDependencies:
@@ -8840,26 +8892,26 @@ snapshots:
   prettier-plugin-astro@0.12.3:
     dependencies:
       '@astrojs/compiler': 1.8.2
-      prettier: 3.5.3
+      prettier: 3.6.2
       sass-formatter: 0.7.9
 
   prettier-plugin-sort-imports@1.8.8(typescript@5.8.3):
     dependencies:
-      prettier: 3.5.3
+      prettier: 3.6.2
       typescript: 5.8.3
 
-  prettier-plugin-tailwindcss@0.5.14(@ianvs/prettier-plugin-sort-imports@4.4.2(prettier@3.5.3))(prettier-plugin-astro@0.12.3)(prettier-plugin-sort-imports@1.8.8(typescript@5.8.3))(prettier@3.5.3):
+  prettier-plugin-tailwindcss@0.5.14(@ianvs/prettier-plugin-sort-imports@4.4.2(prettier@3.6.2))(prettier-plugin-astro@0.12.3)(prettier-plugin-sort-imports@1.8.8(typescript@5.8.3))(prettier@3.6.2):
     dependencies:
-      prettier: 3.5.3
+      prettier: 3.6.2
     optionalDependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.4.2(prettier@3.5.3)
+      '@ianvs/prettier-plugin-sort-imports': 4.4.2(prettier@3.6.2)
       prettier-plugin-astro: 0.12.3
       prettier-plugin-sort-imports: 1.8.8(typescript@5.8.3)
 
   prettier@2.8.7:
     optional: true
 
-  prettier@3.5.3: {}
+  prettier@3.6.2: {}
 
   prismjs@1.30.0: {}
 
@@ -9544,9 +9596,9 @@ snapshots:
       postcss-sorting: 8.0.2(postcss@8.5.6)
       stylelint: 16.20.0(typescript@5.8.3)
 
-  stylelint-prettier@5.0.3(prettier@3.5.3)(stylelint@16.20.0(typescript@5.8.3)):
+  stylelint-prettier@5.0.3(prettier@3.6.2)(stylelint@16.20.0(typescript@5.8.3)):
     dependencies:
-      prettier: 3.5.3
+      prettier: 3.6.2
       prettier-linter-helpers: 1.0.0
       stylelint: 16.20.0(typescript@5.8.3)
 
@@ -9646,6 +9698,15 @@ snapshots:
       yallist: 5.0.0
 
   tiny-inflate@1.0.3: {}
+
+  tinybird-analytics@https://codeload.github.com/arielperez82/web-analytics/tar.gz/78941923e27f9de6c0778926137d4e84ded4222d#path:/client(@types/dlv@1.1.5):
+    dependencies:
+      analytics: 0.8.16(@types/dlv@1.1.5)
+      analytics-plugin-do-not-track: 0.1.5
+      countries-and-timezones: 3.8.0
+      web-vitals: 5.0.3
+    transitivePeerDependencies:
+      - '@types/dlv'
 
   tinyexec@0.3.2: {}
 
@@ -9933,12 +9994,12 @@ snapshots:
     optionalDependencies:
       '@volar/language-service': 2.4.14
 
-  volar-service-prettier@0.0.62(@volar/language-service@2.4.14)(prettier@3.5.3):
+  volar-service-prettier@0.0.62(@volar/language-service@2.4.14)(prettier@3.6.2):
     dependencies:
       vscode-uri: 3.1.0
     optionalDependencies:
       '@volar/language-service': 2.4.14
-      prettier: 3.5.3
+      prettier: 3.6.2
 
   volar-service-typescript-twoslash-queries@0.0.62(@volar/language-service@2.4.14):
     dependencies:

@@ -66,7 +66,8 @@
     "react-icons": "5.5.0",
     "reading-time": "1.5.0",
     "sanitize-html": "2.15.0",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "tinybird-analytics": "github:arielperez82/web-analytics#path:/client"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
@@ -93,7 +94,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "markdownlint-cli": "^0.45.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.12.0",
     "prettier-plugin-sort-imports": "^1.8.8",
     "prettier-plugin-tailwindcss": "^0.5.4",

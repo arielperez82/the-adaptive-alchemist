@@ -316,8 +316,9 @@ const {
           document.querySelectorAll('a').forEach((link) => {
             // Track outbound links
             if (
-              link.classList.contains('external-link') ||
-              link.getAttribute('target') === '_blank'
+              link.dataset.track !== '' &&
+              (link.classList.contains('external-link') ||
+                link.getAttribute('target') === '_blank')
             ) {
               link.addEventListener('click', () => {
                 window.analytics.track('outbound_click', {
