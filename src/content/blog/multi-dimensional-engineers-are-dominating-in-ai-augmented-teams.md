@@ -1,6 +1,6 @@
 ---
 title: 'Multi-dimensional engineers are dominating in AI-augmented teams'
-description: 'AI isn''t replacing engineers—it''s making narrow specialists much easier to replace while multi-dimensional engineers dominate in AI-augmented teams.'
+description: "AI isn't replacing engineers—it's making narrow specialists much easier to replace while multi-dimensional engineers dominate in AI-augmented teams."
 pubDate: 2025-09-24
 heroImage: '/assets/multi-dimensional-engineers.png'
 readingTime: '5 min read'
@@ -15,7 +15,7 @@ Both engineers could solve the technical problems. But only one could solve the 
 
 The senior engineer built elegant systems in isolation. The junior engineer shipped features that customers used and stakeholders valued.
 
-This isn't a future scenario. It's happening now across engineering organizations, though the pace varies by industry and context. The direction is consistent even where the timeline differs. AI isn't replacing engineers—it's making narrow specialists much easier to replace while supercharging those who can work across multiple dimensions.
+This isn't a future scenario. It's happening now across engineering organizations, though the pace varies by industry and context. The direction is consistent even where the timeline differs. AI isn't replacing engineers but, it's making narrow specialists much easier to replace while supercharging those who can work across multiple dimensions.
 
 ## The collaboration advantage is measurable
 
@@ -25,7 +25,7 @@ Before our transformation to mission-driven teams, features took an average of 1
 
 After we moved to cross-functional crews where engineers worked across multiple dimensions, the same features shipped in 3-4 weeks. Backend engineers who learned frontend constraints made better API decisions. Frontend engineers who understood data flow caught integration issues during development instead of QA.
 
-The difference wasn't better tools or processes—it was engineers who could think like product managers, understand customer problems, and make technical decisions with business context. The narrow specialists who stayed in their lanes became bottlenecks.
+The difference wasn't better tools or processes. It was engineers who could think like product managers, understand customer problems, and make technical decisions with business context. The narrow specialists who stayed in their lanes became bottlenecks.
 
 ## AI-augmented development exposes systemic thinking gaps
 
@@ -33,7 +33,7 @@ When I work with teams implementing AI-augmented development, the engineers who 
 
 A frontend engineer who understands APIs can prompt AI to generate backend endpoints that integrate seamlessly. A backend engineer who grasps user experience can create services that respond appropriately to interface needs.
 
-Engineers who only know their domain generate technically correct code that creates integration problems. AI-augmented development amplifies whatever systemic understanding you already have—or exposes its absence. This follows the same pattern I documented in [vibe coding](/vibe-coding-will-destroy-your-codebase-but-youre-probably-not-doing-it/): AI multiplies whatever rigor and understanding you bring to the process.
+Engineers who only know their domain generate technically correct code that creates integration problems. AI-augmented development amplifies whatever systemic understanding you already have, or exposes its absence. This follows the same pattern I documented in [vibe coding](/vibe-coding-will-destroy-your-codebase-but-youre-probably-not-doing-it/): AI multiplies whatever rigor and understanding you bring to the process.
 
 ## The blurring line between engineering management and technical leadership
 
@@ -53,7 +53,7 @@ This doesn't apply universally. Highly regulated industries like healthcare or f
 
 But even in these domains, the most valuable specialists understand how their work connects to broader business outcomes. A security engineer who can communicate risk trade-offs to executives is more valuable than one who only speaks in technical terms.
 
-The shift isn't about eliminating expertise—depth still matters, but it's insufficient on its own. Success requires combining deep knowledge with broader context and collaborative skills.
+The shift isn't about eliminating expertise because depth still matters, but it's insufficient on its own. Success requires combining deep knowledge with broader context and collaborative skills.
 
 ## Market pricing hasn't caught up yet
 
@@ -87,4 +87,4 @@ The talent market is starting to reflect this shift. Multi-dimensional engineers
 
 The engineers who adapt quickly will shape the industry's evolution. Those who wait for the transformation to stabilize will find themselves adapting to changes designed by their more flexible colleagues.
 
-The tools are available now. The competitive advantages are being built today. The narrow model of engineering expertise is rapidly becoming much easier to replace—the only question is how long it will take the market to fully recognize it.
+The tools are available now. The competitive advantages are being built today. The narrow model of engineering expertise is rapidly becoming much easier to replace. The only question is how long it will take the market to fully recognize it.
