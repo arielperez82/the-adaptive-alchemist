@@ -1,6 +1,6 @@
 ---
 title: 'Multi-dimensional engineers are dominating in AI-augmented teams'
-description: "AI isn't replacing engineers—it's making narrow specialists much easier to replace while multi-dimensional engineers dominate in AI-augmented teams."
+description: "AI isn't replacing engineers but, it's making narrow specialists much easier to replace while multi-dimensional engineers dominate in AI-augmented teams."
 pubDate: 2025-09-24
 heroImage: '/assets/multi-dimensional-engineers.png'
 readingTime: '5 min read'
