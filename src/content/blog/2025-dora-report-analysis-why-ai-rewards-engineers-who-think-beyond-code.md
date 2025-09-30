@@ -1,6 +1,6 @@
 ---
 title: '2025 DORA Report Analysis: Why AI Rewards Engineers Who Think Beyond Code'
-description: "The 2025 DORA report proves AI rewards engineers who think in systems, not just syntax. Experience isn't compounding anymore, it's calcifying."
+description: "The 2025 DORA report makes one thing clear: AI doesn’t just speed up code, it speeds up the system around it. Engineers who understand that system grow in value. Engineers who rely on experience alone see it calcify instead of compound."
 pubDate: 2025-09-30
 heroImage: '/assets/dora-2025.png'
 readingTime: '7 min read'
