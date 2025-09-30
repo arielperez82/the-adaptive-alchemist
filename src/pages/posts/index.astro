@@ -449,6 +449,11 @@ const years = Object.keys(postsByYearAndMonth).sort(
 
           // Update URL hash without jumping
           history.pushState('', '', targetId)
+
+          // Update month navigation highlighting after scroll
+          setTimeout(() => {
+            updateActiveMonthNavigation()
+          }, 100)
         }
       })
     })
@@ -535,4 +540,74 @@ const years = Object.keys(postsByYearAndMonth).sort(
 
   // For compatibility with custom transition system
   document.addEventListener('page-transition-complete', setupSPATransitions)
+
+  // Month navigation highlighting functionality
+  function updateActiveMonthNavigation() {
+    const monthLinks = document.querySelectorAll(
+      'a[href^="#year-"][href*="-month-"]'
+    )
+    const monthSections = document.querySelectorAll(
+      '[id^="year-"][id*="-month-"]'
+    )
+    const viewportTop = window.scrollY + window.innerHeight * 0.15 // 15% from top
+
+    let activeLink: HTMLElement | null = null
+
+    // Find the month section that's currently in the viewport
+    for (let i = monthSections.length - 1; i >= 0; i--) {
+      const section = monthSections[i] as HTMLElement
+      const rect = section.getBoundingClientRect()
+      const sectionTop = rect.top + window.scrollY
+
+      if (sectionTop <= viewportTop) {
+        const sectionId = section.id
+        activeLink = document.querySelector(
+          `a[href="#${sectionId}"]`
+        ) as HTMLElement
+        break
+      }
+    }
+
+    // Remove active styling from all month links
+    monthLinks.forEach((link) => {
+      const linkElement = link as HTMLElement
+      linkElement.classList.remove(
+        'bg-zinc-50',
+        'dark:bg-zinc-900',
+        'font-semibold'
+      )
+      linkElement.classList.add('hover:bg-zinc-50', 'dark:hover:bg-zinc-900')
+    })
+
+    // Add active styling to the current active link
+    if (activeLink) {
+      activeLink.classList.remove('hover:bg-zinc-50', 'dark:hover:bg-zinc-900')
+      activeLink.classList.add(
+        'bg-zinc-50',
+        'dark:bg-zinc-900',
+        'font-semibold'
+      )
+    }
+  }
+
+  // Initialize month navigation highlighting
+  function initializeMonthNavigation() {
+    // Update on scroll
+    window.addEventListener('scroll', updateActiveMonthNavigation, {
+      passive: true
+    })
+
+    // Update on page load
+    window.addEventListener('load', updateActiveMonthNavigation)
+
+    // Update when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateActiveMonthNavigation)
+    } else {
+      updateActiveMonthNavigation()
+    }
+  }
+
+  // Initialize month navigation highlighting
+  initializeMonthNavigation()
 </script>
