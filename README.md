@@ -116,13 +116,11 @@ SITE_URL=https://yourdomain.com
 ### Database Setup
 
 1. **Supabase Setup**:
-
    - Create a new Supabase project
    - Run the migrations in `supabase/migrations/`
    - Set up Row Level Security (RLS) policies
 
 2. **Tinybird Setup**:
-
    - Create a new Tinybird workspace
    - Deploy the datasources and endpoints from `tinybird/`
    - Configure the analytics plugin
