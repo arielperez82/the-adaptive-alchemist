@@ -8,15 +8,15 @@ interface KeepAliveResult {
 async function keepSupabaseActive(): Promise<void> {
   try {
     const supabaseUrl = process.env.SUPABASE_URL
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
 
-    if (!supabaseUrl || !supabaseServiceKey) {
+    if (!supabaseUrl || !supabaseAnonKey) {
       throw new Error(
-        'Missing required environment variables: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY'
+        'Missing required environment variables: SUPABASE_URL or SUPABASE_ANON_KEY'
       )
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
     // Query the number of pending subscriptions
     const { error, count } = await supabase
