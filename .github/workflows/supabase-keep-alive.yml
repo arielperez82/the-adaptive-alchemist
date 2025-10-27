@@ -2,8 +2,8 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    # Run every 7 days at 2 AM UTC
-    - cron: '0 8 */7 * *'
+    # Run every day at 8 AM UTC
+    - cron: '0 8 * * *'
   workflow_dispatch: # Allow manual triggering
 
 jobs:
