@@ -2,7 +2,7 @@
 title: 'Your AI efficiency cuts will end up costing you'
 description: 'Companies cutting engineers for AI efficiency will be forced to rehire within months. The ones with foresight are investing in capability, not cutting headcount.'
 pubDate: 2025-11-30
-heroImage: '/assets/ai-cuts-will-cost-you.jpgadd '
+heroImage: '/assets/ai-cuts-will-cost-you.jpg'
 readingTime: '11 min read'
 tags: ['AI']
 ---
