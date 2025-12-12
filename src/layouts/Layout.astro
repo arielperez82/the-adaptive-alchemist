@@ -2,17 +2,22 @@
 import '@/styles/global.css'
 
 import { SEO } from 'astro-seo'
+import { Schema } from 'astro-seo-schema'
 
 import Background from '@/components/Background.astro'
 import Footer from '@/components/Footer.astro'
 import Navigation from '@/components/Navigation.astro'
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
+import { defaultPersonSchema } from '@/consts/schema'
 
 export interface Props {
   title: string
   description?: string
   image?: string
   article?: boolean
+  pubDate?: Date
+  updatedDate?: Date
+  tags?: string[]
 }
 
 const {
@@ -46,7 +51,14 @@ const {
         },
         optional: {
           description,
-          siteName: SITE_TITLE
+          siteName: SITE_TITLE,
+          ...(article && {
+            author: 'Ariel Perez',
+            publishedTime: Astro.props.pubDate?.toISOString(),
+            modifiedTime: Astro.props.updatedDate?.toISOString(),
+            section: 'Engineering Leadership',
+            tags: Astro.props.tags || []
+          })
         }
       }}
       twitter={{
@@ -112,10 +124,24 @@ const {
             name: 'theme-color',
             content: '#18181b',
             media: '(prefers-color-scheme: dark)'
-          }
+          },
+          {
+            name: 'author',
+            content: 'Ariel Perez - Engineering Leader & Systems Thinker'
+          },
+          ...(article
+            ? [
+                {
+                  property: 'article:author',
+                  content: 'https://www.arielperez.io'
+                }
+              ]
+            : [])
         ]
       }}
     />
+    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+    {!article && <Schema item={defaultPersonSchema as any} />}
     <script src="/src/scripts/analytics/"></script>
   </head>
   <body

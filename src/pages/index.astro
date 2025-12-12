@@ -1,10 +1,12 @@
 ---
 import { getCollection } from 'astro:content'
+import { Schema } from 'astro-seo-schema'
 
 import FormattedDate from '@/components/FormattedDate.astro'
 import NewsletterSignup from '@/components/NewsletterSignup.astro'
 import OptimizedImage from '@/components/OptimizedImage.astro'
 import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
+import { homepageSchema } from '@/consts/schema'
 import Layout from '@/layouts/Layout.astro'
 
 // Get all blog posts
@@ -366,6 +368,9 @@ const featuredPost = recentPosts.shift()
     </div>
   </section>
 </Layout>
+
+{/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+<Schema item={homepageSchema as any} />
 
 <script>
   // Enhanced animations and interactions
