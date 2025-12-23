@@ -66,8 +66,7 @@ jobs:
             fn="$1"
             echo "Deploying $fn"
             supabase functions deploy "$fn" \
-              --project-ref "$PROJECT_ID" \
-              --import-map "./supabase/functions/$fn/deno.json"   
+              --project-ref "$PROJECT_ID"   
 
             # Tag the deployment for the function
             function_deployment_tag="supabase-function-deployment-${fn}-$(date +%Y%m%d%H%M%S)"
