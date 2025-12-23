@@ -153,7 +153,9 @@ pnpm dev
 
 - `pnpm check:astro` - Check Astro types and configuration
 - `pnpm check:tinybird` - Check Tinybird deployment configuration
-- `pnpm check` - Run all type checks (Astro + Tinybird)
+- `pnpm check:supabase` - Validate Supabase Edge Functions (checks imports, types, and syntax)
+- `pnpm check:supabase <function-name>` - Validate a specific function (e.g., `pnpm check:supabase send-newsletter`)
+- `pnpm check` - Run all type checks (Astro + Tinybird + Supabase)
 
 #### Linting & Formatting
 

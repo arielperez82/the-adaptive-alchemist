@@ -10,9 +10,10 @@ export default {
     "src/**/*.{js,jsx,ts,tsx,astro}":  () => [
       "pnpm run check:astro"
     ],
-    "supabase/functions/**/*.{ts,tsx}": [
+    "supabase/functions/**/*.{ts,tsx}": () =>[
       "pnpm run lint:format:supabase:fix",
-      "pnpm run lint:code:supabase:fix"
+      "pnpm run lint:code:supabase:fix",
+      "pnpm run check:supabase"
     ],
     "*.{css,astro}":  () => [
       "pnpm run lint:format:css:fix",

@@ -6,6 +6,9 @@ dist/
 node_modules/
 .pnpm-store/
 
+# Deno lockfile (root level - function-specific deno.lock files are tracked)
+deno.lock
+
 # logs
 npm-debug.log*
 yarn-debug.log*
