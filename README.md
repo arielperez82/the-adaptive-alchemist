@@ -186,6 +186,7 @@ pnpm dev
 #### Newsletter & Content
 
 - `pnpm send-newsletter` - Send newsletter to subscribers
+- `npx tsx scripts/test-newsletter-html.ts <article-path>` - Preview newsletter HTML before sending
 - `pnpm generate:llms-txt` - Generate LLMs text file for content analysis
 
 #### Deployment
@@ -308,6 +309,25 @@ Your post content here...
 2. Use the newsletter sending script to deliver to subscribers
 3. Track delivery and engagement metrics
 4. Handle bounces and unsubscribes automatically
+
+### Previewing Newsletter HTML
+
+Before sending a newsletter, you can preview the generated HTML to ensure it renders correctly:
+
+```bash
+# Generate newsletter HTML preview
+npx tsx scripts/test-newsletter-html.ts src/content/blog/your-article.md
+```
+
+This script:
+
+- Parses the article's frontmatter (title, description, publish date, etc.)
+- Strips HTML comments and tags from markdown content (preserving markdown autolinks)
+- Converts markdown to email-safe HTML using markdown-it
+- Generates a complete newsletter HTML file with proper styling
+- Saves the output to `newsletter-output.html` for preview in a browser
+
+The script uses shared utilities from `supabase/functions/send-newsletter/utils.ts`, ensuring the preview matches exactly what will be sent to subscribers. This helps catch formatting issues, verify HTML escaping (especially for apostrophes and special characters), and ensure images and HTML tags are properly removed before sending.
 
 ## 📊 Analytics
 
