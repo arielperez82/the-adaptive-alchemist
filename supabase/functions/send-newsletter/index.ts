@@ -2,8 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import MarkdownIt from 'markdown-it'
 import { Resend } from 'resend'
 import { serve } from 'std/http/server'
-
-import { generateNewsletterHTML, stripHtmlFromMarkdown } from './utils.ts'
+import { generateNewsletterHTML, stripHtmlFromMarkdown } from 'utils'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
