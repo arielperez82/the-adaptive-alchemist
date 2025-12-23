@@ -37,6 +37,10 @@ function unescapeHtml(text: string): string {
   return unescape(text)
 }
 
+function removeHtmlComments(text: string): string {
+  return text.replace(/<!--[\s\S]*?-->/g, '')
+}
+
 function getGitTimestamp(filePath: string): string {
   try {
     // Map dist file path back to source file path
@@ -107,7 +111,7 @@ function extractMeta(html: string, filePath: string): PageMeta {
 
   // Determine section based on path and og:type
   let section = 'Home'
-  if (ogTypeMatch && ogTypeMatch[1] === 'article') {
+  if (ogTypeMatch?.[1] === 'article') {
     section = 'Posts'
   } else if (urlPath.startsWith('tags/')) {
     section = 'Topics'
@@ -198,9 +202,9 @@ async function processHtmlFileForFull(filePath: string): Promise<string> {
         /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/
       )
       if (contentMatch) {
-        markdown = contentMatch[2] // Content after frontmatter
+        markdown = removeHtmlComments(contentMatch[2]) // Content after frontmatter
       } else {
-        markdown = mdContent // Fallback to full content if no frontmatter
+        markdown = removeHtmlComments(mdContent) // Fallback to full content if no frontmatter
       }
     } catch {
       // Fallback to HTML conversion if markdown file not found
