@@ -96,6 +96,7 @@ const articleSchema = {
         <div
           id="sidebar-share-buttons"
           class="hidden transition-opacity duration-300 lg:block"
+          style="opacity: 1;"
         >
           <ShareButtons url={canonicalURL.toString()} title={title} />
         </div>
@@ -264,10 +265,16 @@ const articleSchema = {
 
     if (!sidebarShareButtons || !bottomShareButtons) return
 
-    const rect = bottomShareButtons.getBoundingClientRect()
+    // Only run on large screens (matching lg: breakpoint)
+    if (window.innerWidth < 1024) return
 
-    // Check if bottom buttons are in the viewport
-    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+    const rect = bottomShareButtons.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+
+    // Check if bottom buttons are in the viewport (with a small threshold)
+    const isBottomVisible = rect.top < viewportHeight && rect.bottom > 0
+
+    if (isBottomVisible) {
       // Bottom buttons are visible, hide sidebar buttons
       sidebarShareButtons.style.opacity = '0'
       sidebarShareButtons.style.pointerEvents = 'none'
@@ -297,8 +304,11 @@ const articleSchema = {
   document.addEventListener('astro:page-load', setupShareButtonsVisibility)
   document.addEventListener('astro:after-swap', setupShareButtonsVisibility)
 
-  // Update on scroll
+  // Update on scroll and resize
   window.addEventListener('scroll', updateShareButtonsVisibility, {
+    passive: true
+  })
+  window.addEventListener('resize', updateShareButtonsVisibility, {
     passive: true
   })
   window.addEventListener('load', updateShareButtonsVisibility)
