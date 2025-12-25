@@ -111,4 +111,4 @@ In order to thrive long-term, you need to protect your ability to change. Measur
 
 Slow is smooth. Smooth is fast. And fast, done right, is sustainable.
 
-In the next article, I'll explore why most refactoring strategies still fail, and what **continuous refactoring** achieves that periodic cleanup never can.
+In the [next article](/why-most-teams-refactor-correctly-and-still-lose/), I explore why most refactoring strategies still fail, and what **continuous refactoring** achieves that periodic cleanup never can.
