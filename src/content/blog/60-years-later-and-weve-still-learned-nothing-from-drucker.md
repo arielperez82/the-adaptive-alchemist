@@ -19,7 +19,7 @@ What floored me was that Drucker defined "executive" as anyone who makes decisio
 
 This isn't just semantic hair-splitting. Drucker understood that knowledge work is fundamentally different from manual work. Knowledge workers direct themselves. They can't be supervised in the traditional sense because their value comes from thinking, not following instructions.
 
-If this sounds familiar, is because it absolutely should. This is exactly what we mean when we talk about empowered teams and autonomous decision-making. Drucker called it Tuesday in 1966.
+If this sounds familiar, it's because it absolutely should. This is exactly what we mean when we talk about empowered teams and autonomous decision-making. Drucker called it Tuesday in 1966.
 
 ## We're no better at managing time
 
