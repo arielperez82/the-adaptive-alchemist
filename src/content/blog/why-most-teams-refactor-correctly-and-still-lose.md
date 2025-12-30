@@ -17,7 +17,7 @@ These are not negligent teams. By conventional standards, they're doing exactly 
 
 And yet their **capacity to change continues to erode**.
 
-The [technical debt simulator](https://www.arielperez.io/tools/technical-debt-simulator) reveals why. Different refactoring strategies that invest the same total effort produce radically different outcomes. **The difference isn't how much you invest. It's when and how you invest it.** This is the second article in a series on technical debt and change capacity. [The first article](https://www.adaptivealchemist.com/why-shipping-faster-makes-teams-slower/) established why output metrics hide capacity collapse. This one separates debt containment from capacity preservation, and shows why **continuous refactoring isn't just better practice but mathematically cheaper.**
+The [technical debt simulator](https://www.arielperez.io/tools/technical-debt-simulator/?utm_source=the-adaptive-alchemist&utm_medium=referral) reveals why. Different refactoring strategies that invest the same total effort produce radically different outcomes. **The difference isn't how much you invest. It's when and how you invest it.** This is the second article in a series on technical debt and change capacity. [The first article](https://www.adaptivealchemist.com/why-shipping-faster-makes-teams-slower/) established why output metrics hide capacity collapse. This one separates debt containment from capacity preservation, and shows why **continuous refactoring isn't just better practice but mathematically cheaper.**
 
 ## Same effort, radically different outcomes
 
@@ -151,4 +151,4 @@ Continuous approaches integrate refactoring into the development flow. There's n
 
 This is a systems choice, not a resource allocation choice. You're not deciding how much to invest in refactoring. You're deciding what kind of development process you want: one that accumulates debt and periodically pays it down, or one that **maintains cleanliness as an invariant.** **Maintaining the invariant is cheaper than paying the interest.** The simulator makes that unavoidable.
 
-In the final article, I'll explore what continuous refactoring can't fix: **structural drag**. Refactoring manages accumulation, but baseline friction is set by architecture, tooling, team structure, incentives, and ways of working. That's where the real leverage lives.
+In the [final article](/the-highest-leverage-investment-in-software-isnt-ai-its-structure/), I'll explore what continuous refactoring can't fix: **structural drag**. Refactoring manages accumulation, but baseline friction is set by architecture, tooling, team structure, incentives, and ways of working. That's where the real leverage lives.

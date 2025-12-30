@@ -4,7 +4,7 @@ description: 'Your engineering teams are drowning in technical debt while compet
 pubDate: 2025-07-25
 heroImage: '/assets/cognitive-load.jpg'
 readingTime: '19 min read'
-tags: ['High-Performing Teams']
+tags: ['High-Performing Teams', 'Software Development']
 ---
 
 Most of my writing focuses on organizational design, systems thinking, and leadership practices because I firmly believe that's where we can create the most broad-scale, long-lasting change. Over the past year however, conversations with CEOs have revealed a consistent pattern: their engineering teams are drowning in technical debt, struggling to build momentum, and burning out trying to ship features that should take weeks but somehow take months.

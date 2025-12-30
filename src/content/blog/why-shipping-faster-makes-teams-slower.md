@@ -13,7 +13,7 @@ Technical debt is the enemy of agility.
 
 Not process. Not frameworks. Not the tools you choose or the ceremonies you hold. Agility is **sustained change capacity**, and technical debt is the dominant force that erodes it over time.
 
-I built a [technical debt simulator](https://www.arielperez.io/tools/technical-debt-simulator) to make this visible. Not because the math is complicated, but because our intuition is **systematically wrong**. Teams consistently underestimate how quickly debt compounds, how dramatically small changes in friction affect outcomes, and how strategies that feel reasonable can lead to catastrophic results.
+I built a [technical debt simulator](https://www.arielperez.io/tools/technical-debt-simulator/?utm_source=the-adaptive-alchemist&utm_medium=referral) to make this visible. Not because the math is complicated, but because our intuition is **systematically wrong**. Teams consistently underestimate how quickly debt compounds, how dramatically small changes in friction affect outcomes, and how strategies that feel reasonable can lead to catastrophic results.
 
 This is the first article in a series exploring what the simulator reveals about technical debt, refactoring strategies, and the structural choices that determine whether teams maintain their ability to change or slowly grind to a halt.
 
