@@ -274,4 +274,4 @@ The answers to these questions determine whether your transformation creates a m
 - [**Switch**](https://amzn.to/4lbjSxC) by Chip Heath and Dan Heath: Motivating people and balancing rational and emotional drivers during change
 - [**Radical Candor**](https://amzn.to/44lY38J) by Kim Scott: Building honest feedback cultures that support growth
 
-_Next in the series: **Implementing Fluid Organizations: Patterns and Anti-Patterns** \- The specific tools, frameworks, and processes for building fluid organizations that work._
+_Next in the series: **[Choosing Your Fluid Organization Approach](/choosing-your-fluid-organization-approach)** \- How to pick the right frameworks and patterns for your context._

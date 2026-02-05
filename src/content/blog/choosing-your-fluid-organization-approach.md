@@ -161,4 +161,4 @@ For now, focus on understanding your options and thinking through what combinati
 - [**Extreme Programming Explained**](http://www.extremeprogramming.org/) by Kent Beck: Engineering practices that enable collective ownership
 - [**Fluid Scrum Teams**](https://medium.com/serious-scrum/stable-scrum-teams-can-limit-you-to-create-value-enter-fluid-teams-3df4f2108219) by Willem-Jan Ageling: Adapting Scrum for dynamic team formation
 
-_Next: **Running Your First Fluid Team Experiment** \- The practical week-by-week roadmap for implementing fluid teams in your organization._
+_Next in the series: **[Running Your First Fluid Team Experiment](/running-you-first-fluid-team-experiment)** \- The practical week-by-week roadmap for your first fluid team._

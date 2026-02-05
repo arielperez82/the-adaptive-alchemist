@@ -151,4 +151,4 @@ Start small, learn fast, and build on what works. The future of work is fluid, b
 - [**Switch: How to Change Things When Change Is Hard**](https://amzn.to/4lbjSxC) by Chip Heath and Dan Heath: Psychology-based approach to overcoming resistance and making organizational changes sustainable
 - [**Networked, Scaled, and Agile**](https://amzn.to/4lZEo49) by Cesario Ramos: How to build and scale agile organizations using network principles and distributed decision-making
 
-_Next in the series: **From One Team to Many** \- The coordination mechanisms, resource allocation strategies, and quality controls needed when scaling beyond single experiments._
+_Next in the series: **[From One Team to Many - Part 1: Don't Add, Subtract](/from-one-team-to-many-part-1-dont-add-subtract)** \- The coordination mechanisms, resource allocation strategies, and quality controls needed when scaling beyond single experiments._

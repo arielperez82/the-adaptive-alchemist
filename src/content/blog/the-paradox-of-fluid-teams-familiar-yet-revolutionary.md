@@ -152,9 +152,9 @@ The articles that follow will show you how to make this transformation:
 
 1. **[Beyond Static Teams](/beyond-static-teams-making-fluid-organizations-the-default)** explores why traditional structures fail in complex environments and introduces the theoretical foundation for fluid organizations
 2. **[Core Principles of Fluid Team Design](/the-core-principles-of-fluid-team-design)** reveals the patterns that let you balance stability with adaptability
-3. **Leadership in Fluid Organizations** shows how to lead through context-setting rather than command-and-control
-4. **The Human Side** addresses the psychological and cultural factors that make or break fluid teams
-5. **Implementation Patterns** provides practical tools and frameworks for making the transition
+3. **[Leadership in Fluid Organizations: The Dual System Revolution](/leadership-in-fluid-organizations-the-dual-system-revolution)** shows how dual system leadership creates leaders at every level
+4. **[Leadership in Fluid Organizations: From Theory to Practice](/leadership-in-fluid-organizations-from-theory-to-practice)** provides the practical behaviors, systems, and roadmap for shifting from command-and-control to context-setting
+5. **[The Human Side of Fluid Organizations](/the-human-side-of-fluid-organizations)** addresses the psychological and cultural factors that make or break fluid teams
 
 ### Your next move
 
