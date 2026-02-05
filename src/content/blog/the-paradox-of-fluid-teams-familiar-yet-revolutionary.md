@@ -155,6 +155,12 @@ The articles that follow will show you how to make this transformation:
 3. **[Leadership in Fluid Organizations: The Dual System Revolution](/leadership-in-fluid-organizations-the-dual-system-revolution)** shows how dual system leadership creates leaders at every level
 4. **[Leadership in Fluid Organizations: From Theory to Practice](/leadership-in-fluid-organizations-from-theory-to-practice)** provides the practical behaviors, systems, and roadmap for shifting from command-and-control to context-setting
 5. **[The Human Side of Fluid Organizations](/the-human-side-of-fluid-organizations)** addresses the psychological and cultural factors that make or break fluid teams
+6. **[Choosing Your Fluid Organization Approach](/choosing-your-fluid-organization-approach)** explains how to pick the right frameworks and patterns for your context
+7. **[Running Your First Fluid Team Experiment](/running-you-first-fluid-team-experiment)** gives the week-by-week roadmap for your first fluid team
+8. **[From One Team to Many - Part 1: Don't Add, Subtract](/from-one-team-to-many-part-1-dont-add-subtract)** scales by removing boundaries instead of adding teams
+9. **[From One Team to Many - Part 2: Making Large Collectives Work](/from-one-team-to-many-part-2-making-large-collectives-work)** shows how dozens of people self-organize as a single adaptive unit
+10. **[From One Team to Many - Part 3: The Stability Engine](/from-one-team-to-many-part-3-the-stability-engine)** balances mission team velocity with operational excellence
+11. **[From One Team to Many - Part 4: Beyond the Single Collective](/from-one-team-to-many-part-4-beyond-the-single-collective)** scales fluidity beyond a single collective
 
 ### Your next move
 
