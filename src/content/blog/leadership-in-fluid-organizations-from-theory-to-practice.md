@@ -150,7 +150,7 @@ The counter-intuitive solution is to share more information during uncertain tim
 
 Fluid organizations require high-trust relationships that can handle direct feedback and difficult conversations. Leaders who avoid conflict in the name of harmony actually undermine team effectiveness.
 
-Building [shared consciousness](/leadership-without-control-part-2/) requires the ability to have crucial conversations about performance, priorities, and resource allocation.
+Building [shared consciousness](/building-shared-consciousness-practical-mechanisms-that-scale-decision-making/) requires the ability to have crucial conversations about performance, priorities, and resource allocation.
 
 ## Measuring dual system leadership effectiveness
 
@@ -249,4 +249,4 @@ The future belongs to organizations that can develop leaders at every level, not
 - [Leadership Without Control (Part 1\)](http:///leadership-without-control-part-1/): Practical frameworks for context-setting and enabling leadership
 - [Leadership Without Control (Part 2\)](http:///leadership-without-control-part-2/): Advanced techniques for building shared consciousness and distributed decision-making
 
-_Next in the series: **The Human Side of Fluid Organizations** \- Creating psychological safety and supporting people through constant organizational change._
+_Next in the series: **[The Human Side of Fluid Organizations](/the-human-side-of-fluid-organizations/)** \- Creating psychological safety and supporting people through constant organizational change._
