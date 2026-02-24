@@ -125,4 +125,4 @@ I’ve found the following books and resources to be extremely helpful in learni
 
 [**Dynamic Reteaming**](https://amzn.to/43IWU9E) by Heidi Helfand \- Practical guide to fluid team structures and knowledge sharing
 
-[**Org Topologies**](https://www.orgtopologies.com/) by Alexey Krivitsky and Roland Flemm \- Framework for adaptive organizational design
+[**10X Org**](https://amzn.to/4rytaXs) by Alexey Krivitsky and Roland Flemm \- Powered by Org Topologies: A Manager's Guide to Elevating Business Performance with People and AI
