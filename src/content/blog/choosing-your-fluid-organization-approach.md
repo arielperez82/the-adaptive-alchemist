@@ -13,11 +13,11 @@ Starting my journey with fluid teams at Chase UK, building a fully complex, adap
 
 The biggest mistake organizations make is trying to copy someone else's approach wholesale. They read about Spotify's model or Netflix's culture and attempt to implement it exactly as described. The result is usually failure, not because the original approach was wrong, but because every organization is different. What works for a Swedish music streaming company may not work for a US financial services firm or a European SaaS startup.
 
-What I'm about to share is one possible implementation path based on real experience across multiple organizations. The goal isn't to follow my playbook exactly—it's to give you a foundation for building your own approach that fits your specific context, culture, and constraints.
+What I'm about to share is one possible implementation path based on real experience across multiple organizations. The goal isn't to follow my playbook exactly. It's to give you a foundation for building your own approach that fits your specific context, culture, and constraints.
 
 ## **Proven frameworks and patterns you can choose from**
 
-Fluid organizations aren't a single approach—they're a collection of frameworks, patterns, and principles that you can mix and match based on your context. Here are the methodologies I've found most helpful:
+Fluid organizations aren't a single approach. They're a collection of frameworks, patterns, and principles that you can mix and match based on your context. Here are the methodologies I've found most helpful:
 
 ### **FAST (Fluid Adaptive Scaling Technology)**
 
@@ -73,7 +73,7 @@ At Split, I didn't implement any single framework wholesale. Instead, I took ele
 
 ### **The core model**
 
-I used FAST as the foundation for merging teams into a larger home base for their product domain, creating a marketplace for mission team formation, and establishing synchronization rituals. I kept the existing Chapters (popularized by Spotify) as permanent groups for identity and skill development—people belonged to their stable home base (Measurement & Learning) and Chapters (Data Engineering, Product Engineering, Data Science) while working on dynamic mission teams.
+I used FAST as the foundation for merging teams into a larger home base for their product domain, creating a marketplace for mission team formation, and establishing synchronization rituals. I kept the existing Chapters (popularized by Spotify) as permanent groups for identity and skill development. People belonged to their stable home base (Measurement & Learning) and Chapters (Data Engineering, Product Engineering, Data Science) while working on dynamic mission teams.
 
 **Why this combination:** Engineers needed deep technical skill development from peers in their discipline, but our business problems required cross-functional collaboration that traditional boundaries prevented. The Collectives provided strategy, focus, and a core set of problems to solve, Chapters provided belonging and growth, while missions provided adaptability.
 
@@ -99,7 +99,7 @@ Not everything was fluid. I created a stable "Operations Squad" for production s
 
 - **Traditional performance reviews:** Individual ratings became meaningless when people constantly changed teams
 - **Permanent product ownership:** Product responsibilities rotated based on mission needs and growth goals
-- **Permanent component ownership:** Even more critical—when engineers "own" specific services, it creates bottlenecks that prevent fluid teams from working
+- **Permanent component ownership:** Even more critical: when engineers "own" specific services, it creates bottlenecks that prevent fluid teams from working
 - **Pure consensus decision-making:** We aimed for consensus with strict deadlines. Mission leads had final say but anyone could escalate contentious decisions
 
 ## **When to use stability versus fluidity**
