@@ -4,7 +4,7 @@ description: "Most leaders fear that giving teams true autonomy will lead to cha
 pubDate: 2025-05-06
 heroImage: '/assets/murmuration.png'
 readingTime: '5 min read'
-tags: ['Leadership']
+tags: ['Leadership', 'Decision-Making']
 ---
 
 If you've spent any time in tech, you've heard the pitch: "We empower our teams." But walk the halls (or scroll the Slack channels) and you'll see something else. Decisions still flow up, not out. Leaders still grip the wheel, even as they talk about letting go. Teams look autonomous on paper but feel like passengers in their own work.

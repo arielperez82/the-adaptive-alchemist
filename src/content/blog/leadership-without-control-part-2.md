@@ -4,7 +4,7 @@ description: 'From autonomy principles to practice: clear rituals, defined bound
 pubDate: 2025-05-13
 heroImage: '/assets/geese-v.jpeg'
 readingTime: '9 min read'
-tags: ['Leadership']
+tags: ['Leadership', 'Decision-Making']
 ---
 
 In [Part 1](/leadership-without-control-part-1/), I explored the philosophical foundation of leadership without control: autonomy requires clear boundaries, shared context, visible impact, and active engagement from leaders. I established that "autonomy isn't the absence of structure, it's the presence of clarity," and that the real work of leadership is context-setting, not micromanagement.

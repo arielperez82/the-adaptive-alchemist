@@ -4,7 +4,7 @@ description: "Software estimation fails because development is inherently comple
 pubDate: 2025-09-10
 heroImage: '/assets/trains-every-5-minutes.png'
 readingTime: '10 min read'
-tags: ['High-Performing Teams', 'Leadership']
+tags: ['High-Performing Teams', 'Leadership', 'Decision-Making']
 ---
 
 You're sitting in the quarterly business review. The sales VP is staring at you across the conference table, voice rising: "_You said I'd have this feature by March 15th. Why don't I have it? My team has been promising customers this functionality for months._"

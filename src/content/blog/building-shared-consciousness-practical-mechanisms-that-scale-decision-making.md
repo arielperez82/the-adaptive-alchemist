@@ -4,7 +4,7 @@ description: "Teams drown in data but starve for context. Here's how to build sh
 pubDate: 2025-06-03
 heroImage: '/assets/shared-consciousness-rituals.jpeg'
 readingTime: '5 min read'
-tags: ['High-Performing Teams']
+tags: ['High-Performing Teams', 'Decision-Making']
 ---
 
 ## Introduction
