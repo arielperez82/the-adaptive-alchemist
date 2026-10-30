@@ -250,7 +250,7 @@ const relatedTags = [
 
                   <h2 class="mb-2 text-xl font-semibold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-3 sm:text-2xl">
                     <a
-                      href={`/${post.slug}/`}
+                      href={`/${post.id}/`}
                       class="before:absolute before:inset-0"
                     >
                       {post.data.title}
@@ -288,7 +288,7 @@ const relatedTags = [
 
                 <div class="mx-auto sm:ml-auto sm:mr-0">
                   <a
-                    href={`/${post.slug}/`}
+                    href={`/${post.id}/`}
                     class="inline-flex items-center text-sm font-medium text-zinc-700 transition-colors group-hover:text-zinc-900 dark:text-zinc-300 dark:group-hover:text-zinc-100"
                     aria-hidden="true"
                     tabindex="-1"

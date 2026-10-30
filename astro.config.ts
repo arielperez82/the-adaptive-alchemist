@@ -1,3 +1,4 @@
+import { unified } from '@astrojs/markdown-remark'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
@@ -39,7 +40,7 @@ export default defineConfig({
     })
   ],
   markdown: {
-    remarkPlugins: [remarkExternalLinks]
+    processor: unified({ remarkPlugins: [remarkExternalLinks] })
   },
   vite: {
     plugins: [...tailwindcss()]

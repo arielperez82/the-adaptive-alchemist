@@ -22,7 +22,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
-      link: `/${post.slug}/`,
+      link: `/${post.id}/`,
       // Optional: include categories/tags as array
       categories: post.data.tags || []
     }))
