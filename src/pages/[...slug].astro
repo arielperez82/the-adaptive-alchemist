@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import readingTime from 'reading-time'
 
 import NewsletterSignup from '@/components/NewsletterSignup.astro'
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   )
 
   return sortedEntries.map((entry, index) => {
-    const readingTimeResult = readingTime(entry.body)
+    const readingTimeResult = readingTime(entry.body ?? '')
 
     let readingTimeStr
     if (readingTimeResult.minutes < 1) {
@@ -25,7 +25,7 @@ export async function getStaticPaths() {
     }
 
     return {
-      params: { slug: entry.slug },
+      params: { slug: entry.id },
       props: {
         entry,
         readingTimeValue: readingTimeStr,
@@ -39,12 +39,16 @@ export async function getStaticPaths() {
 }
 
 const { entry, nextPost, prevPost, readingTimeValue } = Astro.props
-const { Content } = await entry.render()
+const { Content } = await render(entry)
 
 const finalReadingTime = entry.data.readingTime || readingTimeValue
 ---
 
-<BlogPost {...entry.data} readingTime={finalReadingTime} content={entry.body}>
+<BlogPost
+  {...entry.data}
+  readingTime={finalReadingTime}
+  content={entry.body ?? ''}
+>
   <div
     id="article-content"
     class="prose prose-zinc max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-headings:font-semibold prose-a:font-medium prose-a:text-zinc-800 prose-a:underline-offset-4 hover:prose-a:text-zinc-600 prose-img:rounded-xl dark:prose-a:text-zinc-300 dark:hover:prose-a:text-zinc-100"
@@ -58,7 +62,7 @@ const finalReadingTime = entry.data.readingTime || readingTimeValue
     {
       prevPost && (
         <a
-          href={`/${prevPost.slug}`}
+          href={`/${prevPost.id}`}
           class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/50 sm:p-6"
         >
           <div class="absolute inset-0 bg-gradient-to-r from-zinc-100 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-zinc-800 dark:to-transparent" />
@@ -88,7 +92,7 @@ const finalReadingTime = entry.data.readingTime || readingTimeValue
     {
       nextPost && (
         <a
-          href={`/${nextPost.slug}`}
+          href={`/${nextPost.id}`}
           class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800/50 sm:p-6 md:text-right"
         >
           <div class="absolute inset-0 bg-gradient-to-l from-zinc-100 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-zinc-800 dark:to-transparent" />

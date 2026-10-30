@@ -101,7 +101,7 @@ const years = Object.keys(postsByYearAndMonth).sort(
 
                   <h2 class="mb-3 text-center text-2xl font-bold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-4 sm:text-3xl md:text-left">
                     <a
-                      href={`/${sortedPosts[0].slug}/`}
+                      href={`/${sortedPosts[0].id}/`}
                       class="before:absolute before:inset-0"
                     >
                       {sortedPosts[0].data.title}
@@ -276,7 +276,7 @@ const years = Object.keys(postsByYearAndMonth).sort(
 
                             <h3 class="mb-2 text-center text-lg font-semibold text-zinc-900 transition-colors group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300 sm:mb-3 sm:text-xl md:text-left">
                               <a
-                                href={`/${post.slug}/`}
+                                href={`/${post.id}/`}
                                 class="before:absolute before:inset-0"
                               >
                                 {post.data.title}
