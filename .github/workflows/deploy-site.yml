@@ -9,7 +9,7 @@ on:
       - 'public/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
-      - 'astro.config.mjs'
+      - 'astro.config.ts'
       - 'tsconfig.json'
 
   workflow_dispatch:
