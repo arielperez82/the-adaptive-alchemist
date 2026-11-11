@@ -110,6 +110,6 @@ Once the consequences are visible, the cost of being wrong stops looking fixed. 
 
 [**How to Measure Anything: Finding the Value of 'Intangibles' in Business**](https://link.amazon/B0fOIZsj3) by Douglas Hubbard: Practical methods for putting numbers on intangibles and estimating what more information is worth before you pay for it
 
-[**How to Decide**](ihttps://link.amazon/B0dH5U1oa) by Annie Duke: Tools for separating decision quality from outcome luck, and for deciding faster when the stakes are low
+[**How to Decide**](https://link.amazon/B0dH5U1oa) by Annie Duke: Tools for separating decision quality from outcome luck, and for deciding faster when the stakes are low
 
 [On hats, haircuts, and tattoos](https://jamesclear.com/3-2-1/february-1-2024) by James Clear: The short newsletter piece behind the middle category, worth reading in full
