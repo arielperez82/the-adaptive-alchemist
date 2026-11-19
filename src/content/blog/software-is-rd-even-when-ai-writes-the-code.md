@@ -3,7 +3,7 @@ title: 'Software is R&D, even when AI writes the code'
 description: 'AI is collapsing the cost of implementation. The harder problem remains discovering what deserves to be built and proving that it matters.'
 pubDate: 2026-11-19
 heroImage: '/assets/software-is-rd.png'
-readingTime: '10 min read'
+readingTime: '11 min read'
 tags: ['AI', 'Software Development']
 ---
 
@@ -95,11 +95,17 @@ Mistake information-producing work for standardized output and you get an organi
 
 ## Perhaps the factory metaphor can be reclaimed
 
-A repeatable system can produce uncertain outcomes.
+Music labels and film studios have been called hit factories for decades. Their products aren't interchangeable and their success isn't guaranteed. Even the best of them miss. A repeatable system can still produce uncertain outcomes.
 
-Supercell built its method around killing games. In his 2016 BAFTA lecture, CEO Ilkka Paananen said the studio had killed nine games over roughly two years, some in beta, while launching one: Clash Royale. The company toasts cancellations with champagne. The process is highly repeatable, and most of what it produces is evidence that says no.
+Motown adopted the metaphor on purpose. Berry Gordy had worked on a Lincoln-Mercury assembly line at Ford, and he built Hitsville U.S.A. the same way, with songwriting, production, artist development and quality control under one roof. Every Friday morning, producers played finished masters for a quality-control meeting that decided what got released. That meeting rejected "I Heard It Through the Grapevine" more than once, including Marvin Gaye's version. Gladys Knight & the Pips released it first, and Gaye's recording, once it came out, became Motown's best-selling single up to that point. The process was standardized. The outcome wasn't, and the judgment inside it could be badly wrong until the market weighed in.
 
-Supercell also shows what happens when the learning gets squeezed. It gave Squad Busters a one-month soft launch, and Paananen later said that left no room to test retention and monetization beyond the first week. The game drew 75 million installs and more than $100 million in player spending, and Supercell still decided to shut it down, the first live game it had ever killed. Validation depends on the economic objective, and Supercell judged it against its own. A culture built on experimentation still made a decision that cut short its chance to learn.
+Blumhouse industrialized something different: the economics of betting when hits can't be predicted. Jason Blum keeps production budgets low, often $5 million or less, and pays talent scale upfront in exchange for creative freedom and a share of the upside. The far larger cost of a wide release goes only to films that look like they can earn it, and no film is guaranteed one. Blumhouse doesn't need to predict every hit. Its operating model caps the cost of being wrong and keeps the upside of being right.
+
+Supercell industrialized the learning. In his 2016 BAFTA lecture, CEO Ilkka Paananen said the studio had killed nine games over roughly two years, some in beta, while launching one: Clash Royale. Most of what that process produces is evidence that says no, and the company toasts cancellations with champagne.
+
+Supercell also shows what happens when the learning gets squeezed. It gave Squad Busters a one-month soft launch, and Paananen later said that left no room to test retention and monetization beyond the first week. The game drew 75 million installs and more than $100 million in player spending, and Supercell still decided to shut it down, the first live game it had ever killed. Validation depends on the economic objective, and Supercell judged the game against its own.
+
+These aren't the same kind of factory. Motown leaned on internal judgment, Supercell on observed player behavior, and Blumhouse on keeping each bet small enough to survive. All three made the process repeatable without pretending the result was.
 
 A good AI-native development system would industrialize the repetitive parts of implementation and make discovery and validation faster. Its repeatability would serve learning instead of pretending learning is unnecessary.
 
