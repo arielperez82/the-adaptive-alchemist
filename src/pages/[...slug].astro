@@ -6,7 +6,10 @@ import NewsletterSignup from '@/components/NewsletterSignup.astro'
 import BlogPost from '@/layouts/BlogPost.astro'
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog')
+  const blogEntries = await getCollection(
+    'blog',
+    ({ data }) => import.meta.env.DEV || !data.draft
+  )
 
   // Sort entries by date for better next/prev navigation
   const sortedEntries = [...blogEntries].sort(

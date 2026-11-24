@@ -6,7 +6,7 @@ import OptimizedImage from '@/components/OptimizedImage.astro'
 import { SITE_DESCRIPTION } from '@/consts'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
-const allPosts = (await getCollection('blog')) || []
+const allPosts = await getCollection('blog', ({ data }) => !data.draft)
 const sortedPosts = allPosts.sort(
   (a, b) =>
     new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()

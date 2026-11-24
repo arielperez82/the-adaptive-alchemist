@@ -6,7 +6,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '@/consts'
 
 // Change back to uppercase GET to match what Astro is expecting in newer versions
 export async function GET(context: APIContext) {
-  const posts = await getCollection('blog')
+  const posts = await getCollection('blog', ({ data }) => !data.draft)
 
   // Sort posts by date in descending order
   const sortedPosts = posts.sort(
