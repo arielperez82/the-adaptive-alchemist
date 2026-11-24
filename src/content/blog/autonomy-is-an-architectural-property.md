@@ -5,7 +5,7 @@ pubDate: 2026-11-24
 heroImage: '/assets/guardrails.png'
 readingTime: '9 min read'
 tags: ['AI', 'Software Architecture', 'Security']
-draft: true
+draft: false
 ---
 
 The intelligence of an AI agent matters. The authority we give it, and the boundaries we enforce, determine what it can do with that intelligence.
